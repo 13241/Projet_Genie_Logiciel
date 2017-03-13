@@ -1,8 +1,7 @@
 using System;
-System.Collections.Generic.Dictionary<TKey, TValue>
+using System.Collections.Generic;
 namespace Application
 {
-//adresse est un dictionnaire dont les clés sont : rue, numéro de rue et code postal
 	public class Person
 	{
 		protected string firstname;
@@ -11,34 +10,45 @@ namespace Application
 		protected string email; 
 		protected int id; 
 		protected string password;
-		protected Dictionnary <int, object> address = new Dictionary<int,object>();
 
-		public GetFirstName(string firstname)
+		//adress est un dictionnaire dont les clés sont : rue, numéro de rue et code postal
+		protected Dictionnary <int, object> adress = new Dictionary<int,object>();
+
+		public string GetFirstName
 			{
-			get {return firstname;}
+				get{ return this.firstname;}
 			}
-		public GetLastName(string lastname)
+
+		public string GetLastName
 			{
-			get {return lastname; }
+				get { return this.lastname; }
 			}
-		public GetPhoneNumber(int phone_number)
+
+		public int GetPhoneNumber
 			{
-			get {return phone_number; }
+				get { return this.phone_number; }
 			}
-		public GetEmails(string email)
+
+		public string GetEmails
 			{
-			get {return email; }
+				get { return this.email; }
 			}
-		public GetId(string id)
+
+		public string GetId
 			{
-			get {return id; }
+				get { return this.id; }
 			}
-		public GetPassword(string password)
+
+		public string GetPassword
 			{
-			get {return password; }
+				get { return this.password; }
 			}
-		public Dictionnary <int, object> )GetAdress(int adress)
-			{
-			get {return adress<int,object>;}
-			}
+
+		 public Dictionary<string,object> GetAdress()
+        {
+			get	{ return this.Adress;} 
+        }
 }
+
+)
+
