@@ -2,4 +2,4 @@
 
 namespace : Kitbox
 
-ONLY ADD .CS FILES TO THIS REPOSITORY => git add *.cs
+ONLY ADD .CS FILES TO THIS REPOSITORY => git add Kitbox/*.cs
