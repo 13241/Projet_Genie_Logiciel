@@ -15,17 +15,18 @@ namespace Kitbox
 		}
 		public double Height
 		{
-			get;
+			get { return this.height;}
+			// ??????????????????????????????
 			set;
 		}
 		public double Depth
 		{
-			get;
+			get { return this.depth;}
 			set;
 		}
 		public double Width
 		{
-			get;
+			get { return this.width; }
 			set;
 		}
 		public void AddAngle(Angle angle)
@@ -44,15 +45,15 @@ namespace Kitbox
 			// faire la modification dans un setter ????
 			boxes.RemoveAt(index);
 		}
-		public double Angles
+		public List<Angle> Angles
 		{
-			get;
+			get { return this.angles;}
 			// un setter????
 		}
 
-		public double Boxes
+		public List<Box> Boxes
 		{
-			get;
+			get { return this.boxes;}
 			// un setter????
 		}
 
