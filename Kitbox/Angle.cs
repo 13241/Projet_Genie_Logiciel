@@ -11,10 +11,7 @@ namespace Kitbox
 
 		//Coupe la cornière en un nombre x qui est le paramètre 
 		//et retourne une liste contenant x nouvelle cornière
-		//public Angle(double cut_height = 0.0)
-		//{
-		//	this.cut_height = cut_height;
-		//}
+		//The height of the angle is taken form the database earlier
 		public Angle(string color, double height) 
 		{
 			this.color = color;
@@ -23,8 +20,6 @@ namespace Kitbox
 
 		public List<Angle> Divide(int x)
 		{
-			//Retrieve the normalized height of the angle from the database that suits the case
-			this.height = 17.8;
 			this.x = x;
 			double new_height = height / x;
 			List<Angle> liste = new List<Angle>();
