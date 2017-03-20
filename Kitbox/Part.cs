@@ -31,7 +31,8 @@ namespace Kitbox
 			part_data.Add("PriceClient", dicoType);
 		}
 
-		public bool IsAvailable(int number){
+		public bool IsAvailable(int number)
+		{
 			//A modifier en fonction de la base de donnée
 			int stock = 16;
 			if (number < stock)
