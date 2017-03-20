@@ -7,8 +7,9 @@ namespace Kitbox
 		public Dbconnect()
 		{
 		}
-		public void DbconnectClient(string[] parameters) //Le client s'enregistre à la fin de la bdd. 
-		{
+		public void DbconnectClient(string[] parameters) //on se connecte à la base de donnée
+		{												/et on vérifie si les identifiants sont correctes
+		 
 		}
 		public void DbConnectEmployee(string[] parameters) 
 		//Identification requise au début, options supplémentaires disponibles

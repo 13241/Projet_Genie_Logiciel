@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-namespace Application
+namespace Kitbox
 {
 	public class Person
 	{
