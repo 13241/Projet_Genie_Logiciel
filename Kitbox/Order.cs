@@ -23,7 +23,6 @@ namespace Kitbox
 		private List<string> AddToPartsList()
 		{
 			// acceder a la liste de box pour recuperer chaque piece de chaque box?
-			parts_list.Add(wardrobes[-1]);
 			return parts_list;
 		}
 		public void PrintAll()

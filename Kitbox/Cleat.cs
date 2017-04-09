@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Kitbox
 {
-    class Cleat : Part
+    public class Cleat : Part
     {
        
     }

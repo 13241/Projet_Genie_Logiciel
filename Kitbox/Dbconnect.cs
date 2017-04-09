@@ -8,7 +8,7 @@ namespace Kitbox
 		{
 		}
 		public void DbconnectClient(string[] parameters) //on se connecte à la base de donnée
-		{												/et on vérifie si les identifiants sont correctes
+		{												//et on vérifie si les identifiants sont correctes
 		 
 		}
 		public void DbConnectEmployee(string[] parameters) 
@@ -21,11 +21,13 @@ namespace Kitbox
 		}
 		public Boolean DblsClient(int id, string password)
 		{
-			//return true or false
+            //return true or false
+            return false;
 		}
 		public Boolean DblsEmployee(int id, string password)
 		{
-			// return true or false
+            // return true or false
+            return false;
 		}
 	}
 }

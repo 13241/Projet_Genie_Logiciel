@@ -5,7 +5,6 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.SqlClient;
 
 namespace Kitbox
 {
@@ -24,9 +23,9 @@ namespace Kitbox
 			// use the connection here
 
 			conn.Close();
-			conn.Dipose();
+			conn.Dispose();
 			SqlCommand command = new SqlCommand("SELECT * FROM TableName", conn);
-			SqlCommand command = new SqlCommand("SELECT * FROM TableName WHERE FirstColumn = @0", conn);
+			SqlCommand command2 = new SqlCommand("SELECT * FROM TableName WHERE FirstColumn = @0", conn);
 
 			// Create new SqlDataReader object and read data from the command.
 			using (SqlDataReader reader = command.ExecuteReader())
@@ -47,7 +46,7 @@ namespace Kitbox
 		}
 		public Dictionary<string, object> DbSearchClient(int id_client)
 		{
-
+            return null;
 		}
 	}
 }

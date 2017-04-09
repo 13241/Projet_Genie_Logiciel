@@ -9,7 +9,7 @@ namespace Kitbox
 		protected List<Angle> angles = new List<Angle>();
 		protected double depth;
 		protected double width;
-		protected VisualPart visual = new VisualPart();
+		//protected VisualPart visual = new VisualPart();
 		public Wardrobe()
 		{
 		}
@@ -17,17 +17,17 @@ namespace Kitbox
 		{
 			get { return this.height;}
 			// ??????????????????????????????
-			set;
+			set { height = value; }
 		}
 		public double Depth
 		{
 			get { return this.depth;}
-			set;
+			set { depth = value; }
 		}
 		public double Width
-		{
-			get { return this.width; }
-			set;
+        {
+            get { return this.width; }
+            set { width = value; }
 		}
 		public void AddAngle(Angle angle)
 		{

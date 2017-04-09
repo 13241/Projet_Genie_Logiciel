@@ -24,9 +24,11 @@ namespace Kitbox
 		}
 		public Part DbSelectPart(Dictionary<string, object> selected_characteristics)
 		{
+            return null;
 		}
 		public Dictionary<string, object> DbGetOptions(string reference)
 		{
+            return null;
 		}
 	}
 }
