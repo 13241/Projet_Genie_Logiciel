@@ -36,7 +36,7 @@ namespace Kitbox
 		public void AddBox(Box box)
 		{
 			boxes.Add(box);
-			height += box.Height;
+			height += box.Dimensions.Y;
 		}
 		public void RemoveBox(int index)
 		{

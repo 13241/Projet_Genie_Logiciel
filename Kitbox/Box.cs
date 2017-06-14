@@ -3,94 +3,383 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
+using System.Windows.Media.Media3D;
 
 namespace Kitbox
 {
     public class Box
-    {
-        protected Dictionary<string , Dictionary<string,Part>> parts 
-            = new Dictionary<string, Dictionary<string, Part>>();   
-        protected VisualPart visual;
-        protected double height;
+    {  
+        private VisualPart visual_part;
+        private Size3D dimensions;
+        private Point3D location;
+        private Dictionary<string, Dictionary<string, Part>> pieces;
 
-        private Dictionary<string, Part> new_Part;  // Dictionnnaire implÃ©mentant le dictonnaire parts
 
-        // Besoin de get/Set?
-        public VisualPart Visual
+        public Box(Size3D dimensions)
         {
-            get { return visual; }
-            set { visual = value; }
-        }
-        
-        public double Height
-        {
-            get { return height; }
+            pieces = new Dictionary<string, Dictionary<string, Part>>();
+            this.dimensions = dimensions;
+            location = new Point3D(0, 0, 0);
+
+            DefaultBox();
         }
 
-        public bool IsComplete()
+        public VisualPart Visual_part { get => visual_part; }
+        public Size3D Dimensions { get => dimensions; }
+        public Point3D Location { get => location; }
+
+        public virtual void DefaultBox()
         {
-            bool res = false;
+            //MODIF interaction avec la base de données nécessaire : créer la méthode permettant de sélectionner une part
+            //MODIF code temporaire pour éviter de devoir faire la base de données pour l'instant.
+            //Panneau Ar
+            Part par = new Panel();
+            par.Location = new Point3D(0, 2, 0);
+            par.Dimensions = new Size3D(Dimensions.X, Dimensions.Y - 4, 0);
+            par.Color = Color.Beige;
+            par.Reference = "Panneau Ar";
+            par.Position = "Ar";
+            par.ConstructVisualPart();
+            pieces[par.Reference] = new Dictionary<string, Part>()
+            {
+                { par.Position, par }
+            };
+            //Panneau G
+            Part pg = new Panel();
+            pg.Location = new Point3D(0, 2, 0);
+            pg.Dimensions = new Size3D(Dimensions.Z, Dimensions.Y - 4, 0);
+            pg.Color = Color.Beige;
+            pg.Reference = "Panneau GD";
+            pg.Position = "G";
+            pg.ConstructVisualPart();
+            //Panneau D
+            Part pd = new Panel();
+            pd.Location = new Point3D(0, 2, 0);
+            pd.Dimensions = new Size3D(Dimensions.Z, Dimensions.Y - 4, 0);
+            pd.Color = Color.Beige;
+            pd.Reference = "Panneau GD";
+            pd.Position = "D";
+            pd.ConstructVisualPart();
+            pieces[pg.Reference] = new Dictionary<string, Part>()
+            {
+                {pg.Position, pg },
+                {pd.Position, pd }
+            };
+            //Panneau H
+            Part ph = new Panel();
+            ph.Location = new Point3D(0, 2, 0);
+            ph.Dimensions = new Size3D(Dimensions.X, Dimensions.Z, 0);
+            ph.Color = Color.Beige;
+            ph.Reference = "Panneau HB";
+            ph.Position = "H";
+            ph.ConstructVisualPart();
+            //Panneau B
+            Part pb = new Panel();
+            pb.Location = new Point3D(0, 2, 0);
+            pb.Dimensions = new Size3D(Dimensions.X, Dimensions.Z, 0);
+            pb.Color = Color.Beige;
+            pb.Reference = "Panneau HB";
+            pb.Position = "B";
+            pb.ConstructVisualPart();
+            pieces[ph.Reference] = new Dictionary<string, Part>()
+            {
+                {ph.Position, ph },
+                {pb.Position, pb }
+            };
+            //Porte G
+            Part pog = new Door();
+            pog.Location = new Point3D(0, 2, 0);
+            pog.Dimensions = new Size3D(Math.Ceiling(Dimensions.X / 2), Dimensions.Y - 4, 0);
+            pog.Color = Color.Beige;
+            pog.Reference = "Porte";
+            pog.Position = "G";
+            //=>Coupelle G
+            Part cg = new Knop();
+            cg.Location = new Point3D(0, 0, 0);
+            cg.Dimensions = new Size3D(6, 6, 0);
+            cg.Color = Color.Black;
+            cg.Reference = "Coupelles";
+            cg.Position = "G";
+            cg.ConstructVisualPart();
+            ((Door)pog).SetKnop((Knop)cg, 4, "left");
+            pog.ConstructVisualPart();
+            //Porte D
+            Part pod = new Door();
+            pod.Location = new Point3D(pog.Dimensions.X, 2, 0);
+            pod.Dimensions = new Size3D(Math.Floor(Dimensions.X / 2), Dimensions.Y - 4, 0);
+            pod.Color = Color.Beige;
+            pod.Reference = "Porte";
+            pod.Position = "D";
+            //=>Coupelle D
+            Part cd = new Knop();
+            cd.Location = new Point3D(0, 0, 0);
+            cd.Dimensions = new Size3D(6, 6, 0);
+            cd.Color = Color.Black;
+            cd.Reference = "Coupelles";
+            cd.Position = "D";
+            cd.ConstructVisualPart();
+            ((Door)pod).SetKnop((Knop)cd, 4, "right");
+            pod.ConstructVisualPart();
+            pieces[pod.Reference] = new Dictionary<string, Part>()
+            {
+                {pod.Position, pod },
+                {pog.Position, pog }
+            };
+            //Traverse Ar H
+            Part tarh = new Panel();
+            tarh.Location = new Point3D(0, 0, 0);
+            tarh.Dimensions = new Size3D(Dimensions.X, 2, 0);
+            tarh.Color = Color.Tan;
+            tarh.Reference = "Traverse Ar";
+            tarh.Position = "H";
+            tarh.ConstructVisualPart();
+            //Traverse Ar B
+            Part tarb = new Panel();
+            tarb.Location = new Point3D(0, Dimensions.Y - 2, 0);
+            tarb.Dimensions = new Size3D(Dimensions.X, 2, 0);
+            tarb.Color = Color.Tan;
+            tarb.Reference = "Traverse Ar";
+            tarb.Position = "B";
+            tarb.ConstructVisualPart();
+            pieces[tarh.Reference] = new Dictionary<string, Part>()
+            {
+                {tarh.Position, tarh },
+                {tarb.Position, tarb }
+            };
+            //Traverse Av H
+            Part tavh = new Panel();
+            tavh.Location = new Point3D(0, 0, 0);
+            tavh.Dimensions = new Size3D(Dimensions.X, 2, 0);
+            tavh.Color = Color.Tan;
+            tavh.Reference = "Traverse Av";
+            tavh.Position = "H";
+            tavh.ConstructVisualPart();
+            //Traverse Av B
+            Part tavb = new Panel();
+            tavb.Location = new Point3D(0, Dimensions.Y - 2, 0);
+            tavb.Dimensions = new Size3D(Dimensions.X, 2, 0);
+            tavb.Color = Color.Tan;
+            tavb.Reference = "Traverse Av";
+            tavb.Position = "B";
+            tavb.ConstructVisualPart();
+            pieces[tavh.Reference] = new Dictionary<string, Part>()
+            {
+                {tavh.Position, tavh },
+                {tavb.Position, tavb }
+            };
+            //Traverse GD G H
+            Part tgh = new Panel();
+            tgh.Location = new Point3D(0, 0, 0);
+            tgh.Dimensions = new Size3D(Dimensions.Z, 2, 0);
+            tgh.Color = Color.Tan;
+            tgh.Reference = "Traverse GD";
+            tgh.Position = "GH";
+            tgh.ConstructVisualPart();
+            //Traverse GD G B
+            Part tgb = new Panel();
+            tgb.Location = new Point3D(0, Dimensions.Y - 2, 0);
+            tgb.Dimensions = new Size3D(Dimensions.Z, 2, 0);
+            tgb.Color = Color.Tan;
+            tgb.Reference = "Traverse GD";
+            tgb.Position = "GB";
+            tgb.ConstructVisualPart();
+            //Traverse GD D H
+            Part tdh = new Panel();
+            tdh.Location = new Point3D(0, 0, 0);
+            tdh.Dimensions = new Size3D(Dimensions.Z, 2, 0);
+            tdh.Color = Color.Tan;
+            tdh.Reference = "Traverse GD";
+            tdh.Position = "DH";
+            tdh.ConstructVisualPart();
+            //Traverse GD D B
+            Part tdb = new Panel();
+            tdb.Location = new Point3D(0, Dimensions.Y - 2, 0);
+            tdb.Dimensions = new Size3D(Dimensions.Z, 2, 0);
+            tdb.Color = Color.Tan;
+            tdb.Reference = "Traverse GD";
+            tdb.Position = "DB";
+            tdb.ConstructVisualPart();
+            pieces[tgh.Reference] = new Dictionary<string, Part>()
+            {
+                {tgh.Position, tgh },
+                {tgb.Position, tgb },
+                {tdh.Position, tdh },
+                {tdb.Position, tdb }
+            };
 
-            // Compare le nombre de fois qu'on a les Ã©lÃ©ments constitutifs d'une box; SI on le bon nombre, res =true et on renvoie res
-            /*
-            if (tasseaux == 4 & traverseAV == 2 & travaerseAR == 2 & traverseGD == 4 & panneauxHB == 2 & panneauxGD == 2 & panneauAR == 1 & door == true)
-            { res = true; }
-            */
-
-            return res;
+            //Box
+            ConstructVisualPart();
         }
-
-        // Setter existe dÃ©jÃ  => Utiliter de SetHeight??
-        // hauteur casier = hauter tasseaux+2x2cm (hauteur traverses)
-        public void SetHeight(double height)
-        {
-            this.height = height;
-          
-        }
-
-        // ajouter paramÃ¨tre reference? - Que faire si part n'a pas de position
-        public void Add(Part newP,string position,string reference)
-        {
-            /*
-      
-             Maximum
-             # of tasseaux == 4
-             # of traverseAv == 2 
-             # of traverseAR == 2
-             # of traverseGD == 2
-             # of panneauxHB == 2
-             # of panneauxGD == 2
-             # of panneauxAR == 1
-             # of door == 1      
-                
-             */
-
-            new_Part.Clear();
-            new_Part.Add(position, newP);  // Add new part in the Dictionary new_Parts [Create part]
-             
-            parts.Add(reference,new_Part);    // Add new part in the Dictionry parts [Add part in dico]
-            
-            
-        }
-
-        // N'as pas besoin du paramÃ¨tre position car chaque part a une ref unique
-        public void Remove(string reference, string position)
-        {
-
-            parts.Remove(reference); // Delete the pair that has the Key equals to reference
-                   
-        }
-
-        
-        public Dictionary<string,Dictionary<string,Part>> GetParts()
-        {
-            return parts; // Send the Dictionary Parts
-        }
-
 
         /*
          * VisualPart section
          */
-        
+        public virtual void ConstructVisualPart()
+        {
+            double larger_X = Math.Max(Dimensions.X, Dimensions.Z);
+            double larger_Y = Math.Max(Dimensions.Y, Dimensions.Z);
+            Size px_size = new Size(Convert.ToInt32(larger_X), Convert.ToInt32(larger_Y));
+            visual_part = new VisualPart(px_size,
+                new Dictionary<string, Size>()
+                {
+                    { "front", new Size(Convert.ToInt32(Dimensions.X), Convert.ToInt32(Dimensions.Y)) },
+                    { "left", new Size(Convert.ToInt32(Dimensions.Z), Convert.ToInt32(Dimensions.Y)) },
+                    { "right", new Size(Convert.ToInt32(Dimensions.Z), Convert.ToInt32(Dimensions.Y)) },
+                    { "rear", new Size(Convert.ToInt32(Dimensions.X), Convert.ToInt32(Dimensions.Y)) },
+                    { "top", new Size(Convert.ToInt32(Dimensions.X), Convert.ToInt32(Dimensions.Z)) },
+                    { "bottom", new Size(Convert.ToInt32(Dimensions.X), Convert.ToInt32(Dimensions.Z)) }
+                });
+            //Panneau Ar
+            visual_part.AddVisualPart("Panneau Ar*Ar", pieces["Panneau Ar"]["Ar"].Visual_part,
+                new Dictionary<string, string>()
+                {
+                    { "front", "rear" }
+                },
+                new Dictionary<string, Point>()
+                {
+                    { "front", new Point(Convert.ToInt32(pieces["Panneau Ar"]["Ar"].Location.X), Convert.ToInt32(pieces["Panneau Ar"]["Ar"].Location.Y)) }
+                });
+            //Panneau G
+            visual_part.AddVisualPart("Panneau GD*G", pieces["Panneau GD"]["G"].Visual_part,
+                new Dictionary<string, string>()
+                {
+                    { "front", "left" }
+                },
+                new Dictionary<string, Point>()
+                {
+                    { "front", new Point(Convert.ToInt32(pieces["Panneau GD"]["G"].Location.X), Convert.ToInt32(pieces["Panneau GD"]["G"].Location.Y)) }
+                });
+            //Panneau D
+            visual_part.AddVisualPart("Panneau GD*D", pieces["Panneau GD"]["D"].Visual_part,
+                new Dictionary<string, string>()
+                {
+                    { "front", "right" }
+                },
+                new Dictionary<string, Point>()
+                {
+                    { "front", new Point(Convert.ToInt32(pieces["Panneau GD"]["D"].Location.X), Convert.ToInt32(pieces["Panneau GD"]["D"].Location.Y)) }
+                });
+            //Panneau H
+            visual_part.AddVisualPart("Panneau HB*H", pieces["Panneau HB"]["H"].Visual_part,
+                new Dictionary<string, string>()
+                {
+                    { "front", "top" }
+                },
+                new Dictionary<string, Point>()
+                {
+                    { "front", new Point(Convert.ToInt32(pieces["Panneau HB"]["H"].Location.X), Convert.ToInt32(pieces["Panneau HB"]["H"].Location.Y)) }
+                });
+            //Panneau B
+            visual_part.AddVisualPart("Panneau HB*B", pieces["Panneau HB"]["B"].Visual_part,
+                new Dictionary<string, string>()
+                {
+                    { "front", "bottom" }
+                },
+                new Dictionary<string, Point>()
+                {
+                    { "front", new Point(Convert.ToInt32(pieces["Panneau HB"]["B"].Location.X), Convert.ToInt32(pieces["Panneau HB"]["B"].Location.Y)) }
+                });
+            //Porte G
+            visual_part.AddVisualPart("Porte*G", pieces["Porte"]["G"].Visual_part,
+                new Dictionary<string, string>()
+                {
+                    { "front", "front" }
+                },
+                new Dictionary<string, Point>()
+                {
+                    { "front", new Point(Convert.ToInt32(pieces["Porte"]["G"].Location.X), Convert.ToInt32(pieces["Porte"]["G"].Location.Y)) }
+                });
+            //Porte D
+            visual_part.AddVisualPart("Porte*D", pieces["Porte"]["D"].Visual_part,
+                new Dictionary<string, string>()
+                {
+                    { "front", "front" }
+                },
+                new Dictionary<string, Point>()
+                {
+                    { "front", new Point(Convert.ToInt32(pieces["Porte"]["D"].Location.X), Convert.ToInt32(pieces["Porte"]["D"].Location.Y)) }
+                });
+            //Traverse Ar H
+            visual_part.AddVisualPart("Traverse Ar*H", pieces["Traverse Ar"]["H"].Visual_part,
+                new Dictionary<string, string>()
+                {
+                    { "front", "rear" }
+                },
+                new Dictionary<string, Point>()
+                {
+                    { "front", new Point(Convert.ToInt32(pieces["Traverse Ar"]["H"].Location.X), Convert.ToInt32(pieces["Traverse Ar"]["H"].Location.Y)) }
+                });
+            //Traverse Ar B
+            visual_part.AddVisualPart("Traverse Ar*B", pieces["Traverse Ar"]["B"].Visual_part,
+                new Dictionary<string, string>()
+                {
+                    { "front", "rear" }
+                },
+                new Dictionary<string, Point>()
+                {
+                    { "front", new Point(Convert.ToInt32(pieces["Traverse Ar"]["B"].Location.X), Convert.ToInt32(pieces["Traverse Ar"]["B"].Location.Y)) }
+                });
+            //Traverse Av H
+            visual_part.AddVisualPart("Traverse Av*H", pieces["Traverse Av"]["H"].Visual_part,
+                new Dictionary<string, string>()
+                {
+                    { "front", "front" }
+                },
+                new Dictionary<string, Point>()
+                {
+                    { "front", new Point(Convert.ToInt32(pieces["Traverse Av"]["H"].Location.X), Convert.ToInt32(pieces["Traverse Av"]["H"].Location.Y)) }
+                });
+            //Traverse Av B
+            visual_part.AddVisualPart("Traverse Av*B", pieces["Traverse Av"]["B"].Visual_part,
+                new Dictionary<string, string>()
+                {
+                    { "front", "front" }
+                },
+                new Dictionary<string, Point>()
+                {
+                    { "front", new Point(Convert.ToInt32(pieces["Traverse Av"]["B"].Location.X), Convert.ToInt32(pieces["Traverse Av"]["B"].Location.Y)) }
+                });
+            //Traverse GD GH
+            visual_part.AddVisualPart("Traverse GD*GH", pieces["Traverse GD"]["GH"].Visual_part,
+                new Dictionary<string, string>()
+                {
+                    { "front", "left" }
+                },
+                new Dictionary<string, Point>()
+                {
+                    { "front", new Point(Convert.ToInt32(pieces["Traverse GD"]["GH"].Location.X), Convert.ToInt32(pieces["Traverse GD"]["GH"].Location.Y)) }
+                });
+            //Traverse GD GB
+            visual_part.AddVisualPart("Traverse GD*GB", pieces["Traverse GD"]["GB"].Visual_part,
+                new Dictionary<string, string>()
+                {
+                    { "front", "left" }
+                },
+                new Dictionary<string, Point>()
+                {
+                    { "front", new Point(Convert.ToInt32(pieces["Traverse GD"]["GB"].Location.X), Convert.ToInt32(pieces["Traverse GD"]["GB"].Location.Y)) }
+                });
+            //Traverse GD DH
+            visual_part.AddVisualPart("Traverse GD*DH", pieces["Traverse GD"]["DH"].Visual_part,
+                new Dictionary<string, string>()
+                {
+                    { "front", "right" }
+                },
+                new Dictionary<string, Point>()
+                {
+                    { "front", new Point(Convert.ToInt32(pieces["Traverse GD"]["DH"].Location.X), Convert.ToInt32(pieces["Traverse GD"]["DH"].Location.Y)) }
+                });
+            //Traverse GD DB
+            visual_part.AddVisualPart("Traverse GD*DB", pieces["Traverse GD"]["DB"].Visual_part,
+                new Dictionary<string, string>()
+                {
+                    { "front", "right" }
+                },
+                new Dictionary<string, Point>()
+                {
+                    { "front", new Point(Convert.ToInt32(pieces["Traverse GD"]["DB"].Location.X), Convert.ToInt32(pieces["Traverse GD"]["DB"].Location.Y)) }
+                });
+        }
     }
 }

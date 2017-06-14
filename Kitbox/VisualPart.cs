@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-using FPanel = System.Windows.Forms.Panel;
 
 
 namespace Kitbox
@@ -16,36 +15,17 @@ namespace Kitbox
     {
         //attributes
         private Dictionary<string, object> positions;
-        private Dictionary<string, Tuple<FPanel, Size>> views; //views as in a technical drawing, key : name, value : Panel, Size in milimeters
+        private Dictionary<string, VPPanel> views; //views as in a technical drawing, key : name, value : VPPanel
         private Size mm_size; //most constrainig size for the visualPart
         private Size px_size; //size for the viewer (in pixels)
         private double scaling; //pixels per milimeter
-        private Dictionary<
-            string, //references each panel of the VisualPart
-            Dictionary<
-                string, //slaves of the panel
-                List<Rule>> 
-            > references;
+        private HashSet<string> references; //references each panel of the VisualPart
         private Dictionary<string, Tuple<VisualPart, HashSet<string>>> pieces;
 
-
+        //EventAttributes
+        private string pointer = "";
+        private Rule selection;
         //methods
-        /*
-         * 
-         */
-        //BasicSizes
-        public static Dictionary<string, Size> BasicSizes(Size mm_size)
-        {
-            return new Dictionary<string, Size>()
-            {
-                { "front", new Size(mm_size.Width, mm_size.Height) },
-                { "rear", new Size(mm_size.Width, mm_size.Height) },
-                { "left", new Size(mm_size.Width, mm_size.Height) },
-                { "right", new Size(mm_size.Width, mm_size.Height) },
-                { "top", new Size(mm_size.Width, mm_size.Height) },
-                { "bottom", new Size(mm_size.Width, mm_size.Height) }
-            };
-        }
 
         /*
          * constructor
@@ -53,18 +33,22 @@ namespace Kitbox
          * px_size : size available to display a view in pixels
          */
         //VisualPart
-        public VisualPart(Size px_size, Dictionary<string, Size> mm_sizes = null)
+        public VisualPart(Size px_size, Dictionary<string, Size> mm_sizes)
         {
-            references = new Dictionary<string, Dictionary<string, List<Rule>>>();
+            references = new HashSet<string>();
             pieces = new Dictionary<string, Tuple<VisualPart, HashSet<string>>>();
             positions = new Dictionary<string, object>();
+            scaling = 1;
+            Action<object> RuleSelected = SelectPiece;
+            selection = new Rule(RuleSelected,
+                new OrderedDictionary()
+                {
+                    { "sender", null }
+                }, typeof(EventHandler), typeof(VisualPart));
+
 
             this.px_size = px_size;
 
-            if(mm_sizes == null)
-            {
-                mm_sizes = BasicSizes(px_size);
-            }
             CreateViews(mm_sizes);
             ChangeConstrainingSize();
         }
@@ -75,19 +59,20 @@ namespace Kitbox
         //CreateViews
         private void CreateViews(Dictionary<string, Size> mm_sizes)
         {
-            this.views = new Dictionary<string, Tuple<FPanel, Size>>();
+            this.views = new Dictionary<string, VPPanel>();
             List<string> list_views = mm_sizes.Keys.ToList();
             for (int i = 0; i < list_views.Count(); i++)
             {
-                FPanel new_panel = new FPanel();
+                VPPanel new_panel = new VPPanel();
                 new_panel.BackColor = SystemColors.Control;
                 new_panel.Location = new Point(0, 0);
+                new_panel.Mm_location = new Point(0, 0);
                 new_panel.Name = list_views[i];
                 new_panel.Size = mm_sizes[list_views[i]];
-                views[list_views[i]] = new Tuple<FPanel, Size>(new_panel, mm_sizes[list_views[i]]);
+                new_panel.Mm_size = mm_sizes[list_views[i]];
+                views[list_views[i]] = new_panel;
                 positions[list_views[i]] = null;
-                references.Add(list_views[i],
-                    new Dictionary<string, List<Rule>>());
+                references.Add(list_views[i]);
             }
         }
 
@@ -101,13 +86,13 @@ namespace Kitbox
             int maxHeight = 0;
             foreach (string view in views.Keys)
             {
-                if (views[view].Item2.Width > maxWidth)
+                if (views[view].Mm_size.Width > maxWidth)
                 {
-                    maxWidth = views[view].Item2.Width;
+                    maxWidth = views[view].Mm_size.Width;
                 }
-                if (views[view].Item2.Height > maxHeight)
+                if (views[view].Mm_size.Height > maxHeight)
                 {
-                    maxHeight = views[view].Item2.Height;
+                    maxHeight = views[view].Mm_size.Height;
                 }
             }
             this.mm_size = new Size(maxWidth, maxHeight);
@@ -117,10 +102,29 @@ namespace Kitbox
         /*
          * 
          */
-        //ChangeScaling
+        //ChangeScaling : scaling
+        public void ChangeScaling(double scaling)
+        {
+            foreach(string reference in references)
+            {
+                VPPanel current = GetPanel(reference);
+                current.Location = ScalePoint(current.Mm_location, scaling);
+                current.Size = ScaleSize(current.Mm_size, scaling);
+            }
+            foreach(string visual_part in pieces.Keys)
+            {
+                VisualPart piece = pieces[visual_part].Item1;
+                piece.ChangeScaling(scaling);
+            }
+        }
+
+        /*
+         * 
+         */
+        //ChangeScaling : px_size
         public void ChangeScaling(Size? px_size = null)
         {
-            if(px_size == null)
+            if (px_size == null)
             {
                 px_size = this.px_size;
             }
@@ -128,15 +132,8 @@ namespace Kitbox
             {
                 this.px_size = (Size)px_size;
             }
-            double old_scaling = scaling;
-            this.scaling = Math.Min((double)this.px_size.Width / mm_size.Width, (double)this.px_size.Height / mm_size.Height);
-            foreach(string reference in references.Keys)
-            {
-                List<string> position = ConvertToPosition(reference);
-                FPanel current = GetPanel(position);
-                RelocatePanel(current, ScalePoint(current.Location, scaling / old_scaling));
-                ResizePanel(current, ScaleSize(current.Size, scaling / old_scaling));
-            }
+            scaling = Math.Min((double)this.px_size.Width / mm_size.Width, (double)this.px_size.Height / mm_size.Height);
+            ChangeScaling(scaling);
         }
 
         /*
@@ -145,7 +142,7 @@ namespace Kitbox
         //ScalePoint
         private Point ScalePoint(Point point, double scaling)
         {
-            return new Point(Convert.ToInt32(point.X * scaling), Convert.ToInt32(point.Y * scaling));
+            return new Point(Convert.ToInt32(Math.Round(point.X * scaling)), Convert.ToInt32(Math.Round(point.Y * scaling)));
         }
 
         /*
@@ -154,14 +151,14 @@ namespace Kitbox
         //ScaleSize
         private Size ScaleSize(Size size, double scaling)
         {
-            return new Size(Convert.ToInt32(size.Width * scaling), Convert.ToInt32(size.Height * scaling));
+            return new Size(Convert.ToInt32(Math.Round(size.Width * scaling)), Convert.ToInt32(Math.Round(size.Height * scaling)));
         }
 
         /*
          * 
          */
         //Views
-        public Dictionary<string, Tuple<FPanel, Size>> Views
+        private Dictionary<string, VPPanel> Views
         {
             get { return views; }
         }
@@ -169,10 +166,53 @@ namespace Kitbox
         /*
          * 
          */
-        //References
-        public List<string> References
+        //Pointer
+        public string Pointer
         {
-            get { return references.Keys.ToList(); }
+            get { return pointer; }
+        }
+
+        /*
+         * 
+         */
+        //Display
+        public Dictionary<string, VPPanel> Display()
+        {
+            Action<object> RuleSelected = SelectPiece;
+            Rule selection = new Rule(RuleSelected,
+                new OrderedDictionary()
+                {
+                    { "sender", null }
+                }, typeof(EventHandler), typeof(VisualPart));
+            this.selection = selection;
+            foreach (string ref_piece in pieces.Keys)
+            {
+                VisualPart current = pieces[ref_piece].Item1;
+                current.ChangeEventHandler(selection);
+            }
+            return Views;
+        }
+
+        /*
+         * 
+         */
+        //ChangeEventHandler
+        public void ChangeEventHandler(Rule selection)
+        {
+            this.selection = selection;
+            foreach (string ref_piece in pieces.Keys)
+            {
+                pieces[ref_piece].Item1.ChangeEventHandler(selection);
+            }
+        }
+
+        /*
+         * 
+         */
+        //References
+        public HashSet<string> References
+        {
+            get { return references; }
         }
 
         /*
@@ -191,6 +231,15 @@ namespace Kitbox
         public Dictionary<string, object> Positions
         {
             get { return positions; }
+        }
+
+        /*
+         * 
+         */
+        //Pieces
+        public Dictionary<string, Tuple<VisualPart, HashSet<string>>> Pieces
+        {
+            get { return pieces; }
         }
 
         /*
@@ -224,13 +273,10 @@ namespace Kitbox
          *
          */
         //HasSubContainer
-        public bool HasSubcontainer(List<string> position)
+        private bool HasSubcontainer(List<string> position)
         {
-            for (int i = 0; i<position.Count()-1; i++)
-            {
-                if (!positions.ContainsKey(position[i]))
-                { return false; }
-            }
+            if (!references.Contains(ConvertToName(position.Take(position.Count() - 1).ToList())))
+            { return false; }
             return true;
         }
 
@@ -240,9 +286,8 @@ namespace Kitbox
         //EnlargeView
         public void EnlargeView(string view_name, Size mm_size)
         {
-            FPanel view = views[view_name].Item1;
-            view.Size = ScaleSize(mm_size, scaling);
-            views[view_name] = new Tuple<FPanel, Size>(view, mm_size);
+            views[view_name].Size = ScaleSize(mm_size, scaling);
+            views[view_name].Mm_size = mm_size;
             ChangeConstrainingSize();
         }
 
@@ -250,25 +295,26 @@ namespace Kitbox
          * 
          */
         //GetPanel
-        public FPanel GetPanel(List<string> position)
+        public VPPanel GetPanel(string name)
         {
-            FPanel[] subcontainers;
+            List<string> position = ConvertToPosition(name);
+            Control[] subcontainers;
             if (position.Count() == 1 && views.ContainsKey(position[0]))
             {
-                subcontainers = new FPanel[1]
-                    { views[position[0]].Item1 };
+                subcontainers = new VPPanel[1]
+                    { views[position[0]] };
             }
             else if (position.Count() > 1 && views.ContainsKey(position[0]))
             {
-                subcontainers = (FPanel[])views[position[0]].Item1.Controls.Find(ConvertToName(position), true);
+                subcontainers = views[position[0]].Controls.Find(name, true);
             }
             else
             {
-                subcontainers = new FPanel[0];
+                subcontainers = new VPPanel[0];
             }
             if (subcontainers.Count() == 1)
             {
-                return subcontainers[0];
+                return (VPPanel) subcontainers[0];
             }
             else
             {
@@ -342,16 +388,15 @@ namespace Kitbox
          * location and size units are milimeters
          */
         //AddPanel
-        public FPanel AddPanel(List<string> position, Point location, Size size, Color? color = null)
+        public VPPanel AddPanel(string name, Point location, Size size, Color? color = null, bool is_elliptic = false)
         {
-            location = ScalePoint(location, scaling);
-            size = ScaleSize(size, scaling);
-            FPanel subcontainer;
+            List<string> position = ConvertToPosition(name);
+            VPPanel subcontainer;
             if (HasSubcontainer(position))
             {
                 if (position.Count() > 1)
                 {
-                    subcontainer = GetPanel(position.Take(position.Count() - 1).ToList());
+                    subcontainer = GetPanel(ConvertToName(position.Take(position.Count() - 1).ToList()));
                 }
                 else if (position.Count() == 1)
                 {
@@ -362,14 +407,15 @@ namespace Kitbox
 
                 positions = AddPosition(positions, position);
 
+                VPPanel new_panel = new VPPanel();
+
                 bool mouseHover = true;
                 if (color == null)
                 {
                     color = SystemColors.Control;
                     mouseHover = false;
                 }
-
-                FPanel new_panel = new FPanel();
+                
                 if(subcontainer != null)
                 {
                     subcontainer.Controls.Add(new_panel);
@@ -381,62 +427,57 @@ namespace Kitbox
                 }
                 else
                 {
-                    views[ConvertToName(position)] = new Tuple<FPanel, Size>(new_panel, size);
+                    views[name] = new_panel;
                     ChangeConstrainingSize();
                 }
                 new_panel.BackColor = (Color)color;
-                new_panel.Location = location;
-                new_panel.Name = ConvertToName(position);
-                new_panel.Size = size;
-                references.Add(new_panel.Name,
-                    new Dictionary<string, List<Rule>>());
+                new_panel.Mm_location = location;
+                new_panel.Location = ScalePoint(location, scaling);
+                new_panel.Name = name;
+                new_panel.Mm_size = size;
+                new_panel.Size = ScaleSize(size, scaling);
+                if(is_elliptic)
+                {
+                    new_panel.Shape = new EventHandler(new_panel.ShapeElliptic);
+                }
+                references.Add(new_panel.Name);
                 return new_panel;
             }
             else { throw new Exception("The specified position does not contain a subcontainer in this VisualPart"); }
         }
 
         /*
-         * positions : keys = views from added visualPart, values = positions in the current visualPart
+         * views_names : keys = views from added visualPart, values = positions in the current visualPart
          * locations : keys = views from added visualPart, values = locations in the current visualPart
          * 
          * create a new panel in current visualPart for each concerned view (path = position + name)
          */
         //AddVisualPart
-        public void AddVisualPart(string name, VisualPart visual_part, Dictionary<string, List<string>> positions, Dictionary<string, Point> locations)
+        public void AddVisualPart(string name, VisualPart visual_part, Dictionary<string, string> views_names, Dictionary<string, Point> locations)
         {
-            visual_part.ChangeScaling(ScaleSize(visual_part.Mm_size, scaling));
+            visual_part.ChangeScaling(scaling);
             pieces.Add(name, new Tuple<VisualPart, HashSet<string>>(visual_part, new HashSet<string>()));
-            foreach(string view in positions.Keys)
+            foreach(string view in views_names.Keys)
             {
-                positions[view].Add(name);
-                FPanel container = AddPanel(positions[view], locations[view], visual_part.Views[view].Item1.Size);
-                pieces[name].Item2.Add(visual_part.ConvertToName(positions[view]));
-                container.Controls.Add(visual_part.Views[view].Item1);
+                List<string> position = ConvertToPosition(views_names[view]);
+                position.Add(name);
+                string view_container = ConvertToName(position);
+                VPPanel container = AddPanel(view_container, locations[view], visual_part.Views[view].Mm_size);
+
+                //container.BorderStyle = BorderStyle.FixedSingle;//MODIF wtf apparence bizarre?
+
+                pieces[name].Item2.Add(view_container);
+                container.Controls.Add(visual_part.Views[view]);
                 OrderedDictionary size = new OrderedDictionary()
                 {
                     {"slave", null },
                     {"master_sizes", null },
-                    {"axis_dependency", null },
+                    {"axis_dependency", new Tuple<bool, bool>(true, true) },
                     {"axis_inversion", false }
                 };
-                if (view == "front" || view == "left")
-                {
-                    if(view == "front")
-                    {
-                        size["axis_dependency"] = new Tuple<bool, bool>(true, true);
-                    }
-                    if(view == "left")
-                    {
-                        size["axis_dependency"] = new Tuple<bool, bool>(true, false);
-                    }
-                    Action<FPanel, Tuple<Size, Size>, Tuple<bool, bool>, bool> SizCopySizeChangeRule = visual_part.CopySizeChangeRule;
-                    AddRule(container.Name, string.Concat(name, "_" + view), SizCopySizeChangeRule, size, typeof(Size));
-                }
-
-                //MODIF IL FAUT 12 bool true par visual part en 3 dimensions (2 par face 6 faces), il faut 3 dimensions master
-                //sur 2 faces
-                //MODIF déplacement en position des visualpart???
-                //MODIF desactive peut etre l'opportunite de cliquer sur l'etage, a verifier, probleme lors de changements de dimensions?
+                Action<VPPanel, Tuple<Size, Size>, Tuple<bool, bool>, bool> SizCopySizeChangeRule = visual_part.CopySizeChangeRule;
+                AddRule(container.Name, string.Concat(view, "_" + name), SizCopySizeChangeRule, size, typeof(Size));
+                //MODIF desactive peut etre l'opportunite de cliquer sur l'etage, a verifier
             }
         }
 
@@ -448,8 +489,7 @@ namespace Kitbox
         {
             foreach(string reference in pieces[name].Item2)
             {
-                List<string> position = ConvertToPosition(reference);
-                RemovePanel(position);
+                RemovePanel(name);
             }
             pieces.Remove(name);
         }
@@ -458,16 +498,16 @@ namespace Kitbox
          * 
          */
         //RemovePanel
-        public void RemovePanel(List<string> position)
+        public void RemovePanel(string name)
         {
-            string reference = ConvertToName(position);
+            List<string> position = ConvertToPosition(name);
             List<string> container_position = position.Take(position.Count() - 1).ToList();
-            FPanel container = GetPanel(container_position);
-            container.Controls.RemoveByKey(reference);
-            references.Remove(reference);
+            VPPanel container = GetPanel(ConvertToName(container_position));
+            container.Controls.RemoveByKey(name);
+            references.Remove(name);
             if (position.Count() == 1)
             {
-                views.Remove(reference);
+                views.Remove(name);
             }
             positions = RemovePosition(positions, position);
         }
@@ -476,13 +516,13 @@ namespace Kitbox
          * 
          */
         //ResizePanel
-        public void ResizePanel(FPanel panel, Size new_size)
+        public void ResizePanel(VPPanel panel, Size new_size)
         {
             Size old_size = panel.Size;
             panel.Size = new_size;
-            foreach(string slave in references[panel.Name].Keys)
+            foreach(string slave in panel.Rules.Keys)
             {
-                foreach(Rule rule in references[panel.Name][slave])
+                foreach(Rule rule in panel.Rules[slave])
                 {
                     if(rule.Trigger == typeof(Size))
                     {
@@ -493,8 +533,8 @@ namespace Kitbox
                             {
                                 "slave",
                                 (pieces.Keys.Contains(visual_part)) ? 
-                                    pieces[visual_part].Item1.GetPanel(ConvertToPosition(view)) : 
-                                    GetPanel(ConvertToPosition(slave))
+                                    pieces[visual_part].Item1.GetPanel(view) : 
+                                    GetPanel(slave)
                             },
                             { "master_sizes", new Tuple<Size, Size>(old_size, new_size) }
                         };
@@ -508,19 +548,19 @@ namespace Kitbox
          * 
          */
         //RelocatePanel
-        public void RelocatePanel(FPanel panel, Point new_location)
+        public void RelocatePanel(VPPanel panel, Point new_location)
         {
             Point old_location = panel.Location;
             panel.Location = new_location;
-            foreach (string slave in references[panel.Name].Keys)
+            foreach (string slave in panel.Rules.Keys)
             {
-                foreach (Rule rule in references[panel.Name][slave])
+                foreach (Rule rule in panel.Rules[slave])
                 {
                     if (rule.Trigger == typeof(Point))
                     {
                         Dictionary<object, object> args = new Dictionary<object, object>()
                         {
-                            { "slave", GetPanel(ConvertToPosition(slave)) },
+                            { "slave", GetPanel(slave) },
                             { "master_locations", new Tuple<Point, Point>(old_location, new_location) }
                         };
                         rule.Execute(args);
@@ -535,12 +575,13 @@ namespace Kitbox
         //AddRule
         public void AddRule(string ref_master, string ref_slave, Delegate action, OrderedDictionary args, Type Ttrigger)
         {
-            Type Ttarget = typeof(FPanel);
-            if(references[ref_master][ref_slave] == null)
+            Type Ttarget = typeof(VPPanel);
+            VPPanel master = GetPanel(ref_master);
+            if(!master.Rules.ContainsKey(ref_slave))
             {
-                references[ref_master][ref_slave] = new List<Rule>();
+                master.Rules[ref_slave] = new List<Rule>();
             }
-            references[ref_master][ref_slave].Add(new Rule(action, args, Ttrigger, Ttarget));
+            master.Rules[ref_slave].Add(new Rule(action, args, Ttrigger, Ttarget));
         }
 
         /*
@@ -556,8 +597,8 @@ namespace Kitbox
                 {"axis_dependency", axis_dependency },
                 {"axis_inversion", axis_inversion }
             };
-            Action<FPanel, Tuple<Size, Size>, Tuple<bool, bool>, bool> SizSizeDependentPositionRule = SizeDependentPositionRule;
-            AddRule(ref_master, ref_slave, SizSizeDependentPositionRule, size, typeof(Size));
+            Action<VPPanel, Tuple<Size, Size>, Tuple<bool, bool>, bool> RuleSizeDependentPositionRule = SizeDependentPositionRule;
+            AddRule(ref_master, ref_slave, RuleSizeDependentPositionRule, size, typeof(Size));
         }
 
         /*
@@ -573,8 +614,8 @@ namespace Kitbox
                 {"axis_dependency", axis_dependency },
                 {"axis_inversion", axis_inversion }
             };
-            Action<FPanel, Tuple<Size, Size>, Tuple<bool, bool>, bool> SizCopySizeChangeRule = CopySizeChangeRule;
-            AddRule(ref_master, ref_slave, SizCopySizeChangeRule, size, typeof(Size));
+            Action<VPPanel, Tuple<Size, Size>, Tuple<bool, bool>, bool> RuleCopySizeChangeRule = CopySizeChangeRule;
+            AddRule(ref_master, ref_slave, RuleCopySizeChangeRule, size, typeof(Size));
         }
 
         /*
@@ -590,8 +631,8 @@ namespace Kitbox
                 {"axis_dependency", axis_dependency },
                 {"axis_inversion", axis_inversion }
             };
-            Action<FPanel, Tuple<Size, Size>, Tuple<bool, bool>, bool> SizCopySizeProportionRule = CopySizeProportionRule;
-            AddRule(ref_master, ref_slave, SizCopySizeProportionRule, size, typeof(Size));
+            Action<VPPanel, Tuple<Size, Size>, Tuple<bool, bool>, bool> RuleCopySizeProportionRule = CopySizeProportionRule;
+            AddRule(ref_master, ref_slave, RuleCopySizeProportionRule, size, typeof(Size));
         }
 
         /*
@@ -607,8 +648,8 @@ namespace Kitbox
                 {"axis_dependency", axis_dependency },
                 {"axis_inversion", axis_inversion }
             };
-            Action<FPanel, Tuple<Point, Point>, Tuple<bool, bool>, bool> LocNoOverlappingRule = NoOverlappingRule;
-            AddRule(ref_master, ref_slave, LocNoOverlappingRule, location, typeof(Point));
+            Action<VPPanel, Tuple<Point, Point>, Tuple<bool, bool>, bool> RuleNoOverlappingRule = NoOverlappingRule;
+            AddRule(ref_master, ref_slave, RuleNoOverlappingRule, location, typeof(Point));
             OrderedDictionary size = new OrderedDictionary()
             {
                 {"slave", null },
@@ -616,7 +657,7 @@ namespace Kitbox
                 {"axis_dependency", axis_dependency },
                 {"axis_inversion", axis_inversion }
             };
-            Action<FPanel, Tuple<Size, Size>, Tuple<bool, bool>, bool> SizNoOverlappingRule = NoOverlappingRule;
+            Action<VPPanel, Tuple<Size, Size>, Tuple<bool, bool>, bool> SizNoOverlappingRule = NoOverlappingRule;
             AddRule(ref_master, ref_slave, SizNoOverlappingRule, size, typeof(Size));
         }
 
@@ -625,7 +666,7 @@ namespace Kitbox
          * axis_dependency : x, y : refering to the master
          */
         //NoOverlappingRule : location changed
-        public void NoOverlappingRule(FPanel slave, Tuple<Point, Point> master_locations, 
+        public void NoOverlappingRule(VPPanel slave, Tuple<Point, Point> master_locations, 
             Tuple<bool, bool> axis_dependency, bool axis_inversion)
         {
             int dlx = Convert.ToInt32(axis_dependency.Item1) * (master_locations.Item2.X - master_locations.Item1.X);
@@ -641,7 +682,7 @@ namespace Kitbox
          *
          */
         //NoOverLappingRule : size changed
-        public void NoOverlappingRule(FPanel slave, Tuple<Size, Size> master_sizes, 
+        public void NoOverlappingRule(VPPanel slave, Tuple<Size, Size> master_sizes, 
             Tuple<bool, bool> axis_dependency, bool axis_inversion)
         {
             int dsx = Convert.ToInt32(axis_dependency.Item1) * (master_sizes.Item2.Width - master_sizes.Item1.Width);
@@ -657,7 +698,7 @@ namespace Kitbox
          * 
          */
         //CopySizeChangeRule
-        public void CopySizeChangeRule(FPanel slave, Tuple<Size, Size> master_sizes,
+        public void CopySizeChangeRule(VPPanel slave, Tuple<Size, Size> master_sizes,
             Tuple<bool, bool> axis_dependency, bool axis_inversion)
         {
             int dx = Convert.ToInt32(axis_dependency.Item1) * (master_sizes.Item2.Width - master_sizes.Item1.Width);
@@ -672,8 +713,8 @@ namespace Kitbox
         /*
          * 
          */
-        //CopySizeProportionRule
-        public void CopySizeProportionRule(FPanel slave, Tuple<Size, Size> master_sizes,
+        //CopySizeProportionRule 
+        public void CopySizeProportionRule(VPPanel slave, Tuple<Size, Size> master_sizes,
             Tuple<bool, bool> axis_dependency, bool axis_inversion)
         {
             double cx = Convert.ToInt32(axis_dependency.Item1) * (master_sizes.Item2.Width / master_sizes.Item1.Width);
@@ -689,7 +730,7 @@ namespace Kitbox
          * 
          */
         //SizeDependentPositionRule
-        public void SizeDependentPositionRule(FPanel slave, Tuple<Size, Size> master_sizes, 
+        public void SizeDependentPositionRule(VPPanel slave, Tuple<Size, Size> master_sizes, 
             Tuple<bool, bool> axis_dependency, bool axis_inversion)
         {
             double sx = slave.Size.Width;
@@ -729,9 +770,99 @@ namespace Kitbox
          * 
          */
         //Click
-        public void Click (object sender, EventArgs e)
+        public void Click(object sender, EventArgs e)
         {
-            
+            selection.Execute(
+                new Dictionary<object, object>()
+                {
+                    { "sender", sender }
+                });
+        }
+
+        /*
+         * 
+         */
+        //SelectPiece
+        public void SelectPiece(object sender)
+        {
+            if(!typeof(VPPanel).IsInstanceOfType(sender))
+            {
+                return;
+            }
+            VPPanel current_sender = (VPPanel)sender;
+            string piece_name = ConvertToPosition(current_sender.Name).Last();
+            if(pieces.Keys.Contains(piece_name))
+            {
+                UndoFocus();
+                pointer = current_sender.Name;
+                Focus(current_sender);
+                Console.WriteLine(current_sender.Name);//MODIF delete
+            }
+            else
+            {
+                SelectPiece(current_sender.Parent);
+            }
+        }
+
+        /*
+         * 
+         */
+        //UndoFocus
+        public void UndoFocus()
+        {
+            int alpha = 50;
+            foreach(VPPanel view in views.Values)
+            {
+                VaryAlpha(alpha, view);
+            }
+        }
+
+        /*
+         * 
+         */
+        //CleanFocus
+        public void CleanFocus()
+        {
+            int alpha = 255;
+            foreach(VPPanel view in views.Values)
+            {
+                VaryAlpha(alpha, view);
+            }
+        }
+
+        /*
+         * 
+         */
+        //Focus
+        public void Focus(object sender)
+        {
+            int alpha = 255;
+            VaryAlpha(alpha, sender);
+        }
+
+        /*
+         * 
+         */
+        //VaryAlpha
+        public void VaryAlpha(int alpha, object sender)
+        {
+            if(alpha>255)
+            {
+                alpha = 255;
+            }
+            else if(alpha<0)
+            {
+                alpha = 0;
+            }
+            Control control_sender = (Control)sender;
+            foreach (Control elem in control_sender.Controls)
+            {
+                elem.BackColor = Color.FromArgb(alpha, elem.BackColor.R, elem.BackColor.G, elem.BackColor.B);
+                if (elem.HasChildren)
+                {
+                    VaryAlpha(alpha, elem);
+                }
+            }
         }
 
         /*
@@ -745,3 +876,11 @@ namespace Kitbox
     }
 }
 //end
+
+//MODIF : ajouter changement de position/dimension à partir d'un visualpart, ajouter les références aux 3 dimensions de l'espace pour toutes les
+//vues => modifier les dimensions du visualpart conteneur, modifier la position des visualpart contenues.
+//MODIF : ResizePanel & RelocatePanel => problemes d'arrondis avec les rules? à vérifier
+
+
+    //DOUBLE MODIF : LE POINTER QUI DIT QUEL ETAGE ON SELECTIONNE EST CELUI DE LETAGE ET PAS DE LARMOIRE
+    // ENSUITE : LE CLICK DES CONTENUS NE SONT PAS SUPPRIMES : ON A UN DOUBLE CLIC LORS DE LEVENT CLIC.
