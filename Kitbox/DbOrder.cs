@@ -1,52 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Globalization;
 
 namespace Kitbox
 {
-	public class DbOrder
-	{
-		public DbOrder()
-		{
-		}
-		public void DbConnectOrder(string[] parameters)
-		{
-			// https://www.codeproject.com/Articles/823854/How-to-connect-SQL-Database-to-your-Csharp-program
-			SqlConnection conn = new SqlConnection();
-			conn.ConnectionString = "connection_string";
-			conn.Open();
+    static class DbOrder
+    {
+        static void DbAddOrder(Order order)
+        {
+            string columnNames = "Order_Id, Client_Id, Date, Header_Bill, Footer_Bill";
+            string tableName = "order_informations";
+            string Client_Id = order.GetCurrentClient.GetId.ToString();
+            BDD database = new BDD("kitbox");
+            DateTime date = DateTime.Now;
+            string dateString = date.ToString();
+            string data = "1," + Client_Id + ","+dateString+",Header_Bill,Footer_Bill";
+            database.addElement(tableName, columnNames, data);
+        }
+        static Dictionary<string, object> DbSearchClient(int id_client)
+        {
+            Dictionary<string, object> order = new Dictionary<string, object>();
 
-			// use the connection here
+            /////////////Use of the Bill dictionary
 
-			conn.Close();
-			conn.Dispose();
-			SqlCommand command = new SqlCommand("SELECT * FROM TableName", conn);
-			SqlCommand command2 = new SqlCommand("SELECT * FROM TableName WHERE FirstColumn = @0", conn);
+            Dictionary<string, object> bill;
+            bill = textString.bill();
 
-			// Create new SqlDataReader object and read data from the command.
-			using (SqlDataReader reader = command.ExecuteReader())
-			{
-				// while there is another record present
-				while (reader.Read())
-				{
-					// write the data on to the screen
-					Console.WriteLine(String.Format("{0} \t | {1} \t | {2} \t | {3}",
-					// call the objects from their index
-					reader[0], reader[1], reader[2], reader[3]));
-				}
-			}
-		}
-		public void DbAddOrder(Order order)
-		{
+            ////////////Components part list
 
-		}
-		public Dictionary<string, object> DbSearchClient(int id_client)
-		{
-            return null;
-		}
-	}
+            //List<string> Parts_list = new List<string>();
+
+            return order;
+        }
+    }
 }
