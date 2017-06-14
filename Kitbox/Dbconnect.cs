@@ -1,33 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 namespace Kitbox
 {
-	public class Dbconnect
-	{
-		public Dbconnect()
-		{
-		}
-		public void DbconnectClient(string[] parameters) //on se connecte à la base de donnée
-		{												//et on vérifie si les identifiants sont correctes
-		 
-		}
-		public void DbConnectEmployee(string[] parameters) 
-		//Identification requise au début, options supplémentaires disponibles
-		//(récupérer commande d'un client, modifier commande en face du client et enregister le client dans la Bdd).
-		{
-		}
-		public void DbAddClient(Person person)
-		{
-		}
-		public Boolean DblsClient(int id, string password)
-		{
-            //return true or false
-            return false;
-		}
-		public Boolean DblsEmployee(int id, string password)
-		{
-            // return true or false
-            return false;
-		}
-	}
+    static class DbConnect
+    {
+        static void DbConnectClient(params string[] args)
+        {
+            BDD database = new BDD("Kitbox");
+            //string columnNames=
+        }
+        static void DbConnectEmployee(params string[] args)
+        {
+
+        }
+        static void DbAddClient(Person person)
+        {
+
+        }
+        static bool DblsCLient(int id,string password)
+        {
+            return true;
+        }
+        static bool DblsEmployee(int id,string password)
+        {
+            return true;
+        }
+    }
 }
