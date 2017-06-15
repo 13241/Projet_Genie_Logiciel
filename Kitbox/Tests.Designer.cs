@@ -31,6 +31,12 @@
             this.screen = new System.Windows.Forms.Panel();
             this.test_input = new System.Windows.Forms.TextBox();
             this.compute = new System.Windows.Forms.Button();
+            this.LEFT = new System.Windows.Forms.Button();
+            this.UP = new System.Windows.Forms.Button();
+            this.DOWN = new System.Windows.Forms.Button();
+            this.RIGHT = new System.Windows.Forms.Button();
+            this.ZOOM = new System.Windows.Forms.Button();
+            this.UNZOOM = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // screen
@@ -59,11 +65,77 @@
             this.compute.UseVisualStyleBackColor = true;
             this.compute.Click += new System.EventHandler(this.compute_Click);
             // 
+            // LEFT
+            // 
+            this.LEFT.Location = new System.Drawing.Point(281, 102);
+            this.LEFT.Name = "LEFT";
+            this.LEFT.Size = new System.Drawing.Size(27, 23);
+            this.LEFT.TabIndex = 3;
+            this.LEFT.Text = "←";
+            this.LEFT.UseVisualStyleBackColor = true;
+            this.LEFT.Click += new System.EventHandler(this.LEFT_Click);
+            // 
+            // UP
+            // 
+            this.UP.Location = new System.Drawing.Point(314, 88);
+            this.UP.Name = "UP";
+            this.UP.Size = new System.Drawing.Size(27, 23);
+            this.UP.TabIndex = 4;
+            this.UP.Text = "↑";
+            this.UP.UseVisualStyleBackColor = true;
+            this.UP.Click += new System.EventHandler(this.UP_Click);
+            // 
+            // DOWN
+            // 
+            this.DOWN.Location = new System.Drawing.Point(314, 117);
+            this.DOWN.Name = "DOWN";
+            this.DOWN.Size = new System.Drawing.Size(27, 23);
+            this.DOWN.TabIndex = 5;
+            this.DOWN.Text = "↓";
+            this.DOWN.UseVisualStyleBackColor = true;
+            this.DOWN.Click += new System.EventHandler(this.DOWN_Click);
+            // 
+            // RIGHT
+            // 
+            this.RIGHT.Location = new System.Drawing.Point(347, 102);
+            this.RIGHT.Name = "RIGHT";
+            this.RIGHT.Size = new System.Drawing.Size(27, 23);
+            this.RIGHT.TabIndex = 6;
+            this.RIGHT.Text = "→";
+            this.RIGHT.UseVisualStyleBackColor = true;
+            this.RIGHT.Click += new System.EventHandler(this.RIGHT_Click);
+            // 
+            // ZOOM
+            // 
+            this.ZOOM.Location = new System.Drawing.Point(314, 146);
+            this.ZOOM.Name = "ZOOM";
+            this.ZOOM.Size = new System.Drawing.Size(27, 23);
+            this.ZOOM.TabIndex = 7;
+            this.ZOOM.Text = "+";
+            this.ZOOM.UseVisualStyleBackColor = true;
+            this.ZOOM.Click += new System.EventHandler(this.ZOOM_Click);
+            // 
+            // UNZOOM
+            // 
+            this.UNZOOM.Location = new System.Drawing.Point(314, 175);
+            this.UNZOOM.Name = "UNZOOM";
+            this.UNZOOM.Size = new System.Drawing.Size(27, 23);
+            this.UNZOOM.TabIndex = 8;
+            this.UNZOOM.Text = "-";
+            this.UNZOOM.UseVisualStyleBackColor = true;
+            this.UNZOOM.Click += new System.EventHandler(this.UNZOOM_Click);
+            // 
             // Tests
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(533, 358);
+            this.Controls.Add(this.UNZOOM);
+            this.Controls.Add(this.ZOOM);
+            this.Controls.Add(this.RIGHT);
+            this.Controls.Add(this.DOWN);
+            this.Controls.Add(this.UP);
+            this.Controls.Add(this.LEFT);
             this.Controls.Add(this.compute);
             this.Controls.Add(this.test_input);
             this.Controls.Add(this.screen);
@@ -79,5 +151,11 @@
         private System.Windows.Forms.Panel screen;
         private System.Windows.Forms.TextBox test_input;
         private System.Windows.Forms.Button compute;
+        private System.Windows.Forms.Button LEFT;
+        private System.Windows.Forms.Button UP;
+        private System.Windows.Forms.Button DOWN;
+        private System.Windows.Forms.Button RIGHT;
+        private System.Windows.Forms.Button ZOOM;
+        private System.Windows.Forms.Button UNZOOM;
     }
 }

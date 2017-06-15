@@ -24,7 +24,7 @@ namespace Kitbox
                 new Dictionary<string, Size>()
                 {
                         { "front", scaled },
-                        { "left", scaled}
+                        { "left", scaled }
                 });
             Visual_part.AddPanel("front_" + Reference, new Point(0, 0), scaled, Color);
             Visual_part.AddPanel("left_" + Reference, new Point(0, 0), scaled, Color);

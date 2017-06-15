@@ -13,15 +13,19 @@ namespace Kitbox
 {
     public partial class Tests : Form
     {
+        VisualPart part;
+        string view;
         public Tests()
         {
             InitializeComponent();
         }
         //TestVisualPart
-        public void TestVisualPart(VisualPart part)
+        public void TestVisualPart(string view)
         {
+            Invisible();
+            part.CleanFocus();
             part.ChangeScaling(screen.Size);
-            screen.Controls.Add(part.Display()["front"]);
+            screen.Controls.Add(part.Display()[view]);
             screen.Visible = true;
         }
         //TestKnop
@@ -72,37 +76,128 @@ namespace Kitbox
         //TestBox
         public Box TestBox(int l, int h, int p, string reference = "box")
         {
-            Box mybox = new Box(new Size3D(120, 36, 42));
+            Box mybox = new Box(new Size3D(l, h, p));
             return mybox;
+        }
+        //TestWardrobe
+        public Wardrobe TestWardrobe(int l, int h, int p, string reference = "wardrobe")
+        {
+            Wardrobe mywardrobe = new Wardrobe(new Size3D(l, h, p));
+            return mywardrobe;
         }
 
         private void compute_Click(object sender, EventArgs e)
         {
-            Invisible();
             switch (test_input.Text)
             {
                 case "vp_door"://VisualPart_Door
-                    TestVisualPart(TestDoor(62, 32, Color.Beige).Visual_part);
+                    part = TestDoor(62, 32, Color.Beige).Visual_part;
                     break;
                 case "vp_knop"://VisualPart_Knop
-                    TestVisualPart(TestKnop(6, 6, Color.Black).Visual_part);
+                    part = TestKnop(6, 6, Color.Black).Visual_part;
                     break;
                 case "vp_panel"://VisualPart_Panel
-                    TestVisualPart(TestPanel(120, 2, Color.Tan).Visual_part);
+                    part = TestPanel(120, 2, Color.Tan).Visual_part;
                     break;
                 case "vp_angle"://VisualPart_Angle
-                    TestVisualPart(TestAngle(2, 108, Color.Black).Visual_part);
+                    part = TestAngle(2, 108, Color.Black).Visual_part;
                     break;
                 case "vp_box"://VisualPart_Box
-                    TestVisualPart(TestBox(120, 36, 42).Visual_part);
+                    part = TestBox(120, 36, 42).Visual_part;
+                    break;
+                case "vp_wardrobe"://VisualPart_Wardrobe
+                    part = TestWardrobe(120, 36, 42).Visual_part;
                     break;
             }
+            try
+            {
+                view = "front";
+                TestVisualPart(view);
+            }
+            catch { return; }
         }
 
         private void Invisible()
         {
             screen.Controls.Clear();
             screen.Visible = false;
+        }
+
+        private void UP_Click(object sender, EventArgs e)
+        {
+            switch (view)
+            {
+                case "front":
+                    view = "top";
+                    break;
+                case "bottom":
+                    view = "front";
+                    break;
+            }
+            TestVisualPart(view);
+        }
+
+        private void LEFT_Click(object sender, EventArgs e)
+        {
+            switch(view)
+            {
+                case "front":
+                    view = "left";
+                    break;
+                case "right":
+                    view = "front";
+                    break;
+                case "left":
+                    view = "rear";
+                    break;
+                case "rear":
+                    view = "right";
+                    break;
+            }
+            TestVisualPart(view);
+        }
+
+        private void RIGHT_Click(object sender, EventArgs e)
+        {
+            switch(view)
+            {
+                case "front":
+                    view = "right";
+                    break;
+                case "left":
+                    view = "front";
+                    break;
+                case "right":
+                    view = "rear";
+                    break;
+                case "rear":
+                    view = "left";
+                    break;
+            }
+            TestVisualPart(view);
+        }
+
+        private void DOWN_Click(object sender, EventArgs e)
+        {
+            switch(view)
+            {
+                case "front":
+                    view = "bottom";
+                    break;
+                case "top":
+                    view = "front";
+                    break;
+            }
+            TestVisualPart(view);
+        }
+
+        private void ZOOM_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void UNZOOM_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

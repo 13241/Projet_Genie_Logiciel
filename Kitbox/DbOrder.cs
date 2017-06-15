@@ -28,7 +28,7 @@ namespace Kitbox
             /////////////Use of the Bill dictionary
 
             Dictionary<string, object> bill;
-            bill = textString.bill();
+            //bill = textString.bill();
 
             ////////////Components part list
 
