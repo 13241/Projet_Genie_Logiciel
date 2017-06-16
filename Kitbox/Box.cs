@@ -90,7 +90,7 @@ namespace Kitbox
             {
                 { "Ref", "Panneau HB" },
                 { "largeur", Convert.ToString(Dimensions.X) },
-                { "hauteur", Convert.ToString(Dimensions.Z - 4) }
+                { "hauteur", Convert.ToString(Dimensions.Z) }
             });
             pb.Location = new Point3D(0, 2, 0);
             pb.Position = "B";
@@ -104,7 +104,7 @@ namespace Kitbox
             Part pog = DbCatalog.DbSelectPart(new Dictionary<string, string>()
             {
                 { "Ref", "Porte" },
-                { "largeur", Convert.ToString(Math.Ceiling(Dimensions.X / 2)) },
+                { "largeur", Convert.ToString(Math.Ceiling(Dimensions.X / 2 + 2)) },
                 { "hauteur", Convert.ToString(Dimensions.Y - 4) }
             });
             pog.Location = new Point3D(0, 2, 0);
@@ -123,10 +123,10 @@ namespace Kitbox
             Part pod = DbCatalog.DbSelectPart(new Dictionary<string, string>()
             {
                 { "Ref", "Porte" },
-                { "largeur", Convert.ToString(Math.Floor(Dimensions.X / 2)) },
+                { "largeur", Convert.ToString(Math.Floor(Dimensions.X / 2 + 2)) },
                 { "hauteur", Convert.ToString(Dimensions.Y - 4) }
             });
-            pod.Location = new Point3D(pog.Dimensions.X, 2, 0);
+            pod.Location = new Point3D(pog.Dimensions.X - 4, 2, 0);
             pod.Position = "D";
             //=>Coupelle D
             Part cd = DbCatalog.DbSelectPart(new Dictionary<string, string>()

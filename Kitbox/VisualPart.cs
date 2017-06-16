@@ -106,6 +106,7 @@ namespace Kitbox
         //ChangeScaling : scaling
         public void ChangeScaling(double scaling)
         {
+            this.scaling = scaling;
             foreach(string reference in references)
             {
                 VPPanel current = GetPanel(reference);
@@ -133,7 +134,7 @@ namespace Kitbox
             {
                 this.px_size = (Size)px_size;
             }
-            scaling = Math.Min((double)this.px_size.Width / mm_size.Width, (double)this.px_size.Height / mm_size.Height);
+            double scaling = Math.Min((double)this.px_size.Width / mm_size.Width, (double)this.px_size.Height / mm_size.Height);
             ChangeScaling(scaling);
         }
 

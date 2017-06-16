@@ -29,35 +29,51 @@ namespace Kitbox
         public virtual void DefaultWardrobe()
         {
             //Corniere AvG
-            Part cag = new Angle();
+            Part cag = DbCatalog.DbSelectPart(new Dictionary<string, string>()
+            {
+                { "Ref", "Cornieres" },
+                { "largeur", Convert.ToString(2) },
+                { "hauteur", Convert.ToString(Dimensions.Y) },
+                { "profondeur", Convert.ToString(2) },
+                { "couleur", "Noir" }
+            });
             cag.Location = new Point3D(0, 0, Dimensions.Z-2);
-            cag.Dimensions = new Size3D(2, Dimensions.Y, 2);
-            cag.Color = Color.Black;
-            cag.Reference = "Cornieres";
             cag.Position = "AvG";
             cag.ConstructVisualPart();
             //Corniere AvD
-            Part cad = new Angle();
+            Part cad = DbCatalog.DbSelectPart(new Dictionary<string, string>()
+            {
+                { "Ref", "Cornieres" },
+                { "largeur", Convert.ToString(2) },
+                { "hauteur", Convert.ToString(Dimensions.Y) },
+                { "profondeur", Convert.ToString(2) },
+                { "couleur", "Noir" }
+            });
             cad.Location = new Point3D(Dimensions.X - 2, 0, 0);
-            cad.Dimensions = new Size3D(2, Dimensions.Y, 2);
-            cad.Color = Color.Black;
-            cad.Reference = "Cornieres";
             cad.Position = "AvD";
             cad.ConstructVisualPart();
             //Corniere ArG
-            Part crg = new Angle();
+            Part crg = DbCatalog.DbSelectPart(new Dictionary<string, string>()
+            {
+                { "Ref", "Cornieres" },
+                { "largeur", Convert.ToString(2) },
+                { "hauteur", Convert.ToString(Dimensions.Y) },
+                { "profondeur", Convert.ToString(2) },
+                { "couleur", "Noir" }
+            });
             crg.Location = new Point3D(Dimensions.X - 2, 0, 0);
-            crg.Dimensions = new Size3D(2, Dimensions.Y, 2);
-            crg.Color = Color.Black;
-            crg.Reference = "Cornieres";
             crg.Position = "ArG";
             crg.ConstructVisualPart();
             //Corniere ArD
-            Part crd = new Angle();
+            Part crd = DbCatalog.DbSelectPart(new Dictionary<string, string>()
+            {
+                { "Ref", "Cornieres" },
+                { "largeur", Convert.ToString(2) },
+                { "hauteur", Convert.ToString(Dimensions.Y) },
+                { "profondeur", Convert.ToString(2) },
+                { "couleur", "Noir" }
+            });
             crd.Location = new Point3D(0, 0, Dimensions.Z - 2);
-            crd.Dimensions = new Size3D(2, Dimensions.Y, 2);
-            crd.Color = Color.Black;
-            crd.Reference = "Cornieres";
             crd.Position = "ArD";
             crd.ConstructVisualPart();
             Components[crd.Reference] = new Dictionary<string, object>()

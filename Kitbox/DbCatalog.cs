@@ -90,7 +90,7 @@ namespace Kitbox
             switch(fr)
             {
                 case "Brun":
-                    return "Brown";
+                    return "Tan";
                 case "Galvanise":
                     return "Gray";
                 case "Blanc":
