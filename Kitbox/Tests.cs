@@ -210,10 +210,8 @@ namespace Kitbox
             if (parts.Count() > 0)
             {
                 VisualPart container = parts.Pop();
-                //part.ChangeScaling(container.Scaling);
                 string piece = container.ConvertToPosition(container.Pointer).Last();
-                
-                //panel.Controls.Add(part.Display()[part.ConvertToPosition(container.Pointer).First()]);
+                container.ReinsertPiece(piece);
                 part = container;
                 view = "front";
                 TestVisualPart(view);

@@ -246,8 +246,20 @@ namespace Kitbox
         /*
          * 
          */
-        //InsertPiece
-        public
+        //ReinsertPiece
+        public void ReinsertPiece(string name)
+        {
+            VisualPart piece = Pieces[name].Item1;
+            foreach(string container in Pieces[name].Item2.Keys)
+            {
+                VPPanel master = GetPanel(container);
+                VPPanel slave = piece.GetPanel(Pieces[name].Item2[container]);
+                if(!master.Controls.Contains(slave))
+                {
+                    master.Controls.Add(slave);
+                }
+            }
+        }
 
         /*
          * 
