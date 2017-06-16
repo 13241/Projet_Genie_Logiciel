@@ -48,6 +48,7 @@ namespace Kitbox
                 command.ExecuteNonQuery();
             }
         }
+        // The new value of the column is put beside the column 
         public void modifyElement(string tableName, string columnNames, string id)
         {
             using (MySqlConnection connection = new MySqlConnection(this.myConnectionString))
