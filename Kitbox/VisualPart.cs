@@ -21,6 +21,7 @@ namespace Kitbox
         private double scaling; //pixels per milimeter
         private HashSet<string> references; //references each panel of the VisualPart
         private Dictionary<string, Tuple<VisualPart, HashSet<string>>> pieces;
+        //piece name, visualPart, every path to access the different views
 
         //EventAttributes
         private string pointer = "";
