@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Kitbox
 {
-	static class DbConnect
+	public static class DbConnect
 	{
         static Person DbConnectClient(int id, string password)
 		{
@@ -81,7 +81,7 @@ namespace Kitbox
             }
             return false;
 		}
-		static bool DblsEmployee(int id, string password)
+		static bool DblsEmployee(int seller_Id, string password)
 		{
 			BDD database = new BDD("kitbox");
 			List<List<object>> result = database.readElement("Seller_Id, Password", "seller", "WHERE Seller_Id=" + seller_Id);

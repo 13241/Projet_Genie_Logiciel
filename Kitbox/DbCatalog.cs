@@ -31,7 +31,7 @@ namespace Kitbox
             foreach(string key in selected_characteristics.Keys)
             {
                 counter++;
-                condition += key + "=" + selected_characteristics[key];
+                condition += key + "= '" + selected_characteristics[key] +"'";
                 if(counter != selected_characteristics.Count)
                 {
                     condition += " AND ";

@@ -39,9 +39,9 @@ namespace Kitbox
             //Panneau Ar
             Part par = DbCatalog.DbSelectPart(new Dictionary<string, string>()
             {
+                { "Ref", "Panneau Ar" },
                 { "largeur", Convert.ToString(Dimensions.X) },
-                { "hauteur", Convert.ToString(Dimensions.Y - 4) },
-                { "profondeur", Convert.ToString(0) }
+                { "hauteur", Convert.ToString(Dimensions.Y - 4) }
             });
             par.Location = new Point3D(0, 2, 0);
             par.Position = "Ar";
@@ -53,9 +53,9 @@ namespace Kitbox
             //Panneau G
             Part pg = DbCatalog.DbSelectPart(new Dictionary<string, string>()
             {
+                { "Ref", "Panneau GD" },
                 { "largeur", Convert.ToString(Dimensions.Z) },
-                { "hauteur", Convert.ToString(Dimensions.Y - 4) },
-                { "profondeur", Convert.ToString(0) }
+                { "hauteur", Convert.ToString(Dimensions.Y - 4) }
             });
             pg.Location = new Point3D(0, 2, 0);
             pg.Position = "G";
@@ -63,9 +63,9 @@ namespace Kitbox
             //Panneau D
             Part pd = DbCatalog.DbSelectPart(new Dictionary<string, string>()
             {
+                { "Ref", "Panneau GD" },
                 { "largeur", Convert.ToString(Dimensions.Z) },
-                { "hauteur", Convert.ToString(Dimensions.Y - 4) },
-                { "profondeur", Convert.ToString(0) }
+                { "hauteur", Convert.ToString(Dimensions.Y - 4) }
             });
             pd.Location = new Point3D(0, 2, 0);
             pd.Position = "D";
@@ -76,19 +76,23 @@ namespace Kitbox
                 {pd.Position, pd }
             };
             //Panneau H
-            Part ph = new Panel();
+            Part ph = DbCatalog.DbSelectPart(new Dictionary<string, string>()
+            {
+                { "Ref", "Panneau HB" },
+                { "largeur", Convert.ToString(Dimensions.X) },
+                { "hauteur", Convert.ToString(Dimensions.Z) }
+            });
             ph.Location = new Point3D(0, 2, 0);
-            ph.Dimensions = new Size3D(Dimensions.X, Dimensions.Z, 0);
-            ph.Color = Color.Beige;
-            ph.Reference = "Panneau HB";
             ph.Position = "H";
             ph.ConstructVisualPart();
             //Panneau B
-            Part pb = new Panel();
+            Part pb = DbCatalog.DbSelectPart(new Dictionary<string, string>()
+            {
+                { "Ref", "Panneau HB" },
+                { "largeur", Convert.ToString(Dimensions.X) },
+                { "hauteur", Convert.ToString(Dimensions.Z - 4) }
+            });
             pb.Location = new Point3D(0, 2, 0);
-            pb.Dimensions = new Size3D(Dimensions.X, Dimensions.Z, 0);
-            pb.Color = Color.Beige;
-            pb.Reference = "Panneau HB";
             pb.Position = "B";
             pb.ConstructVisualPart();
             Pieces[ph.Reference] = new Dictionary<string, Part>()
@@ -97,35 +101,39 @@ namespace Kitbox
                 {pb.Position, pb }
             };
             //Porte G
-            Part pog = new Door();
+            Part pog = DbCatalog.DbSelectPart(new Dictionary<string, string>()
+            {
+                { "Ref", "Porte" },
+                { "largeur", Convert.ToString(Math.Ceiling(Dimensions.X / 2)) },
+                { "hauteur", Convert.ToString(Dimensions.Y - 4) }
+            });
             pog.Location = new Point3D(0, 2, 0);
-            pog.Dimensions = new Size3D(Math.Ceiling(Dimensions.X / 2), Dimensions.Y - 4, 0);
-            pog.Color = Color.Beige;
-            pog.Reference = "Porte";
             pog.Position = "G";
             //=>Coupelle G
-            Part cg = new Knop();
+            Part cg = DbCatalog.DbSelectPart(new Dictionary<string, string>()
+            {
+                { "Ref", "Coupelles" }
+            });
             cg.Location = new Point3D(0, 0, 0);
-            cg.Dimensions = new Size3D(6, 6, 0);
-            cg.Color = Color.Black;
-            cg.Reference = "Coupelles";
             cg.Position = "G";
             cg.ConstructVisualPart();
             ((Door)pog).SetKnop((Knop)cg, 4, "left");
             pog.ConstructVisualPart();
             //Porte D
-            Part pod = new Door();
+            Part pod = DbCatalog.DbSelectPart(new Dictionary<string, string>()
+            {
+                { "Ref", "Porte" },
+                { "largeur", Convert.ToString(Math.Floor(Dimensions.X / 2)) },
+                { "hauteur", Convert.ToString(Dimensions.Y - 4) }
+            });
             pod.Location = new Point3D(pog.Dimensions.X, 2, 0);
-            pod.Dimensions = new Size3D(Math.Floor(Dimensions.X / 2), Dimensions.Y - 4, 0);
-            pod.Color = Color.Beige;
-            pod.Reference = "Porte";
             pod.Position = "D";
             //=>Coupelle D
-            Part cd = new Knop();
+            Part cd = DbCatalog.DbSelectPart(new Dictionary<string, string>()
+            {
+                { "Ref", "Coupelles" }
+            });
             cd.Location = new Point3D(0, 0, 0);
-            cd.Dimensions = new Size3D(6, 6, 0);
-            cd.Color = Color.Black;
-            cd.Reference = "Coupelles";
             cd.Position = "D";
             cd.ConstructVisualPart();
             ((Door)pod).SetKnop((Knop)cd, 4, "right");
@@ -136,19 +144,23 @@ namespace Kitbox
                 {pog.Position, pog }
             };
             //Traverse Ar H
-            Part tarh = new Panel();
+            Part tarh = DbCatalog.DbSelectPart(new Dictionary<string, string>()
+            {
+                { "Ref", "Traverse Ar" },
+                { "largeur", Convert.ToString(Dimensions.X) },
+                { "hauteur", Convert.ToString(2) }
+            });
             tarh.Location = new Point3D(0, 0, 0);
-            tarh.Dimensions = new Size3D(Dimensions.X, 2, 0);
-            tarh.Color = Color.Tan;
-            tarh.Reference = "Traverse Ar";
             tarh.Position = "H";
             tarh.ConstructVisualPart();
             //Traverse Ar B
-            Part tarb = new Panel();
+            Part tarb = DbCatalog.DbSelectPart(new Dictionary<string, string>()
+            {
+                { "Ref", "Traverse Ar" },
+                { "largeur", Convert.ToString(Dimensions.X) },
+                { "hauteur", Convert.ToString(2) }
+            });
             tarb.Location = new Point3D(0, Dimensions.Y - 2, 0);
-            tarb.Dimensions = new Size3D(Dimensions.X, 2, 0);
-            tarb.Color = Color.Tan;
-            tarb.Reference = "Traverse Ar";
             tarb.Position = "B";
             tarb.ConstructVisualPart();
             Pieces[tarh.Reference] = new Dictionary<string, Part>()
@@ -157,19 +169,23 @@ namespace Kitbox
                 {tarb.Position, tarb }
             };
             //Traverse Av H
-            Part tavh = new Panel();
+            Part tavh = DbCatalog.DbSelectPart(new Dictionary<string, string>()
+            {
+                { "Ref", "Traverse Av" },
+                { "largeur", Convert.ToString(Dimensions.X) },
+                { "hauteur", Convert.ToString(2) }
+            });
             tavh.Location = new Point3D(0, 0, 0);
-            tavh.Dimensions = new Size3D(Dimensions.X, 2, 0);
-            tavh.Color = Color.Tan;
-            tavh.Reference = "Traverse Av";
             tavh.Position = "H";
             tavh.ConstructVisualPart();
             //Traverse Av B
-            Part tavb = new Panel();
+            Part tavb = DbCatalog.DbSelectPart(new Dictionary<string, string>()
+            {
+                { "Ref", "Traverse Av" },
+                { "largeur", Convert.ToString(Dimensions.X) },
+                { "hauteur", Convert.ToString(2) }
+            });
             tavb.Location = new Point3D(0, Dimensions.Y - 2, 0);
-            tavb.Dimensions = new Size3D(Dimensions.X, 2, 0);
-            tavb.Color = Color.Tan;
-            tavb.Reference = "Traverse Av";
             tavb.Position = "B";
             tavb.ConstructVisualPart();
             Pieces[tavh.Reference] = new Dictionary<string, Part>()
@@ -178,35 +194,43 @@ namespace Kitbox
                 {tavb.Position, tavb }
             };
             //Traverse GD G H
-            Part tgh = new Panel();
+            Part tgh = DbCatalog.DbSelectPart(new Dictionary<string, string>()
+            {
+                { "Ref", "Traverse GD" },
+                { "largeur", Convert.ToString(Dimensions.Z) },
+                { "hauteur", Convert.ToString(2) }
+            });
             tgh.Location = new Point3D(0, 0, 0);
-            tgh.Dimensions = new Size3D(Dimensions.Z, 2, 0);
-            tgh.Color = Color.Tan;
-            tgh.Reference = "Traverse GD";
             tgh.Position = "GH";
             tgh.ConstructVisualPart();
             //Traverse GD G B
-            Part tgb = new Panel();
+            Part tgb = DbCatalog.DbSelectPart(new Dictionary<string, string>()
+            {
+                { "Ref", "Traverse GD" },
+                { "largeur", Convert.ToString(Dimensions.Z) },
+                { "hauteur", Convert.ToString(2) }
+            });
             tgb.Location = new Point3D(0, Dimensions.Y - 2, 0);
-            tgb.Dimensions = new Size3D(Dimensions.Z, 2, 0);
-            tgb.Color = Color.Tan;
-            tgb.Reference = "Traverse GD";
             tgb.Position = "GB";
             tgb.ConstructVisualPart();
             //Traverse GD D H
-            Part tdh = new Panel();
+            Part tdh = DbCatalog.DbSelectPart(new Dictionary<string, string>()
+            {
+                { "Ref", "Traverse GD" },
+                { "largeur", Convert.ToString(Dimensions.Z) },
+                { "hauteur", Convert.ToString(2) }
+            });
             tdh.Location = new Point3D(0, 0, 0);
-            tdh.Dimensions = new Size3D(Dimensions.Z, 2, 0);
-            tdh.Color = Color.Tan;
-            tdh.Reference = "Traverse GD";
             tdh.Position = "DH";
             tdh.ConstructVisualPart();
             //Traverse GD D B
-            Part tdb = new Panel();
+            Part tdb = DbCatalog.DbSelectPart(new Dictionary<string, string>()
+            {
+                { "Ref", "Traverse GD" },
+                { "largeur", Convert.ToString(Dimensions.Z) },
+                { "hauteur", Convert.ToString(2) }
+            });
             tdb.Location = new Point3D(0, Dimensions.Y - 2, 0);
-            tdb.Dimensions = new Size3D(Dimensions.Z, 2, 0);
-            tdb.Color = Color.Tan;
-            tdb.Reference = "Traverse GD";
             tdb.Position = "DB";
             tdb.ConstructVisualPart();
             Pieces[tgh.Reference] = new Dictionary<string, Part>()
