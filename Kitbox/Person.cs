@@ -11,7 +11,7 @@ namespace Kitbox
 		protected int id;
 		protected string password;
 
-		//adress est un dictionnaire dont les clés sont : rue, numéro de rue et code postal
+		//The adress dictionary contains the keys : street, street number and postal code
 		protected Dictionary<string, object> address = new Dictionary<string, object>();
         
         public Person()
@@ -20,38 +20,19 @@ namespace Kitbox
             this.address.Add("Street number", null);
             this.address.Add("Postal code", null);
         }
-		public string GetFirstName
-		{
-			get { return this.firstname; }
-		}
 
-		public string GetLastName
-		{
-			get { return this.lastname; }
-		}
+        public string FirstName { get => firstname; set => firstname = value; }
 
-		public int GetPhoneNumber
-		{
-			get { return this.phone_number; }
-		}
+        public string LastName { get => lastname; set => lastname = value; }
 
-		public string GetEmails
-		{
-			get { return this.email; }
-		}
+        public int PhoneNumber { get => phone_number; set => phone_number = value; }
 
-		public int GetId
-		{
-			get { return this.id; }
-		}
+        public string Email { get => email; set => email = value; }
 
-		public string GetPassword
-		{
-			get { return this.password; }
-		}
-        public Dictionary<string, object> GetAddress
-		{
-			get { return this.address; }
-		}
+        public int Id { get => id; set => id = value; }
+
+        public string Password { get => password; set => password = value; }
+
+        public Dictionary<string, object> Address { get => address; set => address = value; }
 	}
 }

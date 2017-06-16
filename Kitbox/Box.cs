@@ -37,20 +37,6 @@ namespace Kitbox
             //MODIF interaction avec la base de données nécessaire : créer la méthode permettant de sélectionner une part
             //MODIF code temporaire pour éviter de devoir faire la base de données pour l'instant.
             //Panneau Ar
-            /*
-            Part par = new Panel();
-            par.Location = new Point3D(0, 2, 0);
-            par.Dimensions = new Size3D(Dimensions.X, Dimensions.Y - 4, 0);
-            par.Color = Color.Beige;
-            par.Reference = "Panneau Ar";
-            par.Position = "Ar";
-            par.ConstructVisualPart();
-            Pieces[par.Reference] = new Dictionary<string, Part>()
-            {
-                { par.Position, par }
-            };
-            */
-
             Part par = DbCatalog.DbSelectPart(new Dictionary<string, string>()
             {
                 { "largeur", Convert.ToString(Dimensions.X) },
@@ -65,19 +51,23 @@ namespace Kitbox
                 { par.Position, par }
             };
             //Panneau G
-            Part pg = new Panel();
+            Part pg = DbCatalog.DbSelectPart(new Dictionary<string, string>()
+            {
+                { "largeur", Convert.ToString(Dimensions.Z) },
+                { "hauteur", Convert.ToString(Dimensions.Y - 4) },
+                { "profondeur", Convert.ToString(0) }
+            });
             pg.Location = new Point3D(0, 2, 0);
-            pg.Dimensions = new Size3D(Dimensions.Z, Dimensions.Y - 4, 0);
-            pg.Color = Color.Beige;
-            pg.Reference = "Panneau GD";
             pg.Position = "G";
             pg.ConstructVisualPart();
             //Panneau D
-            Part pd = new Panel();
+            Part pd = DbCatalog.DbSelectPart(new Dictionary<string, string>()
+            {
+                { "largeur", Convert.ToString(Dimensions.Z) },
+                { "hauteur", Convert.ToString(Dimensions.Y - 4) },
+                { "profondeur", Convert.ToString(0) }
+            });
             pd.Location = new Point3D(0, 2, 0);
-            pd.Dimensions = new Size3D(Dimensions.Z, Dimensions.Y - 4, 0);
-            pd.Color = Color.Beige;
-            pd.Reference = "Panneau GD";
             pd.Position = "D";
             pd.ConstructVisualPart();
             Pieces[pg.Reference] = new Dictionary<string, Part>()

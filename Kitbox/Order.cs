@@ -97,6 +97,8 @@ namespace Kitbox
 				}
 			}
 
+            bill["Header"] += String.Format("\n\nPrix total : {0} €", Convert.ToString(total_price));
+
 			bill["Footer"] = DbOrder.DbSearchOrder(OrderTableName, "Footer_Bill", string.Format("WHERE (Order_Id = {0} AND Client_Id = {1})", order_id, current_client));
 
 			return bill;
