@@ -37,11 +37,27 @@ namespace Kitbox
             //MODIF interaction avec la base de données nécessaire : créer la méthode permettant de sélectionner une part
             //MODIF code temporaire pour éviter de devoir faire la base de données pour l'instant.
             //Panneau Ar
+            /*
             Part par = new Panel();
             par.Location = new Point3D(0, 2, 0);
             par.Dimensions = new Size3D(Dimensions.X, Dimensions.Y - 4, 0);
             par.Color = Color.Beige;
             par.Reference = "Panneau Ar";
+            par.Position = "Ar";
+            par.ConstructVisualPart();
+            Pieces[par.Reference] = new Dictionary<string, Part>()
+            {
+                { par.Position, par }
+            };
+            */
+
+            Part par = DbCatalog.DbSelectPart(new Dictionary<string, string>()
+            {
+                { "largeur", Convert.ToString(Dimensions.X) },
+                { "hauteur", Convert.ToString(Dimensions.Y - 4) },
+                { "profondeur", Convert.ToString(0) }
+            });
+            par.Location = new Point3D(0, 2, 0);
             par.Position = "Ar";
             par.ConstructVisualPart();
             Pieces[par.Reference] = new Dictionary<string, Part>()
