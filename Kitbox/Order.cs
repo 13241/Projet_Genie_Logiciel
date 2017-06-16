@@ -47,8 +47,7 @@ namespace Kitbox
 			string OrderTableName = "orders";
 			string columnNames;
 			string condition = string.Format("WHERE (Order_Id = {0})", order_id);
-			float total_price = 0;
-			object component_id;
+			double total_price = 0;
 
 			bill["Header"] = DbOrder.DbSearchOrder(OrderTableName, "Header_Bill", string.Format("WHERE (Order_Id = {0} AND Client_Id = {1})", order_id, current_client));
 
@@ -82,7 +81,7 @@ namespace Kitbox
                                 if (spec_nbr == list.Count - 1)
                                 {
                                     bill["Components"] += string.Format("{0} €", list[spec_nbr]);
-                                    total_price += Convert.ChangeType(component[spec_nbr], typeof(Double));
+                                    total_price += Convert.ToDouble(component[spec_nbr]);
 								}
 								else if (spec_nbr == 0)
 								{
