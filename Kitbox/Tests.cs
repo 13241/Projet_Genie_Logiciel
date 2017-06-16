@@ -14,10 +14,12 @@ namespace Kitbox
     public partial class Tests : Form
     {
         VisualPart part;
+        Stack<VisualPart> parts;
         string view;
         public Tests()
         {
             InitializeComponent();
+            parts = new Stack<VisualPart>();
         }
         //TestVisualPart
         public void TestVisualPart(string view)
@@ -193,11 +195,32 @@ namespace Kitbox
 
         private void ZOOM_Click(object sender, EventArgs e)
         {
+            string piece = part.ConvertToPosition(part.Pointer).Last();
+            if (part.Pieces.Keys.Contains(piece))
+            {
+                parts.Push(part);
+                part = part.Pieces[piece].Item1;
+                view = "front";
+                TestVisualPart(view);
+            }
         }
 
         private void UNZOOM_Click(object sender, EventArgs e)
         {
+            if (parts.Count() > 0)
+            {
+                VisualPart container = parts.Pop();
+                //part.ChangeScaling(container.Scaling);
+                string piece = container.ConvertToPosition(container.Pointer).Last();
+                foreach(KeyValuePair<string, VPPanel> view in part.Display())
+                {
 
+                }
+                panel.Controls.Add(part.Display()[part.ConvertToPosition(container.Pointer).First()]);
+                part = container;
+                view = "front";
+                TestVisualPart(view);
+            }
         }
     }
 }
