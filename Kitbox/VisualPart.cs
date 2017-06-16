@@ -306,9 +306,13 @@ namespace Kitbox
         //EnlargeView
         public void EnlargeView(string view_name, Size mm_size)
         {
-            views[view_name].Size = ScaleSize(mm_size, scaling);
-            views[view_name].Mm_size = mm_size;
-            ChangeConstrainingSize();
+            try
+            {
+                views[view_name].Size = ScaleSize(mm_size, scaling);
+                views[view_name].Mm_size = mm_size;
+                ChangeConstrainingSize();
+            }
+            catch { }
         }
 
         /*

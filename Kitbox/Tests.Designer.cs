@@ -37,6 +37,7 @@
             this.RIGHT = new System.Windows.Forms.Button();
             this.ZOOM = new System.Windows.Forms.Button();
             this.UNZOOM = new System.Windows.Forms.Button();
+            this.AddBox = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // screen
@@ -125,11 +126,23 @@
             this.UNZOOM.UseVisualStyleBackColor = true;
             this.UNZOOM.Click += new System.EventHandler(this.UNZOOM_Click);
             // 
+            // AddBox
+            // 
+            this.AddBox.Location = new System.Drawing.Point(12, 292);
+            this.AddBox.Name = "AddBox";
+            this.AddBox.Size = new System.Drawing.Size(75, 23);
+            this.AddBox.TabIndex = 9;
+            this.AddBox.Text = "AddBox";
+            this.AddBox.UseVisualStyleBackColor = true;
+            this.AddBox.Visible = false;
+            this.AddBox.Click += new System.EventHandler(this.AddBox_Click);
+            // 
             // Tests
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(533, 358);
+            this.Controls.Add(this.AddBox);
             this.Controls.Add(this.UNZOOM);
             this.Controls.Add(this.ZOOM);
             this.Controls.Add(this.RIGHT);
@@ -157,5 +170,6 @@
         private System.Windows.Forms.Button RIGHT;
         private System.Windows.Forms.Button ZOOM;
         private System.Windows.Forms.Button UNZOOM;
+        private System.Windows.Forms.Button AddBox;
     }
 }

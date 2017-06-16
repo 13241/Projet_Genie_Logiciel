@@ -14,6 +14,7 @@ namespace Kitbox
     public partial class Tests : Form
     {
         VisualPart part;
+        Wardrobe wardrobe = null;
         Stack<VisualPart> parts;
         string view;
         public Tests()
@@ -29,6 +30,10 @@ namespace Kitbox
             part.ChangeScaling(screen.Size);
             screen.Controls.Add(part.Display()[view]);
             screen.Visible = true;
+            if (wardrobe == null)
+            {
+                AddBox.Visible = false;
+            }
         }
         //TestKnop
         public Knop TestKnop(int x, int y, Color color, string reference = "knop")
@@ -90,6 +95,7 @@ namespace Kitbox
 
         private void compute_Click(object sender, EventArgs e)
         {
+            wardrobe = null;
             switch (test_input.Text)
             {
                 case "vp_door"://VisualPart_Door
@@ -108,7 +114,9 @@ namespace Kitbox
                     part = TestBox(120, 36, 42).Visual_part;
                     break;
                 case "vp_wardrobe"://VisualPart_Wardrobe
-                    part = TestWardrobe(120, 36, 42).Visual_part;
+                    wardrobe = TestWardrobe(120, 36, 42);
+                    part = wardrobe.Visual_part;
+                    AddBox.Visible = true;
                     break;
             }
             try
@@ -216,6 +224,14 @@ namespace Kitbox
                 view = "front";
                 TestVisualPart(view);
             }
+        }
+
+        private void AddBox_Click(object sender, EventArgs e)
+        {
+            wardrobe.AddBox(36);
+            part = wardrobe.Visual_part;
+            view = "front";
+            TestVisualPart(view);
         }
     }
 }
