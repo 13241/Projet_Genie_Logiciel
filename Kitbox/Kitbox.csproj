@@ -68,9 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Angle.cs" />
-    <Compile Include="App.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="App.cs" />
     <Compile Include="App.Designer.cs">
       <DependentUpon>App.cs</DependentUpon>
     </Compile>
@@ -81,16 +79,12 @@
     <Compile Include="Dbconnect.cs" />
     <Compile Include="DbOrder.cs" />
     <Compile Include="Door.cs" />
-    <Compile Include="Tests.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Tests.cs" />
     <Compile Include="Tests.Designer.cs">
       <DependentUpon>Tests.cs</DependentUpon>
     </Compile>
     <Compile Include="textString.cs" />
-    <Compile Include="VPPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="VPPanel.cs" />
     <Compile Include="Knop.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="Panel.cs" />
@@ -99,15 +93,11 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rule.cs" />
-    <Compile Include="Viewer.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Viewer.cs" />
     <Compile Include="Viewer.Designer.cs">
       <DependentUpon>Viewer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Viewer2.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Viewer2.cs" />
     <Compile Include="Viewer2.Designer.cs">
       <DependentUpon>Viewer2.cs</DependentUpon>
     </Compile>
