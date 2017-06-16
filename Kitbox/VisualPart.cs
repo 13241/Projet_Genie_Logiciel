@@ -246,7 +246,8 @@ namespace Kitbox
         /*
          * 
          */
-        //
+        //InsertPiece
+        public
 
         /*
          * 
