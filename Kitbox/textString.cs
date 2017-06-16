@@ -22,9 +22,9 @@ namespace Kitbox
         public static string columnNames(string table)
         {
             string columns = "";
-            if (table == "component_table") { columns = "Id, Ref, Code, Dimensionscm, hauteur, profondeur, largeur, Couleur, Enstock, Stock_minimum, PrixClient, NbPiecescasier, PrixFourn_1, DelaiFourn_1, PrixFourn2, DelaiFourn2"; }
-            else if (table == "order_informations") { columns = "Order_id,CLient_Id,Date,Header_Bill,Footer_Bill"; }
-            else if (table == "client_table") { columns = "Client_Id,Firstname,Lastname,Phonenumber,Email,Password,Address,Favoris"; }
+            if (table == "component") { columns = "Id, Ref, Code, Dimensionscm, hauteur, profondeur, largeur, Couleur, Enstock, Stock_minimum, PrixClient, NbPiecescasier, PrixFourn_1, DelaiFourn_1, PrixFourn2, DelaiFourn2, Reserve"; }
+            else if (table == "orders") { columns = "Order_id,CLient_Id,Date,Header_Bill,Footer_Bill"; }
+            else if (table == "client") { columns = "Client_Id,Firstname,Lastname,Phonenumber,Email,Password,Address,Favoris"; }
             return columns;
         }
     }

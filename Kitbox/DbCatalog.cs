@@ -22,8 +22,25 @@ namespace Kitbox
 		public void DbUnBook(List<string> codes)
 		{
 		}
-		public Part DbSelectPart(Dictionary<string, object> selected_characteristics)
+		public Part DbSelectPart(Dictionary<string, string> selected_characteristics)
 		{
+            BDD database = new BDD("kitbox");
+            string selection = "*";
+            string table_name = "catalog";
+            string condition = "WHERE (";
+            int counter = 0;
+            foreach(string key in selected_characteristics.Keys)
+            {
+                counter++;
+                condition += key + "=" + selected_characteristics[key];
+                if(counter != selected_characteristics.Count)
+                {
+                    condition += "AND";
+                }
+            }
+            List<List<object>> result = database.readElement(selection, table_name, condition);
+            
+            
             return null;
 		}
 		public Dictionary<string, object> DbGetOptions(string reference)
