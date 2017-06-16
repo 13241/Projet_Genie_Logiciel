@@ -1,0 +1,7 @@
+accès aux 6 faces d'une visual part : toujours
+
+chaque face est la "premiere couche" de la représentation
+du visual part.
+
+on peut ajouter des éléments à ces faces (panel), 
+en choisir la position et la couleur (et la forme #cercle)

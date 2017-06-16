@@ -212,11 +212,8 @@ namespace Kitbox
                 VisualPart container = parts.Pop();
                 //part.ChangeScaling(container.Scaling);
                 string piece = container.ConvertToPosition(container.Pointer).Last();
-                foreach(KeyValuePair<string, VPPanel> view in part.Display())
-                {
-
-                }
-                panel.Controls.Add(part.Display()[part.ConvertToPosition(container.Pointer).First()]);
+                
+                //panel.Controls.Add(part.Display()[part.ConvertToPosition(container.Pointer).First()]);
                 part = container;
                 view = "front";
                 TestVisualPart(view);

@@ -20,8 +20,8 @@ namespace Kitbox
         private Size px_size; //size for the viewer (in pixels)
         private double scaling; //pixels per milimeter
         private HashSet<string> references; //references each panel of the VisualPart
-        private Dictionary<string, Tuple<VisualPart, HashSet<string>>> pieces;
-        //piece name, visualPart, every path to access the different views
+        private Dictionary<string, Tuple<VisualPart, Dictionary<string, string>>> pieces;
+        //piece name, visualPart, every path to access the different views, and the name of the view
 
         //EventAttributes
         private string pointer = "";
@@ -37,7 +37,7 @@ namespace Kitbox
         public VisualPart(Size px_size, Dictionary<string, Size> mm_sizes)
         {
             references = new HashSet<string>();
-            pieces = new Dictionary<string, Tuple<VisualPart, HashSet<string>>>();
+            pieces = new Dictionary<string, Tuple<VisualPart, Dictionary<string, string>>>();
             positions = new Dictionary<string, object>();
             scaling = 1;
             Action<object> RuleSelected = SelectPiece;
@@ -238,10 +238,15 @@ namespace Kitbox
          * 
          */
         //Pieces
-        public Dictionary<string, Tuple<VisualPart, HashSet<string>>> Pieces
+        public Dictionary<string, Tuple<VisualPart, Dictionary<string, string>>> Pieces
         {
             get { return pieces; }
         }
+
+        /*
+         * 
+         */
+        //
 
         /*
          * 
@@ -457,7 +462,7 @@ namespace Kitbox
         public void AddVisualPart(string name, VisualPart visual_part, Dictionary<string, string> views_names, Dictionary<string, Point> locations)
         {
             visual_part.ChangeScaling(scaling);
-            pieces.Add(name, new Tuple<VisualPart, HashSet<string>>(visual_part, new HashSet<string>()));
+            pieces.Add(name, new Tuple<VisualPart, Dictionary<string, string>>(visual_part, new Dictionary<string, string>()));
             foreach(string view in views_names.Keys)
             {
                 List<string> position = ConvertToPosition(views_names[view]);
@@ -467,7 +472,7 @@ namespace Kitbox
 
                 //container.BorderStyle = BorderStyle.FixedSingle;//MODIF wtf apparence bizarre?
 
-                pieces[name].Item2.Add(view_container);
+                pieces[name].Item2[view_container] = visual_part.Views[view].Name;
                 container.Controls.Add(visual_part.Views[view]);
                 OrderedDictionary size = new OrderedDictionary()
                 {
@@ -488,7 +493,7 @@ namespace Kitbox
         //RemoveVisualPart
         public void RemoveVisualPart(string name)
         {
-            foreach(string reference in pieces[name].Item2)
+            foreach(string reference in pieces[name].Item2.Keys)
             {
                 RemovePanel(name);
             }
