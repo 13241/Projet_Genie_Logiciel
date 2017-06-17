@@ -20,6 +20,7 @@ namespace Kitbox
             location = new Point3D(0, 0, 0);
 
             DefaultWardrobe();
+            Book();
         }
 
         public VisualPart Visual_part { get => visual_part; set => visual_part = value; }
@@ -29,6 +30,7 @@ namespace Kitbox
 
         public virtual void ChangeColor(string color)
         {
+            UnBook();
             string[] positions = Visual_part.Pointer.Split('_');
             string[] selection = positions.Last().Split('*');
             if (typeof(Box).IsInstanceOfType(Components[selection[0]][selection[1]]))
@@ -52,10 +54,12 @@ namespace Kitbox
                 ((Part)Components[selection[0]][selection[1]]).ConstructVisualPart();
             }
             DefaultWardrobe();
+            Book();
         }
 
         public virtual void ChangeSurface(double w, double d)
         {
+            UnBook();
             dimensions.X = w;
             dimensions.Z = d;
             for(int i = 1; i <= Components["Etage"].Count; i++)
@@ -64,10 +68,12 @@ namespace Kitbox
                 ((Box)Components["Etage"][Convert.ToString(i)]).DefaultBox();
             }
             DefaultWardrobe();
+            Book();
         }
 
         public virtual void RemoveBox(string position)
         {
+            UnBook();
             if (Components["Etage"].ContainsKey(position) && components["Etage"].Count > 1)
             {
                 int count = Components["Etage"].Count;
@@ -81,10 +87,12 @@ namespace Kitbox
                 AdjustHeight(Convert.ToString(Convert.ToInt32(position) - 1));
                 DefaultWardrobe();
             }
+            Book();
         }
 
         public virtual void ResizeBox(string position, double h)
         {
+            UnBook();
             if (Components["Etage"].ContainsKey(position))
             {
                 ((Box)Components["Etage"][position]).Dimensions = new Size3D(Dimensions.X, h, Dimensions.Z);
@@ -92,6 +100,7 @@ namespace Kitbox
                 AdjustHeight(position);
                 DefaultWardrobe();
             }
+            Book();
         }
 
         public virtual void AdjustHeight(string position = "0")
@@ -162,6 +171,7 @@ namespace Kitbox
 
         public virtual void AddBox(double h)
         {
+            UnBook();
             //resize Wardrobe 
             double location_newbox = Dimensions.Y;
             dimensions.Y = Dimensions.Y + h;
@@ -193,11 +203,11 @@ namespace Kitbox
                 { "top", new Point(Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(box.Position)]).Location.X), Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(box.Position)]).Location.Z)) },
                 { "bottom", new Point(Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(box.Position)]).Location.X), Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(box.Position)]).Location.Z)) }
             });
+            Book();
         }
 
         public virtual void DefaultWardrobe(Size3D dimensions_box = new Size3D())
         {
-            UnBook();
             if(dimensions_box.Equals(new Size3D()))
             {
                 dimensions_box = dimensions;
@@ -284,7 +294,6 @@ namespace Kitbox
             }
 
             ConstructVisualPart();
-            Book();
         }
 
         public virtual void ConstructVisualPart()

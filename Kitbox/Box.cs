@@ -95,7 +95,6 @@ namespace Kitbox
         {
             //MODIF interaction avec la base de données nécessaire : créer la méthode permettant de sélectionner une part
             //MODIF code temporaire pour éviter de devoir faire la base de données pour l'instant.
-            UnBook();
             //Panneau Ar
             Dictionary<string, string> spar = new Dictionary<string, string>()
             {
@@ -414,8 +413,6 @@ namespace Kitbox
 
             //Box
             ConstructVisualPart();
-
-            Book();
         }
 
         /*

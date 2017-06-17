@@ -26,7 +26,7 @@ namespace Kitbox
             {
                 if (Convert.ToInt32(result[0][0]) > Convert.ToInt32(result[0][1]))
                 {
-                    string modification = "Reserve = Reserve + " + Convert.ToString(1);
+                    string modification = "Reserve = '" + Convert.ToString(Convert.ToInt32(result[0][1]) + 1) +"'";
                     database.modifyElement(table_name, modification, Convert.ToString(result[0][2]));
                 }
             }
@@ -42,7 +42,7 @@ namespace Kitbox
             {
                 if (Convert.ToInt32(result[0][0]) > 0)
                 {
-                    string modification = "Reserve = Reserve - " + Convert.ToString(1);
+                    string modification = "Reserve = '" + Convert.ToString(Convert.ToInt32(result[0][0]) - 1) + "'";
                     database.modifyElement(table_name, modification, Convert.ToString(result[0][1]));
                 }
             }
