@@ -15,16 +15,42 @@ namespace Kitbox
 		public static void DbAddTostock(Dictionary<string, int> codes)
 		{
 		}
-		public static void DbBook(List<string> codes)
+		public static void DbBook(string code)
 		{
-		}
-		public static void DbUnBook(List<string> codes)
+            BDD database = new BDD("kitbox");
+            string selection = "Enstock, Reserve, Id";
+            string table_name = "catalog";
+            string condition = "WHERE (Code = '" + code + "');";
+            List<List<object>> result = database.readElement(selection, table_name, condition);
+            if(result.Count>0)
+            {
+                if (Convert.ToInt32(result[0][0]) > Convert.ToInt32(result[0][1]))
+                {
+                    string modification = "Reserve = Reserve + " + Convert.ToString(1);
+                    database.modifyElement(table_name, modification, Convert.ToString(result[0][2]));
+                }
+            }
+        }
+		public static void DbUnBook(string code)
 		{
-		}
+            BDD database = new BDD("kitbox");
+            string selection = "Reserve, Id";
+            string table_name = "catalog";
+            string condition = "WHERE (Code = '" + code + "');";
+            List<List<object>> result = database.readElement(selection, table_name, condition);
+            if (result.Count > 0)
+            {
+                if (Convert.ToInt32(result[0][0]) > 0)
+                {
+                    string modification = "Reserve = Reserve - " + Convert.ToString(1);
+                    database.modifyElement(table_name, modification, Convert.ToString(result[0][1]));
+                }
+            }
+        }
 		public static Part DbSelectPart(Dictionary<string, string> selected_characteristics, string order_by = "")
 		{
             BDD database = new BDD("kitbox");
-            string selection = "Ref, Code, hauteur, profondeur, largeur, Couleur, Stock_minimum, PrixClient";
+            string selection = "Ref, Code, hauteur, profondeur, largeur, Couleur, PrixClient";
             string table_name = "catalog";
             string condition = "WHERE (";
             int counter = 0;
@@ -53,8 +79,7 @@ namespace Kitbox
                     data["Code"] = Convert.ToString(result[0][1]);
                     data["Dimensions"] = new Size3D(Convert.ToDouble(result[0][4]), Convert.ToDouble(result[0][2]), Convert.ToDouble(result[0][3]));
                     data["Color"] = Color.FromName(TranslateColor(Convert.ToString(result[0][5])));
-                    data["Min_stock"] = Convert.ToInt32(result[0][6]);
-                    data["Selling_price"] = Convert.ToDouble(result[0][7]);
+                    data["Selling_price"] = Convert.ToDouble(result[0][6]);
 
                     if(Convert.ToString(result[0][0]).Contains("Panneau") || Convert.ToString(result[0][0]).Contains("Traverse"))
                     {

@@ -16,8 +16,6 @@ namespace Kitbox
         private Size3D dimensions;
         private Point3D location;
         private Color color;
-        private int stock;
-        private int min_stock;
         private double selling_price;
 
 
@@ -27,19 +25,8 @@ namespace Kitbox
             Dimensions = new Size3D(0, 0, 0);
             Location = new Point3D(0, 0, 0);
             Color = Color.Empty;
-            Stock = 0;
-            Min_stock = 0;
             Selling_price = 0;
             visual_part = null;
-
-            //MODIF???
-			//Dictionary that contains every suppliers
-
-			//Dictionary that contains every structure
-
-			//Dictionary that contains every Type
-
-
 		}
 
         public string Code { get => code; set => code = value; }
@@ -47,20 +34,9 @@ namespace Kitbox
         public Size3D Dimensions { get => dimensions; set => dimensions = value; }
         public Point3D Location { get => location; set => location = value; }
         public Color Color { get => color; set => color = value; }
-        public int Stock { get => stock; set => stock = value; }
-        public int Min_stock { get => min_stock; set => min_stock = value; }
         public double Selling_price { get => selling_price; set => selling_price = value; }
         public VisualPart Visual_part { get => visual_part; set => visual_part = value; }
         public string Position { get => position; set => position = value; }
-
-        public bool IsAvailable(int number)
-        {
-            if (number < Stock)
-            {
-                return false;
-            }
-            return true;
-        }
 
         public abstract void ConstructVisualPart();
 

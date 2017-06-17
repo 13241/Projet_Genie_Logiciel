@@ -47,7 +47,6 @@ namespace Kitbox
             Dictionary<string, object> data = new Dictionary<string, object>();
             data["Code"] = requested.Code;
             data["Color"] = requested.Color;
-            data["Min_stock"] = requested.Min_stock;
             data["Selling_price"] = requested.Selling_price;
             Pieces[selection[0]][selection[1]].SetData(data);
             Pieces[selection[0]][selection[1]].ConstructVisualPart();
