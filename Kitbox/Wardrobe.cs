@@ -40,7 +40,9 @@ namespace Kitbox
             box.DefaultBox();
             Components["Etage"][box.Position] = box;
             //visualPart
-            visual_part.AddVisualPart("Etage*"+box.Position, ((Box)Components["Etage"][box.Position]).Visual_part,
+            for(int i = 2; i <= Convert.ToInt32(box.Position); i++)
+            {
+                visual_part.AddVisualPart("Etage*" + Convert.ToString(i), ((Box)Components["Etage"][Convert.ToString(i)]).Visual_part,
                 new Dictionary<string, string>()
                 {
                     { "front", "front" },
@@ -52,13 +54,14 @@ namespace Kitbox
                 },
                 new Dictionary<string, Point>()
                 {
-                    { "front", new Point(Convert.ToInt32(((Box)Components["Etage"][box.Position]).Location.X), Convert.ToInt32(((Box)Components["Etage"][box.Position]).Location.Y)) },
-                    { "left", new Point(Convert.ToInt32(((Box)Components["Etage"][box.Position]).Location.Z), Convert.ToInt32(((Box)Components["Etage"][box.Position]).Location.Y)) },
-                    { "right", new Point(Convert.ToInt32(((Box)Components["Etage"][box.Position]).Location.Z), Convert.ToInt32(((Box)Components["Etage"][box.Position]).Location.Y)) },
-                    { "rear", new Point(Convert.ToInt32(((Box)Components["Etage"][box.Position]).Location.X), Convert.ToInt32(((Box)Components["Etage"][box.Position]).Location.Y)) },
-                    { "top", new Point(Convert.ToInt32(((Box)Components["Etage"][box.Position]).Location.X), Convert.ToInt32(((Box)Components["Etage"][box.Position]).Location.Z)) },
-                    { "bottom", new Point(Convert.ToInt32(((Box)Components["Etage"][box.Position]).Location.X), Convert.ToInt32(((Box)Components["Etage"][box.Position]).Location.Z)) }
+                    { "front", new Point(Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(i)]).Location.X), Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(i)]).Location.Y)) },
+                    { "left", new Point(Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(i)]).Location.Z), Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(i)]).Location.Y)) },
+                    { "right", new Point(Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(i)]).Location.Z), Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(i)]).Location.Y)) },
+                    { "rear", new Point(Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(i)]).Location.X), Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(i)]).Location.Y)) },
+                    { "top", new Point(Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(i)]).Location.X), Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(i)]).Location.Z)) },
+                    { "bottom", new Point(Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(i)]).Location.X), Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(i)]).Location.Z)) }
                 });
+            }
         }
 
         public virtual void DefaultWardrobe(Size3D dimensions_box = new Size3D())
@@ -123,16 +126,12 @@ namespace Kitbox
                 { cag.Position, cag }
             };
             //Box
-            Box box = new Box(dimensions_box);
-            box.Location = new Point3D(0, 0, 0);
-            box.Position = "1";
-            box.DefaultBox();
-            if(Components.ContainsKey("Etage"))
+            if(!Components.ContainsKey("Etage"))
             {
-                Components["Etage"][box.Position] = box;
-            }
-            else
-            {
+                Box box = new Box(dimensions_box);
+                box.Location = new Point3D(0, 0, 0);
+                box.Position = "1";
+                box.DefaultBox();
                 Components["Etage"] = new Dictionary<string, object>()
                 {
                     { box.Position, box }
