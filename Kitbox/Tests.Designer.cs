@@ -39,6 +39,7 @@
             this.UNZOOM = new System.Windows.Forms.Button();
             this.AddBox = new System.Windows.Forms.Button();
             this.ChangeSurface = new System.Windows.Forms.Button();
+            this.RemoveBox = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // screen
@@ -149,11 +150,23 @@
             this.ChangeSurface.Visible = false;
             this.ChangeSurface.Click += new System.EventHandler(this.ChangeSurface_Click);
             // 
+            // RemoveBox
+            // 
+            this.RemoveBox.Location = new System.Drawing.Point(12, 321);
+            this.RemoveBox.Name = "RemoveBox";
+            this.RemoveBox.Size = new System.Drawing.Size(75, 23);
+            this.RemoveBox.TabIndex = 11;
+            this.RemoveBox.Text = "RemoveBox";
+            this.RemoveBox.UseVisualStyleBackColor = true;
+            this.RemoveBox.Visible = false;
+            this.RemoveBox.Click += new System.EventHandler(this.RemoveBox_Click);
+            // 
             // Tests
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(533, 358);
+            this.Controls.Add(this.RemoveBox);
             this.Controls.Add(this.ChangeSurface);
             this.Controls.Add(this.AddBox);
             this.Controls.Add(this.UNZOOM);
@@ -185,5 +198,6 @@
         private System.Windows.Forms.Button UNZOOM;
         private System.Windows.Forms.Button AddBox;
         private System.Windows.Forms.Button ChangeSurface;
+        private System.Windows.Forms.Button RemoveBox;
     }
 }

@@ -38,6 +38,44 @@ namespace Kitbox
             DefaultWardrobe();
         }
 
+        public virtual void RemoveBox(string position)
+        {
+            if (Components["Etage"].ContainsKey(position) && components["Etage"].Count > 1)
+            {
+                int count = Components["Etage"].Count;
+                Components["Etage"].Remove(position);
+                for (int i = Convert.ToInt32(position)+1; i<=count; i++)
+                {
+                    Components["Etage"][Convert.ToString(i - 1)] = Components["Etage"][Convert.ToString(i)];
+                    ((Box)Components["Etage"][Convert.ToString(i - 1)]).Position = Convert.ToString(i - 1);
+                }
+                Components["Etage"].Remove(Convert.ToString(count));
+                AdjustHeight(Convert.ToString(Convert.ToInt32(position) - 1));
+                DefaultWardrobe();
+            }
+        }
+
+        public virtual void AdjustHeight(string position = "0")
+        {
+            double height = 0; 
+            if (position == "0")
+            {
+                position = Convert.ToString(Convert.ToInt32(position) + 1);
+                ((Box)Components["Etage"]["1"]).Location = new Point3D(0, 0, 0);
+                height += ((Box)Components["Etage"]["1"]).Dimensions.Y;
+            }
+            else
+            {
+                height = ((Box)Components["Etage"][position]).Location.Y + ((Box)Components["Etage"][position]).Dimensions.Y;
+            }
+            for (int i = Convert.ToInt32(position) + 1; i <= Components["Etage"].Count; i++)
+            {
+                ((Box)Components["Etage"][Convert.ToString(i)]).Location = new Point3D(0, ((Box)Components["Etage"][Convert.ToString(i-1)]).Dimensions.Y + ((Box)Components["Etage"][Convert.ToString(i - 1)]).Location.Y, 0);
+                height += ((Box)Components["Etage"][Convert.ToString(i)]).Dimensions.Y;
+            }
+            dimensions.Y = height;
+        }
+
         public virtual void AddBox(double h)
         {
             //resize Wardrobe 
