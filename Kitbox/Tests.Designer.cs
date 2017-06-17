@@ -40,6 +40,7 @@
             this.AddBox = new System.Windows.Forms.Button();
             this.ChangeSurface = new System.Windows.Forms.Button();
             this.RemoveBox = new System.Windows.Forms.Button();
+            this.ResizeBox = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // screen
@@ -161,11 +162,23 @@
             this.RemoveBox.Visible = false;
             this.RemoveBox.Click += new System.EventHandler(this.RemoveBox_Click);
             // 
+            // ResizeBox
+            // 
+            this.ResizeBox.Location = new System.Drawing.Point(93, 321);
+            this.ResizeBox.Name = "ResizeBox";
+            this.ResizeBox.Size = new System.Drawing.Size(75, 23);
+            this.ResizeBox.TabIndex = 12;
+            this.ResizeBox.Text = "ResizeBox";
+            this.ResizeBox.UseVisualStyleBackColor = true;
+            this.ResizeBox.Visible = false;
+            this.ResizeBox.Click += new System.EventHandler(this.ResizeBox_Click);
+            // 
             // Tests
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(533, 358);
+            this.Controls.Add(this.ResizeBox);
             this.Controls.Add(this.RemoveBox);
             this.Controls.Add(this.ChangeSurface);
             this.Controls.Add(this.AddBox);
@@ -199,5 +212,6 @@
         private System.Windows.Forms.Button AddBox;
         private System.Windows.Forms.Button ChangeSurface;
         private System.Windows.Forms.Button RemoveBox;
+        private System.Windows.Forms.Button ResizeBox;
     }
 }

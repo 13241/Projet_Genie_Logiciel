@@ -55,6 +55,17 @@ namespace Kitbox
             }
         }
 
+        public virtual void ResizeBox(string position, double h)
+        {
+            if (Components["Etage"].ContainsKey(position))
+            {
+                ((Box)Components["Etage"][position]).Dimensions = new Size3D(Dimensions.X, h, Dimensions.Z);
+                ((Box)Components["Etage"][position]).DefaultBox();
+                AdjustHeight(position);
+                DefaultWardrobe();
+            }
+        }
+
         public virtual void AdjustHeight(string position = "0")
         {
             double height = 0; 

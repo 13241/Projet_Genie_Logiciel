@@ -35,6 +35,7 @@ namespace Kitbox
                 AddBox.Visible = false;
                 ChangeSurface.Visible = false;
                 RemoveBox.Visible = false;
+                ResizeBox.Visible = false;
             }
         }
         //TestKnop
@@ -121,6 +122,7 @@ namespace Kitbox
                     AddBox.Visible = true;
                     ChangeSurface.Visible = true;
                     RemoveBox.Visible = true;
+                    ResizeBox.Visible = true;
                     break;
             }
             try
@@ -250,6 +252,15 @@ namespace Kitbox
         {
             string position = wardrobe.Visual_part.Pointer.Split('*').Last();
             wardrobe.RemoveBox(position);
+            part = wardrobe.Visual_part;
+            view = "front";
+            TestVisualPart(view);
+        }
+
+        private void ResizeBox_Click(object sender, EventArgs e)
+        {
+            string position = wardrobe.Visual_part.Pointer.Split('*').Last();
+            wardrobe.ResizeBox(position, 56);
             part = wardrobe.Visual_part;
             view = "front";
             TestVisualPart(view);
