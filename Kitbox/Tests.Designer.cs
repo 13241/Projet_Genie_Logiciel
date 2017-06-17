@@ -38,6 +38,7 @@
             this.ZOOM = new System.Windows.Forms.Button();
             this.UNZOOM = new System.Windows.Forms.Button();
             this.AddBox = new System.Windows.Forms.Button();
+            this.ChangeSurface = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // screen
@@ -137,11 +138,23 @@
             this.AddBox.Visible = false;
             this.AddBox.Click += new System.EventHandler(this.AddBox_Click);
             // 
+            // ChangeSurface
+            // 
+            this.ChangeSurface.Location = new System.Drawing.Point(93, 292);
+            this.ChangeSurface.Name = "ChangeSurface";
+            this.ChangeSurface.Size = new System.Drawing.Size(75, 23);
+            this.ChangeSurface.TabIndex = 10;
+            this.ChangeSurface.Text = "ChangeSurface";
+            this.ChangeSurface.UseVisualStyleBackColor = true;
+            this.ChangeSurface.Visible = false;
+            this.ChangeSurface.Click += new System.EventHandler(this.ChangeSurface_Click);
+            // 
             // Tests
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(533, 358);
+            this.Controls.Add(this.ChangeSurface);
             this.Controls.Add(this.AddBox);
             this.Controls.Add(this.UNZOOM);
             this.Controls.Add(this.ZOOM);
@@ -171,5 +184,6 @@
         private System.Windows.Forms.Button ZOOM;
         private System.Windows.Forms.Button UNZOOM;
         private System.Windows.Forms.Button AddBox;
+        private System.Windows.Forms.Button ChangeSurface;
     }
 }

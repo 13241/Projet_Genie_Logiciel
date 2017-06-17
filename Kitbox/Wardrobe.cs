@@ -26,6 +26,18 @@ namespace Kitbox
         public Point3D Location { get => location; set => location = value; }
         public Dictionary<string, Dictionary<string, object>> Components { get => components; }
 
+        public virtual void ChangeSurface(double w, double d)
+        {
+            dimensions.X = w;
+            dimensions.Z = d;
+            for(int i = 1; i <= Components["Etage"].Count; i++)
+            {
+                ((Box)Components["Etage"][Convert.ToString(i)]).Dimensions = new Size3D(Dimensions.X, ((Box)Components["Etage"][Convert.ToString(i)]).Dimensions.Y, Dimensions.Z);
+                ((Box)Components["Etage"][Convert.ToString(i)]).DefaultBox();
+            }
+            DefaultWardrobe();
+        }
+
         public virtual void AddBox(double h)
         {
             //resize Wardrobe 
@@ -40,28 +52,25 @@ namespace Kitbox
             box.DefaultBox();
             Components["Etage"][box.Position] = box;
             //visualPart
-            for(int i = 2; i <= Convert.ToInt32(box.Position); i++)
+            visual_part.AddVisualPart("Etage*" + Convert.ToString(box.Position), ((Box)Components["Etage"][Convert.ToString(box.Position)]).Visual_part,
+            new Dictionary<string, string>()
             {
-                visual_part.AddVisualPart("Etage*" + Convert.ToString(i), ((Box)Components["Etage"][Convert.ToString(i)]).Visual_part,
-                new Dictionary<string, string>()
-                {
-                    { "front", "front" },
-                    { "left", "left" },
-                    { "right", "right" },
-                    { "rear", "rear" },
-                    { "top", "top" },
-                    { "bottom", "bottom" }
-                },
-                new Dictionary<string, Point>()
-                {
-                    { "front", new Point(Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(i)]).Location.X), Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(i)]).Location.Y)) },
-                    { "left", new Point(Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(i)]).Location.Z), Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(i)]).Location.Y)) },
-                    { "right", new Point(Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(i)]).Location.Z), Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(i)]).Location.Y)) },
-                    { "rear", new Point(Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(i)]).Location.X), Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(i)]).Location.Y)) },
-                    { "top", new Point(Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(i)]).Location.X), Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(i)]).Location.Z)) },
-                    { "bottom", new Point(Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(i)]).Location.X), Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(i)]).Location.Z)) }
-                });
-            }
+                { "front", "front" },
+                { "left", "left" },
+                { "right", "right" },
+                { "rear", "rear" },
+                { "top", "top" },
+                { "bottom", "bottom" }
+            },
+            new Dictionary<string, Point>()
+            {
+                { "front", new Point(Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(box.Position)]).Location.X), Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(box.Position)]).Location.Y)) },
+                { "left", new Point(Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(box.Position)]).Location.Z), Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(box.Position)]).Location.Y)) },
+                { "right", new Point(Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(box.Position)]).Location.Z), Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(box.Position)]).Location.Y)) },
+                { "rear", new Point(Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(box.Position)]).Location.X), Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(box.Position)]).Location.Y)) },
+                { "top", new Point(Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(box.Position)]).Location.X), Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(box.Position)]).Location.Z)) },
+                { "bottom", new Point(Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(box.Position)]).Location.X), Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(box.Position)]).Location.Z)) }
+            });
         }
 
         public virtual void DefaultWardrobe(Size3D dimensions_box = new Size3D())
@@ -205,7 +214,9 @@ namespace Kitbox
                     { "left", new Point(Convert.ToInt32(((Part)Components["Cornieres"]["ArG"]).Location.X), Convert.ToInt32(((Part)Components["Cornieres"]["ArG"]).Location.Y)) }
                 });
             //Box
-            visual_part.AddVisualPart("Etage*1", ((Box)Components["Etage"]["1"]).Visual_part,
+            for (int i = 1; i <= Components["Etage"].Count; i++)
+            {
+                visual_part.AddVisualPart("Etage*" + Convert.ToString(i), ((Box)Components["Etage"][Convert.ToString(i)]).Visual_part,
                 new Dictionary<string, string>()
                 {
                     { "front", "front" },
@@ -217,13 +228,14 @@ namespace Kitbox
                 },
                 new Dictionary<string, Point>()
                 {
-                    { "front", new Point(Convert.ToInt32(((Box)Components["Etage"]["1"]).Location.X), Convert.ToInt32(((Box)Components["Etage"]["1"]).Location.Y)) },
-                    { "left", new Point(Convert.ToInt32(((Box)Components["Etage"]["1"]).Location.Z), Convert.ToInt32(((Box)Components["Etage"]["1"]).Location.Y)) },
-                    { "right", new Point(Convert.ToInt32(((Box)Components["Etage"]["1"]).Location.Z), Convert.ToInt32(((Box)Components["Etage"]["1"]).Location.Y)) },
-                    { "rear", new Point(Convert.ToInt32(((Box)Components["Etage"]["1"]).Location.X), Convert.ToInt32(((Box)Components["Etage"]["1"]).Location.Y)) },
-                    { "top", new Point(Convert.ToInt32(((Box)Components["Etage"]["1"]).Location.X), Convert.ToInt32(((Box)Components["Etage"]["1"]).Location.Z)) },
-                    { "bottom", new Point(Convert.ToInt32(((Box)Components["Etage"]["1"]).Location.X), Convert.ToInt32(((Box)Components["Etage"]["1"]).Location.Z)) }
+                    { "front", new Point(Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(i)]).Location.X), Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(i)]).Location.Y)) },
+                    { "left", new Point(Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(i)]).Location.Z), Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(i)]).Location.Y)) },
+                    { "right", new Point(Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(i)]).Location.Z), Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(i)]).Location.Y)) },
+                    { "rear", new Point(Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(i)]).Location.X), Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(i)]).Location.Y)) },
+                    { "top", new Point(Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(i)]).Location.X), Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(i)]).Location.Z)) },
+                    { "bottom", new Point(Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(i)]).Location.X), Convert.ToInt32(((Box)Components["Etage"][Convert.ToString(i)]).Location.Z)) }
                 });
+            }
         }
     }
 }
