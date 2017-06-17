@@ -132,9 +132,7 @@ namespace Kitbox
             Part cag = DbCatalog.DbSelectPart(new Dictionary<string, string>()
             {
                 { "Ref", "Cornieres" },
-                { "largeur", Convert.ToString(2) },
-                { "hauteur", Convert.ToString(Dimensions.Y) },
-                { "profondeur", Convert.ToString(2) },
+                { "hauteur>", Convert.ToString(Dimensions.Y) },
                 { "couleur", "Noir" }
             });
             cag.Location = new Point3D(0, 0, Dimensions.Z-2);
@@ -144,9 +142,7 @@ namespace Kitbox
             Part cad = DbCatalog.DbSelectPart(new Dictionary<string, string>()
             {
                 { "Ref", "Cornieres" },
-                { "largeur", Convert.ToString(2) },
-                { "hauteur", Convert.ToString(Dimensions.Y) },
-                { "profondeur", Convert.ToString(2) },
+                { "hauteur>", Convert.ToString(Dimensions.Y) },
                 { "couleur", "Noir" }
             });
             cad.Location = new Point3D(Dimensions.X - 2, 0, 0);
@@ -156,9 +152,7 @@ namespace Kitbox
             Part crg = DbCatalog.DbSelectPart(new Dictionary<string, string>()
             {
                 { "Ref", "Cornieres" },
-                { "largeur", Convert.ToString(2) },
-                { "hauteur", Convert.ToString(Dimensions.Y) },
-                { "profondeur", Convert.ToString(2) },
+                { "hauteur>", Convert.ToString(Dimensions.Y) },
                 { "couleur", "Noir" }
             });
             crg.Location = new Point3D(Dimensions.X - 2, 0, 0);
@@ -168,9 +162,7 @@ namespace Kitbox
             Part crd = DbCatalog.DbSelectPart(new Dictionary<string, string>()
             {
                 { "Ref", "Cornieres" },
-                { "largeur", Convert.ToString(2) },
-                { "hauteur", Convert.ToString(Dimensions.Y) },
-                { "profondeur", Convert.ToString(2) },
+                { "hauteur>", Convert.ToString(Dimensions.Y) },
                 { "couleur", "Noir" }
             });
             crd.Location = new Point3D(0, 0, Dimensions.Z - 2);

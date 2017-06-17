@@ -21,7 +21,7 @@ namespace Kitbox
 		public static void DbUnBook(List<string> codes)
 		{
 		}
-		public static Part DbSelectPart(Dictionary<string, string> selected_characteristics)
+		public static Part DbSelectPart(Dictionary<string, string> selected_characteristics, string order_by = "")
 		{
             BDD database = new BDD("kitbox");
             string selection = "Ref, Code, hauteur, profondeur, largeur, Couleur, Stock_minimum, PrixClient";
@@ -31,13 +31,17 @@ namespace Kitbox
             foreach(string key in selected_characteristics.Keys)
             {
                 counter++;
-                condition += key + "= '" + selected_characteristics[key] +"'";
+                condition += key + "='" + selected_characteristics[key] +"'";
                 if(counter != selected_characteristics.Count)
                 {
                     condition += " AND ";
                 }
             }
             condition += ")";
+            if(order_by != "")
+            {
+
+            }
             Part request = null;
             List<List<object>> result = database.readElement(selection, table_name, condition);
             if(result.Count > 0)
