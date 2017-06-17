@@ -27,7 +27,7 @@ namespace Kitbox
         }
 
         public VisualPart Visual_part { get => visual_part; }
-        public Size3D Dimensions { get => dimensions; }
+        public Size3D Dimensions { get => dimensions; set => dimensions = value; }
         public Point3D Location { get => location; set => location = value; }
         public Dictionary<string, Dictionary<string, Part>> Pieces { get => pieces; }
         public string Position { get => position; set => position = value; }

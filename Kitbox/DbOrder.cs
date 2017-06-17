@@ -14,7 +14,7 @@ namespace Kitbox
         {
             string columnNames = "Order_Id, Client_Id, Date, Header_Bill, Footer_Bill";
             string tableName = "order_informations";
-            string Client_Id = order.GetCurrentClient.Id.ToString();
+            string Client_Id = order.CurrentClient.Id.ToString();
             BDD database = new BDD("kitbox");
             DateTime date = DateTime.Now;
             string dateString = date.ToString();

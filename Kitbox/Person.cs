@@ -21,11 +21,11 @@ namespace Kitbox
             this.address.Add("Postal code", null);
         }
 
-        public string FirstName { get => firstname; set => firstname = value; }
+        public string Firstname { get => firstname; set => firstname = value; }
 
-        public string LastName { get => lastname; set => lastname = value; }
+        public string Lastname { get => lastname; set => lastname = value; }
 
-        public int PhoneNumber { get => phone_number; set => phone_number = value; }
+        public int Phone_number { get => phone_number; set => phone_number = value; }
 
         public string Email { get => email; set => email = value; }
 

@@ -25,14 +25,6 @@ namespace Kitbox
         public Size3D Dimensions { get => dimensions; set
             {
                 dimensions = value;
-                /*
-                Visual_part.EnlargeView("front", new Size(Convert.ToInt32(Dimensions.X), Convert.ToInt32(Dimensions.Y)));
-                Visual_part.EnlargeView("rear", new Size(Convert.ToInt32(Dimensions.X), Convert.ToInt32(Dimensions.Y)));
-                Visual_part.EnlargeView("left", new Size(Convert.ToInt32(Dimensions.Z), Convert.ToInt32(Dimensions.Y)));
-                Visual_part.EnlargeView("right", new Size(Convert.ToInt32(Dimensions.Z), Convert.ToInt32(Dimensions.Y)));
-                Visual_part.EnlargeView("top", new Size(Convert.ToInt32(Dimensions.X), Convert.ToInt32(Dimensions.Z)));
-                Visual_part.EnlargeView("bottom", new Size(Convert.ToInt32(Dimensions.X), Convert.ToInt32(Dimensions.Z)));
-                */
             } }
         public Point3D Location { get => location; set => location = value; }
         public Dictionary<string, Dictionary<string, object>> Components { get => components; }
@@ -67,8 +59,12 @@ namespace Kitbox
                 });
         }
 
-        public virtual void DefaultWardrobe()
+        public virtual void DefaultWardrobe(Size3D dimensions_box = new Size3D())
         {
+            if(dimensions_box.Equals(new Size3D()))
+            {
+                dimensions_box = dimensions;
+            }
             //Corniere AvG
             Part cag = DbCatalog.DbSelectPart(new Dictionary<string, string>()
             {
@@ -125,7 +121,7 @@ namespace Kitbox
                 { cag.Position, cag }
             };
             //Box
-            Box box = new Box(dimensions);
+            Box box = new Box(dimensions_box);
             box.Location = new Point3D(0, 0, 0);
             box.Position = "1";
             box.DefaultBox();
