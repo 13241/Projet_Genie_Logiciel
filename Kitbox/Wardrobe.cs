@@ -115,6 +115,51 @@ namespace Kitbox
             dimensions.Y = height;
         }
 
+        public virtual void Book(bool buy = false)
+        {
+            foreach(string name in Components.Keys)
+            {
+                foreach(string position in Components[name].Keys)
+                {
+                    if(typeof(Part).IsInstanceOfType(Components[name][position]))
+                    {
+                        if(!buy)
+                        {
+                            DbCatalog.DbBook(((Part)Components[name][position]).Code);
+                        }
+                        else
+                        {
+                            //MODIF (buy)
+                        }
+                    }
+                    else
+                    {
+                        ((Box)Components[name][position]).Book(buy);
+                    }
+                    
+                }
+            }
+        }
+
+        public virtual void UnBook()
+        {
+            foreach (string name in Components.Keys)
+            {
+                foreach (string position in Components[name].Keys)
+                {
+                    if (typeof(Part).IsInstanceOfType(Components[name][position]))
+                    {
+                        DbCatalog.DbUnBook(((Part)Components[name][position]).Code);
+                    }
+                    else
+                    {
+                        ((Box)Components[name][position]).UnBook();
+                    }
+
+                }
+            }
+        }
+
         public virtual void AddBox(double h)
         {
             //resize Wardrobe 
@@ -152,6 +197,7 @@ namespace Kitbox
 
         public virtual void DefaultWardrobe(Size3D dimensions_box = new Size3D())
         {
+            UnBook();
             if(dimensions_box.Equals(new Size3D()))
             {
                 dimensions_box = dimensions;
@@ -238,6 +284,7 @@ namespace Kitbox
             }
 
             ConstructVisualPart();
+            Book();
         }
 
         public virtual void ConstructVisualPart()

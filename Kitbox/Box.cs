@@ -50,13 +50,48 @@ namespace Kitbox
             data["Selling_price"] = requested.Selling_price;
             Pieces[selection[0]][selection[1]].SetData(data);
             Pieces[selection[0]][selection[1]].ConstructVisualPart();
-            ConstructVisualPart();
+            DefaultBox();
+        }
+
+        public virtual void Book(bool buy = false)
+        {
+            foreach (string name in Pieces.Keys)
+            {
+                foreach (string position in Pieces[name].Keys)
+                {
+                    if (!buy)
+                    {
+                        DbCatalog.DbBook(Pieces[name][position].Code);
+                        if(typeof(Door).IsInstanceOfType(Pieces[name][position]) && ((Door)Pieces[name][position]).Knop != null)
+                        {
+                            DbCatalog.DbBook(((Door)Pieces[name][position]).Knop.Code);
+                        }
+                    }
+                    else
+                    {
+                        //MODIF (buy)
+                    }
+
+                }
+            }
+        }
+
+        public virtual void UnBook()
+        {
+            foreach (string name in Pieces.Keys)
+            {
+                foreach (string position in Pieces[name].Keys)
+                {
+                    DbCatalog.DbUnBook(Pieces[name][position].Code);
+                }
+            }
         }
 
         public virtual void DefaultBox()
         {
             //MODIF interaction avec la base de données nécessaire : créer la méthode permettant de sélectionner une part
             //MODIF code temporaire pour éviter de devoir faire la base de données pour l'instant.
+            UnBook();
             //Panneau Ar
             Dictionary<string, string> spar = new Dictionary<string, string>()
             {
@@ -375,6 +410,8 @@ namespace Kitbox
 
             //Box
             ConstructVisualPart();
+
+            Book();
         }
 
         /*
