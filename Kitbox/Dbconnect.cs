@@ -19,9 +19,9 @@ namespace Kitbox
             Person person = new Person();
             person.Id = id;
             person.Password = password;
-            person.Firstname = Convert.ToString(list[0][1]);
-            person.Lastname = Convert.ToString(list[0][2]);
-            person.Phone_number = Convert.ToInt32(list[0][3]);
+            person.FirstName = Convert.ToString(list[0][1]);
+            person.LastName = Convert.ToString(list[0][2]);
+            person.PhoneNumber = Convert.ToInt32(list[0][3]);
             person.Email = Convert.ToString(list[0][4]);
             String[] split = Convert.ToString(list[0][6]).Split(';');
             person.Address["Street"] = split[0];
@@ -50,9 +50,9 @@ namespace Kitbox
 		public static void DbAddClient(Person person)
 		{
 			BDD database = new BDD("kitbox");
-			string firstname = person.Firstname;
-			string lastname = person.Lastname;
-			int phonenumber = person.Phone_number;
+			string firstname = person.FirstName;
+			string lastname = person.LastName;
+			int phonenumber = person.PhoneNumber;
 			string email = person.Email;
 			int id = person.Id;
 			string password = person.Password;
@@ -65,7 +65,7 @@ namespace Kitbox
             BDD database = new BDD("kitbox");
 			string tableName = "client";
 			string columnNames = "Password";
-            string condtion = string.Format("WHERE (Client_Id = {0})", id);
+            string condtion = string.Format("WHERE (Client_Id = '{0}')", id);
             List<List<object>> list = new List<List<object>>();
             list = database.readElement(columnNames, tableName, condtion);
             if(list.Count == 0)
@@ -83,36 +83,34 @@ namespace Kitbox
 		}
 
 
-        public static bool searchClient(int id)
+        public static Person searchClient(int id)
 		{
             BDD database = new BDD("kitbox");
 			string tableName = "client";
-			string columnNames = "Client_Id";
-            string condtion = string.Format("WHERE (Client_Id = {0})", id);
+			string columnNames = "Firstname,Lastname";
+            string condtion = string.Format("WHERE (Client_Id = '{0}')", id);
             List<List<object>> list = new List<List<object>>();
             list = database.readElement(columnNames, tableName, condtion);
 
-            if(list.Count == 0)
+            Person person = new Person();
+            if (list.Count == 0)
             {
-                return false;
+                return null;
             }
             else
             {
-                if (Convert.ToString(list[0][0]) == id.ToString())
-                {
-                    return true;
-                }
-            }
-            return false;
-		}
-
-
+                person.FirstName = Convert.ToString(list[0][0]);
+                person.LastName = Convert.ToString(list[0][1]);
+                return person;
+            }         
+            
+        }
 
 
 		public static bool DblsEmployee(int id, string password)
 		{
 			BDD database = new BDD("kitbox");
-			List<List<object>> result = database.readElement("Seller_Id, Password", "seller", "WHERE Seller_Id=" + id);
+			List<List<object>> result = database.readElement("Seller_Id, Password", "seller", "WHERE Seller_Id='" + id + "'");
 			if (result.Count == 0)
 			{
 				return false;

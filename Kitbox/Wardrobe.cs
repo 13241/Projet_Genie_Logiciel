@@ -22,18 +22,20 @@ namespace Kitbox
         }
 
         public VisualPart Visual_part { get => visual_part; set => visual_part = value; }
-        public Size3D Dimensions { get => dimensions; set
-            {
-                dimensions = value;
-            } }
+        public Size3D Dimensions { get => dimensions; set => dimensions = value; }
         public Point3D Location { get => location; set => location = value; }
         public Dictionary<string, Dictionary<string, object>> Components { get => components; }
 
         public virtual void AddBox(double h)
         {
+            //resize Wardrobe 
+            double location_newbox = Dimensions.Y;
+            dimensions.Y = Dimensions.Y + h;
+            Size3D dimensions_box = new Size3D(Dimensions.X, h, Dimensions.Z);
+            DefaultWardrobe(dimensions_box);
             //component
-            Box box = new Box(new Size3D(Dimensions.X, h, Dimensions.Z));
-            box.Location = new Point3D(0, Dimensions.Y, 0);
+            Box box = new Box(dimensions_box);
+            box.Location = new Point3D(0, location_newbox, 0);
             box.Position = Convert.ToString(Components["Etage"].Count + 1);
             box.DefaultBox();
             Components["Etage"][box.Position] = box;
@@ -125,10 +127,17 @@ namespace Kitbox
             box.Location = new Point3D(0, 0, 0);
             box.Position = "1";
             box.DefaultBox();
-            Components["Etage"] = new Dictionary<string, object>()
+            if(Components.ContainsKey("Etage"))
             {
-                { box.Position, box }
-            };
+                Components["Etage"][box.Position] = box;
+            }
+            else
+            {
+                Components["Etage"] = new Dictionary<string, object>()
+                {
+                    { box.Position, box }
+                };
+            }
 
             ConstructVisualPart();
         }
