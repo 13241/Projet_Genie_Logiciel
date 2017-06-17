@@ -40,7 +40,7 @@ namespace Kitbox
             condition += ")";
             if(order_by != "")
             {
-
+                condition += "ORDER BY " + order_by + ";";
             }
             Part request = null;
             List<List<object>> result = database.readElement(selection, table_name, condition);

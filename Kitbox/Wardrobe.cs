@@ -134,9 +134,10 @@ namespace Kitbox
                 { "Ref", "Cornieres" },
                 { "hauteur>", Convert.ToString(Dimensions.Y) },
                 { "couleur", "Noir" }
-            });
+            }, "hauteur ASC");
             cag.Location = new Point3D(0, 0, Dimensions.Z-2);
             cag.Position = "AvG";
+            ((Angle)cag).Cut_height = cag.Dimensions.Y - Dimensions.Y;
             cag.ConstructVisualPart();
             //Corniere AvD
             Part cad = DbCatalog.DbSelectPart(new Dictionary<string, string>()
@@ -144,9 +145,10 @@ namespace Kitbox
                 { "Ref", "Cornieres" },
                 { "hauteur>", Convert.ToString(Dimensions.Y) },
                 { "couleur", "Noir" }
-            });
+            }, "hauteur ASC");
             cad.Location = new Point3D(Dimensions.X - 2, 0, 0);
             cad.Position = "AvD";
+            ((Angle)cag).Cut_height = cag.Dimensions.Y - Dimensions.Y;
             cad.ConstructVisualPart();
             //Corniere ArG
             Part crg = DbCatalog.DbSelectPart(new Dictionary<string, string>()
@@ -154,9 +156,10 @@ namespace Kitbox
                 { "Ref", "Cornieres" },
                 { "hauteur>", Convert.ToString(Dimensions.Y) },
                 { "couleur", "Noir" }
-            });
+            }, "hauteur ASC");
             crg.Location = new Point3D(Dimensions.X - 2, 0, 0);
             crg.Position = "ArG";
+            ((Angle)cag).Cut_height = cag.Dimensions.Y - Dimensions.Y;
             crg.ConstructVisualPart();
             //Corniere ArD
             Part crd = DbCatalog.DbSelectPart(new Dictionary<string, string>()
@@ -164,9 +167,10 @@ namespace Kitbox
                 { "Ref", "Cornieres" },
                 { "hauteur>", Convert.ToString(Dimensions.Y) },
                 { "couleur", "Noir" }
-            });
+            }, "hauteur ASC");
             crd.Location = new Point3D(0, 0, Dimensions.Z - 2);
             crd.Position = "ArD";
+            ((Angle)cag).Cut_height = cag.Dimensions.Y - Dimensions.Y;
             crd.ConstructVisualPart();
             Components[crd.Reference] = new Dictionary<string, object>()
             {
