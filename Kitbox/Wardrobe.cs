@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Drawing;
 using System.Windows.Media.Media3D;
 
@@ -25,6 +26,34 @@ namespace Kitbox
         public Size3D Dimensions { get => dimensions; set => dimensions = value; }
         public Point3D Location { get => location; set => location = value; }
         public Dictionary<string, Dictionary<string, object>> Components { get => components; }
+
+        public virtual void ChangeColor(string color)
+        {
+            string[] positions = Visual_part.Pointer.Split('_');
+            string[] selection = positions.Last().Split('*');
+            if (typeof(Box).IsInstanceOfType(Components[selection[0]][selection[1]]))
+            {
+                ((Box)Components[selection[0]][selection[1]]).ChangeColor(color);
+            }
+            else
+            {
+                Part requested = DbCatalog.DbSelectPart(new Dictionary<string, string>()
+                {
+                    { "Ref", ((Part)Components[selection[0]][selection[1]]).Reference },
+                    { "hauteur>", Convert.ToString(((Part)Components[selection[0]][selection[1]]).Dimensions.Y) },
+                    { "couleur", color }
+                }, "hauteur ASC");
+                Dictionary<string, object> data = new Dictionary<string, object>();
+                data["Code"] = requested.Code;
+                data["Color"] = requested.Color;
+                data["Min_stock"] = requested.Min_stock;
+                data["Selling_price"] = requested.Selling_price;
+                ((Part)Components[selection[0]][selection[1]]).SetData(data);
+                ((Angle)Components[selection[0]][selection[1]]).Cut_height = requested.Dimensions.Y - Dimensions.Y;
+                ((Part)Components[selection[0]][selection[1]]).ConstructVisualPart();
+            }
+            DefaultWardrobe();
+        }
 
         public virtual void ChangeSurface(double w, double d)
         {
@@ -128,45 +157,62 @@ namespace Kitbox
             {
                 dimensions_box = dimensions;
             }
+            string color = "Noir";
+            if(Visual_part != null)
+            {
+                color = DbCatalog.TraduireCouleur(((Part)Components["Cornieres"]["AvG"]).Color.Name);
+            }
             //Corniere AvG
             Part cag = DbCatalog.DbSelectPart(new Dictionary<string, string>()
             {
                 { "Ref", "Cornieres" },
                 { "hauteur>", Convert.ToString(Dimensions.Y) },
-                { "couleur", "Noir" }
+                { "couleur", color }
             }, "hauteur ASC");
             cag.Location = new Point3D(0, 0, Dimensions.Z-2);
             cag.Position = "AvG";
             ((Angle)cag).Cut_height = cag.Dimensions.Y - Dimensions.Y;
             cag.ConstructVisualPart();
+            if (Visual_part != null)
+            {
+                color = DbCatalog.TraduireCouleur(((Part)Components["Cornieres"]["AvD"]).Color.Name);
+            }
             //Corniere AvD
             Part cad = DbCatalog.DbSelectPart(new Dictionary<string, string>()
             {
                 { "Ref", "Cornieres" },
                 { "hauteur>", Convert.ToString(Dimensions.Y) },
-                { "couleur", "Noir" }
+                { "couleur", color }
             }, "hauteur ASC");
             cad.Location = new Point3D(Dimensions.X - 2, 0, 0);
             cad.Position = "AvD";
             ((Angle)cag).Cut_height = cag.Dimensions.Y - Dimensions.Y;
             cad.ConstructVisualPart();
+            if (Visual_part != null)
+            {
+                color = DbCatalog.TraduireCouleur(((Part)Components["Cornieres"]["ArG"]).Color.Name);
+            }
             //Corniere ArG
             Part crg = DbCatalog.DbSelectPart(new Dictionary<string, string>()
             {
                 { "Ref", "Cornieres" },
                 { "hauteur>", Convert.ToString(Dimensions.Y) },
-                { "couleur", "Noir" }
+                { "couleur", color }
             }, "hauteur ASC");
             crg.Location = new Point3D(Dimensions.X - 2, 0, 0);
             crg.Position = "ArG";
             ((Angle)cag).Cut_height = cag.Dimensions.Y - Dimensions.Y;
             crg.ConstructVisualPart();
+            if (Visual_part != null)
+            {
+                color = DbCatalog.TraduireCouleur(((Part)Components["Cornieres"]["ArD"]).Color.Name);
+            }
             //Corniere ArD
             Part crd = DbCatalog.DbSelectPart(new Dictionary<string, string>()
             {
                 { "Ref", "Cornieres" },
                 { "hauteur>", Convert.ToString(Dimensions.Y) },
-                { "couleur", "Noir" }
+                { "couleur", color }
             }, "hauteur ASC");
             crd.Location = new Point3D(0, 0, Dimensions.Z - 2);
             crd.Position = "ArD";

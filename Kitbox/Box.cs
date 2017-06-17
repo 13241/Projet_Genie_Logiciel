@@ -32,14 +32,16 @@ namespace Kitbox
         public Dictionary<string, Dictionary<string, Part>> Pieces { get => pieces; }
         public string Position { get => position; set => position = value; }
 
-        public virtual void ChangeColor(string color, string piece, string position = "*")
+        public virtual void ChangeColor(string color)
         {
+            string[] positions = Visual_part.Pointer.Split('_');
+            string[] selection = positions.Last().Split('*');
             Part requested = DbCatalog.DbSelectPart(new Dictionary<string, string>()
             {
-                { "Ref", Pieces[piece][position].Reference },
-                { "largeur", Convert.ToString(Pieces[piece][position].Dimensions.X) },
-                { "hauteur", Convert.ToString(Pieces[piece][position].Dimensions.Y) },
-                { "profondeur", Convert.ToString(Pieces[piece][position].Dimensions.Z) },
+                { "Ref", Pieces[selection[0]][selection[1]].Reference },
+                { "largeur", Convert.ToString(Pieces[selection[0]][selection[1]].Dimensions.X) },
+                { "hauteur", Convert.ToString(Pieces[selection[0]][selection[1]].Dimensions.Y) },
+                { "profondeur", Convert.ToString(Pieces[selection[0]][selection[1]].Dimensions.Z) },
                 { "couleur", color }
             });
             Dictionary<string, object> data = new Dictionary<string, object>();
@@ -47,8 +49,8 @@ namespace Kitbox
             data["Color"] = requested.Color;
             data["Min_stock"] = requested.Min_stock;
             data["Selling_price"] = requested.Selling_price;
-            Pieces[piece][position].SetData(data);
-            Pieces[piece][position].ConstructVisualPart();
+            Pieces[selection[0]][selection[1]].SetData(data);
+            Pieces[selection[0]][selection[1]].ConstructVisualPart();
             ConstructVisualPart();
         }
 
@@ -57,12 +59,17 @@ namespace Kitbox
             //MODIF interaction avec la base de données nécessaire : créer la méthode permettant de sélectionner une part
             //MODIF code temporaire pour éviter de devoir faire la base de données pour l'instant.
             //Panneau Ar
-            Part par = DbCatalog.DbSelectPart(new Dictionary<string, string>()
+            Dictionary<string, string> spar = new Dictionary<string, string>()
             {
                 { "Ref", "Panneau Ar" },
                 { "largeur", Convert.ToString(Dimensions.X) },
                 { "hauteur", Convert.ToString(Dimensions.Y - 4) }
-            });
+            };
+            if(Visual_part != null)
+            {
+                spar["Couleur"] = DbCatalog.TraduireCouleur((Pieces["Panneau Ar"]["Ar"]).Color.Name);
+            }
+            Part par = DbCatalog.DbSelectPart(spar);
             par.Location = new Point3D(0, 2, 0);
             par.Position = "Ar";
             par.ConstructVisualPart();
@@ -71,22 +78,32 @@ namespace Kitbox
                 { par.Position, par }
             };
             //Panneau G
-            Part pg = DbCatalog.DbSelectPart(new Dictionary<string, string>()
+            Dictionary<string, string> spg = new Dictionary<string, string>()
             {
                 { "Ref", "Panneau GD" },
                 { "largeur", Convert.ToString(Dimensions.Z) },
                 { "hauteur", Convert.ToString(Dimensions.Y - 4) }
-            });
+            };
+            if (Visual_part != null)
+            {
+                spg["Couleur"] = DbCatalog.TraduireCouleur((Pieces["Panneau GD"]["G"]).Color.Name);
+            }
+            Part pg = DbCatalog.DbSelectPart(spg);
             pg.Location = new Point3D(0, 2, 0);
             pg.Position = "G";
             pg.ConstructVisualPart();
             //Panneau D
-            Part pd = DbCatalog.DbSelectPart(new Dictionary<string, string>()
+            Dictionary<string, string> spd = new Dictionary<string, string>()
             {
                 { "Ref", "Panneau GD" },
                 { "largeur", Convert.ToString(Dimensions.Z) },
                 { "hauteur", Convert.ToString(Dimensions.Y - 4) }
-            });
+            };
+            if (Visual_part != null)
+            {
+                spd["Couleur"] = DbCatalog.TraduireCouleur((Pieces["Panneau GD"]["D"]).Color.Name);
+            }
+            Part pd = DbCatalog.DbSelectPart(spd);
             pd.Location = new Point3D(0, 2, 0);
             pd.Position = "D";
             pd.ConstructVisualPart();
@@ -96,22 +113,32 @@ namespace Kitbox
                 {pd.Position, pd }
             };
             //Panneau H
-            Part ph = DbCatalog.DbSelectPart(new Dictionary<string, string>()
+            Dictionary<string, string> sph = new Dictionary<string, string>()
             {
                 { "Ref", "Panneau HB" },
                 { "largeur", Convert.ToString(Dimensions.X) },
                 { "hauteur", Convert.ToString(Dimensions.Z) }
-            });
+            };
+            if (Visual_part != null)
+            {
+                sph["Couleur"] = DbCatalog.TraduireCouleur((Pieces["Panneau HB"]["H"]).Color.Name);
+            }
+            Part ph = DbCatalog.DbSelectPart(sph);
             ph.Location = new Point3D(0, 2, 0);
             ph.Position = "H";
             ph.ConstructVisualPart();
             //Panneau B
-            Part pb = DbCatalog.DbSelectPart(new Dictionary<string, string>()
+            Dictionary<string, string> spb = new Dictionary<string, string>()
             {
                 { "Ref", "Panneau HB" },
                 { "largeur", Convert.ToString(Dimensions.X) },
                 { "hauteur", Convert.ToString(Dimensions.Z) }
-            });
+            };
+            if (Visual_part != null)
+            {
+                spb["Couleur"] = DbCatalog.TraduireCouleur((Pieces["Panneau HB"]["B"]).Color.Name);
+            }
+            Part pb = DbCatalog.DbSelectPart(spb);
             pb.Location = new Point3D(0, 2, 0);
             pb.Position = "B";
             pb.ConstructVisualPart();
@@ -121,12 +148,17 @@ namespace Kitbox
                 {pb.Position, pb }
             };
             //Porte G
-            Part pog = DbCatalog.DbSelectPart(new Dictionary<string, string>()
+            Dictionary<string, string> spog = new Dictionary<string, string>()
             {
                 { "Ref", "Porte" },
                 { "largeur", Convert.ToString(Math.Ceiling(Dimensions.X / 2 + 2)) },
                 { "hauteur", Convert.ToString(Dimensions.Y - 4) }
-            });
+            };
+            if (Visual_part != null)
+            {
+                spog["Couleur"] = DbCatalog.TraduireCouleur((Pieces["Porte"]["G"]).Color.Name);
+            }
+            Part pog = DbCatalog.DbSelectPart(spog);
             pog.Location = new Point3D(0, 2, 0);
             pog.Position = "G";
             //=>Coupelle G
@@ -140,12 +172,17 @@ namespace Kitbox
             ((Door)pog).SetKnop((Knop)cg, 4, "left");
             pog.ConstructVisualPart();
             //Porte D
-            Part pod = DbCatalog.DbSelectPart(new Dictionary<string, string>()
+            Dictionary<string, string> spod = new Dictionary<string, string>()
             {
                 { "Ref", "Porte" },
                 { "largeur", Convert.ToString(Math.Floor(Dimensions.X / 2 + 2)) },
                 { "hauteur", Convert.ToString(Dimensions.Y - 4) }
-            });
+            };
+            if (Visual_part != null)
+            {
+                spod["Couleur"] = DbCatalog.TraduireCouleur((Pieces["Porte"]["D"]).Color.Name);
+            }
+            Part pod = DbCatalog.DbSelectPart(spod);
             pod.Location = new Point3D(pog.Dimensions.X - 4, 2, 0);
             pod.Position = "D";
             //=>Coupelle D
@@ -164,22 +201,32 @@ namespace Kitbox
                 {pog.Position, pog }
             };
             //Traverse Ar H
-            Part tarh = DbCatalog.DbSelectPart(new Dictionary<string, string>()
+            Dictionary<string, string> starh = new Dictionary<string, string>()
             {
                 { "Ref", "Traverse Ar" },
                 { "largeur", Convert.ToString(Dimensions.X) },
                 { "hauteur", Convert.ToString(2) }
-            });
+            };
+            if (Visual_part != null)
+            {
+                starh["Couleur"] = DbCatalog.TraduireCouleur((Pieces["Traverse Ar"]["H"]).Color.Name);
+            }
+            Part tarh = DbCatalog.DbSelectPart(starh);
             tarh.Location = new Point3D(0, 0, 0);
             tarh.Position = "H";
             tarh.ConstructVisualPart();
             //Traverse Ar B
-            Part tarb = DbCatalog.DbSelectPart(new Dictionary<string, string>()
+            Dictionary<string, string> starb = new Dictionary<string, string>()
             {
                 { "Ref", "Traverse Ar" },
                 { "largeur", Convert.ToString(Dimensions.X) },
                 { "hauteur", Convert.ToString(2) }
-            });
+            };
+            if (Visual_part != null)
+            {
+                starb["Couleur"] = DbCatalog.TraduireCouleur((Pieces["Traverse Ar"]["B"]).Color.Name);
+            }
+            Part tarb = DbCatalog.DbSelectPart(starb);
             tarb.Location = new Point3D(0, Dimensions.Y - 2, 0);
             tarb.Position = "B";
             tarb.ConstructVisualPart();
@@ -189,22 +236,32 @@ namespace Kitbox
                 {tarb.Position, tarb }
             };
             //Traverse Av H
-            Part tavh = DbCatalog.DbSelectPart(new Dictionary<string, string>()
+            Dictionary<string, string> stavh = new Dictionary<string, string>()
             {
                 { "Ref", "Traverse Av" },
                 { "largeur", Convert.ToString(Dimensions.X) },
                 { "hauteur", Convert.ToString(2) }
-            });
+            };
+            if (Visual_part != null)
+            {
+                stavh["Couleur"] = DbCatalog.TraduireCouleur((Pieces["Traverse Av"]["H"]).Color.Name);
+            }
+            Part tavh = DbCatalog.DbSelectPart(stavh);
             tavh.Location = new Point3D(0, 0, 0);
             tavh.Position = "H";
             tavh.ConstructVisualPart();
             //Traverse Av B
-            Part tavb = DbCatalog.DbSelectPart(new Dictionary<string, string>()
+            Dictionary<string, string> stavb = new Dictionary<string, string>()
             {
                 { "Ref", "Traverse Av" },
                 { "largeur", Convert.ToString(Dimensions.X) },
                 { "hauteur", Convert.ToString(2) }
-            });
+            };
+            if (Visual_part != null)
+            {
+                stavb["Couleur"] = DbCatalog.TraduireCouleur((Pieces["Traverse Av"]["B"]).Color.Name);
+            }
+            Part tavb = DbCatalog.DbSelectPart(stavb);
             tavb.Location = new Point3D(0, Dimensions.Y - 2, 0);
             tavb.Position = "B";
             tavb.ConstructVisualPart();
@@ -214,42 +271,62 @@ namespace Kitbox
                 {tavb.Position, tavb }
             };
             //Traverse GD G H
-            Part tgh = DbCatalog.DbSelectPart(new Dictionary<string, string>()
+            Dictionary<string, string> stgh = new Dictionary<string, string>()
             {
                 { "Ref", "Traverse GD" },
                 { "largeur", Convert.ToString(Dimensions.Z) },
                 { "hauteur", Convert.ToString(2) }
-            });
+            };
+            if (Visual_part != null)
+            {
+                stgh["Couleur"] = DbCatalog.TraduireCouleur((Pieces["Traverse GD"]["GH"]).Color.Name);
+            }
+            Part tgh = DbCatalog.DbSelectPart(stgh);
             tgh.Location = new Point3D(0, 0, 0);
             tgh.Position = "GH";
             tgh.ConstructVisualPart();
             //Traverse GD G B
-            Part tgb = DbCatalog.DbSelectPart(new Dictionary<string, string>()
+            Dictionary<string, string> stgb = new Dictionary<string, string>()
             {
                 { "Ref", "Traverse GD" },
                 { "largeur", Convert.ToString(Dimensions.Z) },
                 { "hauteur", Convert.ToString(2) }
-            });
+            };
+            if (Visual_part != null)
+            {
+                stgb["Couleur"] = DbCatalog.TraduireCouleur((Pieces["Traverse GD"]["GB"]).Color.Name);
+            }
+            Part tgb = DbCatalog.DbSelectPart(stgb);
             tgb.Location = new Point3D(0, Dimensions.Y - 2, 0);
             tgb.Position = "GB";
             tgb.ConstructVisualPart();
             //Traverse GD D H
-            Part tdh = DbCatalog.DbSelectPart(new Dictionary<string, string>()
+            Dictionary<string, string> stdh = new Dictionary<string, string>()
             {
                 { "Ref", "Traverse GD" },
                 { "largeur", Convert.ToString(Dimensions.Z) },
                 { "hauteur", Convert.ToString(2) }
-            });
+            };
+            if (Visual_part != null)
+            {
+                stdh["Couleur"] = DbCatalog.TraduireCouleur((Pieces["Traverse GD"]["DH"]).Color.Name);
+            }
+            Part tdh = DbCatalog.DbSelectPart(stdh);
             tdh.Location = new Point3D(0, 0, 0);
             tdh.Position = "DH";
             tdh.ConstructVisualPart();
             //Traverse GD D B
-            Part tdb = DbCatalog.DbSelectPart(new Dictionary<string, string>()
+            Dictionary<string, string> stdb = new Dictionary<string, string>()
             {
                 { "Ref", "Traverse GD" },
                 { "largeur", Convert.ToString(Dimensions.Z) },
                 { "hauteur", Convert.ToString(2) }
-            });
+            };
+            if (Visual_part != null)
+            {
+                stdb["Couleur"] = DbCatalog.TraduireCouleur((Pieces["Traverse GD"]["DB"]).Color.Name);
+            }
+            Part tdb = DbCatalog.DbSelectPart(stdb);
             tdb.Location = new Point3D(0, Dimensions.Y - 2, 0);
             tdb.Position = "DB";
             tdb.ConstructVisualPart();
@@ -260,6 +337,42 @@ namespace Kitbox
                 {tdh.Position, tdh },
                 {tdb.Position, tdb }
             };
+            //Tasseau AvG
+            Dictionary<string, string> stavg = new Dictionary<string, string>()
+            {
+                { "Ref", "Tasseau" },
+                { "hauteur", Convert.ToString(Dimensions.Y - 4) }
+            };
+            Part tavg = DbCatalog.DbSelectPart(stavg);
+            tavg.Location = new Point3D(0, Dimensions.Y - 2, 0);
+            tavg.Position = "AvG";
+            //Tasseau AvD
+            Dictionary<string, string> stavd = new Dictionary<string, string>()
+            {
+                { "Ref", "Tasseau" },
+                { "hauteur", Convert.ToString(Dimensions.Y - 4) }
+            };
+            Part tavd = DbCatalog.DbSelectPart(stavd);
+            tavg.Location = new Point3D(Dimensions.X, Dimensions.Y - 2, 0);
+            tavg.Position = "AvD";
+            //Tasseau ArD
+            Dictionary<string, string> stard = new Dictionary<string, string>()
+            {
+                { "Ref", "Tasseau" },
+                { "hauteur", Convert.ToString(Dimensions.Y - 4) }
+            };
+            Part tard = DbCatalog.DbSelectPart(stard);
+            tavg.Location = new Point3D(0, Dimensions.Y - 2, 0);
+            tavg.Position = "ArD";
+            //Tasseau ArG
+            Dictionary<string, string> starg = new Dictionary<string, string>()
+            {
+                { "Ref", "Tasseau" },
+                { "hauteur", Convert.ToString(Dimensions.Y - 4) }
+            };
+            Part targ = DbCatalog.DbSelectPart(starg);
+            tavg.Location = new Point3D(Dimensions.X, Dimensions.Y - 2, 0);
+            tavg.Position = "ArD";
 
             //Box
             ConstructVisualPart();

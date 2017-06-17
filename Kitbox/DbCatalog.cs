@@ -106,6 +106,23 @@ namespace Kitbox
             }
             return "Transparent";
         }
+        public static string TraduireCouleur(string en)
+        {
+            switch (en)
+            {
+                case "Tan":
+                    return "Brun";
+                case "Gray":
+                    return "Galvanise";
+                case "White":
+                    return "Blanc";
+                case "Black":
+                    return "Noir";
+                case "LightBlue":
+                    return "Verre";
+            }
+            return "Transparent";
+        }
 	}
 }
 

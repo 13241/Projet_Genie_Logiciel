@@ -15,7 +15,6 @@ namespace Kitbox
     {
         VisualPart part;
         Wardrobe wardrobe = null;
-        Box box = null;
         Stack<VisualPart> parts;
         string view;
         public Tests()
@@ -37,10 +36,8 @@ namespace Kitbox
                 ChangeSurface.Visible = false;
                 RemoveBox.Visible = false;
                 ResizeBox.Visible = false;
-            }
-            if (box == null)
-            {
                 ChangeColor.Visible = false;
+                Color_input.Visible = false;
             }
         }
         //TestKnop
@@ -119,9 +116,7 @@ namespace Kitbox
                     part = TestAngle(2, 108, Color.Black).Visual_part;
                     break;
                 case "vp_box"://VisualPart_Box
-                    box = TestBox(120, 36, 42);
-                    part = box.Visual_part;
-                    ChangeColor.Visible = true;
+                    part = TestBox(120, 36, 42).Visual_part; ;
                     break;
                 case "vp_wardrobe"://VisualPart_Wardrobe
                     wardrobe = TestWardrobe(120, 36, 42);
@@ -130,6 +125,8 @@ namespace Kitbox
                     ChangeSurface.Visible = true;
                     RemoveBox.Visible = true;
                     ResizeBox.Visible = true;
+                    ChangeColor.Visible = true;
+                    Color_input.Visible = true;
                     break;
             }
             try
@@ -275,9 +272,9 @@ namespace Kitbox
 
         private void ChangeColor_Click(object sender, EventArgs e)
         {
-            string[] commands = box.Visual_part.Pointer.Split('*');
-            box.ChangeColor("Brun", commands.First().Split('_').Last(), commands.Last());
-            part = box.Visual_part;
+            string etage = wardrobe.Visual_part.Pointer.Split('_').Last();
+            wardrobe.ChangeColor(Color_input.Text);
+            part = wardrobe.Visual_part;
             view = "front";
             TestVisualPart(view);
         }
