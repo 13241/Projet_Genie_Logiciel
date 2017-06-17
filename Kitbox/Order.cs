@@ -13,7 +13,6 @@ namespace Kitbox
 		public Order()
 		{
 		}
-
 		private string AddToBill()
 		{
 			string bill_return = "";
@@ -78,7 +77,11 @@ namespace Kitbox
                     
 					//bill["Bill"] += string.Format("Box {0} :\n\t\t", i);
 					columnNames = "Component_Id";
-					condition = string.Format("WHERE (Order_Id = '{0}' AND Wardrobe_Id = '{1}' AND Box_Id = '{2}')", order_id, i, j);
+                    //if ((int)list2[0][j-1] == 0)
+                    //{
+                    //    condition = string.Format("WHERE (Order_Id = '{0}' AND Wardrobe_Id = '{1}' AND Box_Id = '{2}')", order_id, i, j-1);
+                    //}
+					condition = string.Format("WHERE (Order_Id = '{0}' AND Wardrobe_Id = '{1}' AND Box_Id = '{2}')", order_id, i, j-1);
 					
 					List<List<object>> list3 = DbOrder.DbSearchOrder(RelTableName, columnNames, condition);
 

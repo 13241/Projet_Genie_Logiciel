@@ -83,6 +83,10 @@ namespace Kitbox
                 foreach (string position in Pieces[name].Keys)
                 {
                     DbCatalog.DbUnBook(Pieces[name][position].Code);
+                    if (typeof(Door).IsInstanceOfType(Pieces[name][position]) && ((Door)Pieces[name][position]).Knop != null)
+                    {
+                        DbCatalog.DbUnBook(((Door)Pieces[name][position]).Knop.Code);
+                    }
                 }
             }
         }

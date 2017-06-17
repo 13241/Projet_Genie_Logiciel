@@ -216,6 +216,7 @@
             this.Controls.Add(this.screen);
             this.Name = "Tests";
             this.Text = "Tests";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UnBook);
             this.ResumeLayout(false);
             this.PerformLayout();
 

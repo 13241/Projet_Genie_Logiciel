@@ -278,5 +278,10 @@ namespace Kitbox
             view = "front";
             TestVisualPart(view);
         }
+
+        private void UnBook(object sender, FormClosingEventArgs e)
+        {
+            wardrobe.UnBook();
+        }
     }
 }
