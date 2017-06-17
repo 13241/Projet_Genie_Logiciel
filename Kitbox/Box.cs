@@ -32,6 +32,26 @@ namespace Kitbox
         public Dictionary<string, Dictionary<string, Part>> Pieces { get => pieces; }
         public string Position { get => position; set => position = value; }
 
+        public virtual void ChangeColor(string color, string piece, string position = "*")
+        {
+            Part requested = DbCatalog.DbSelectPart(new Dictionary<string, string>()
+            {
+                { "Ref", Pieces[piece][position].Reference },
+                { "largeur", Convert.ToString(Pieces[piece][position].Dimensions.X) },
+                { "hauteur", Convert.ToString(Pieces[piece][position].Dimensions.Y) },
+                { "profondeur", Convert.ToString(Pieces[piece][position].Dimensions.Z) },
+                { "couleur", color }
+            });
+            Dictionary<string, object> data = new Dictionary<string, object>();
+            data["Code"] = requested.Code;
+            data["Color"] = requested.Color;
+            data["Min_stock"] = requested.Min_stock;
+            data["Selling_price"] = requested.Selling_price;
+            Pieces[piece][position].SetData(data);
+            Pieces[piece][position].ConstructVisualPart();
+            ConstructVisualPart();
+        }
+
         public virtual void DefaultBox()
         {
             //MODIF interaction avec la base de données nécessaire : créer la méthode permettant de sélectionner une part

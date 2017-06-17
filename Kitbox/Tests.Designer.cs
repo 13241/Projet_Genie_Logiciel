@@ -41,6 +41,7 @@
             this.ChangeSurface = new System.Windows.Forms.Button();
             this.RemoveBox = new System.Windows.Forms.Button();
             this.ResizeBox = new System.Windows.Forms.Button();
+            this.ChangeColor = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // screen
@@ -71,7 +72,7 @@
             // 
             // LEFT
             // 
-            this.LEFT.Location = new System.Drawing.Point(281, 102);
+            this.LEFT.Location = new System.Drawing.Point(429, 50);
             this.LEFT.Name = "LEFT";
             this.LEFT.Size = new System.Drawing.Size(27, 23);
             this.LEFT.TabIndex = 3;
@@ -81,7 +82,7 @@
             // 
             // UP
             // 
-            this.UP.Location = new System.Drawing.Point(314, 88);
+            this.UP.Location = new System.Drawing.Point(462, 36);
             this.UP.Name = "UP";
             this.UP.Size = new System.Drawing.Size(27, 23);
             this.UP.TabIndex = 4;
@@ -91,7 +92,7 @@
             // 
             // DOWN
             // 
-            this.DOWN.Location = new System.Drawing.Point(314, 117);
+            this.DOWN.Location = new System.Drawing.Point(462, 65);
             this.DOWN.Name = "DOWN";
             this.DOWN.Size = new System.Drawing.Size(27, 23);
             this.DOWN.TabIndex = 5;
@@ -101,7 +102,7 @@
             // 
             // RIGHT
             // 
-            this.RIGHT.Location = new System.Drawing.Point(347, 102);
+            this.RIGHT.Location = new System.Drawing.Point(495, 50);
             this.RIGHT.Name = "RIGHT";
             this.RIGHT.Size = new System.Drawing.Size(27, 23);
             this.RIGHT.TabIndex = 6;
@@ -111,7 +112,7 @@
             // 
             // ZOOM
             // 
-            this.ZOOM.Location = new System.Drawing.Point(314, 146);
+            this.ZOOM.Location = new System.Drawing.Point(462, 94);
             this.ZOOM.Name = "ZOOM";
             this.ZOOM.Size = new System.Drawing.Size(27, 23);
             this.ZOOM.TabIndex = 7;
@@ -121,7 +122,7 @@
             // 
             // UNZOOM
             // 
-            this.UNZOOM.Location = new System.Drawing.Point(314, 175);
+            this.UNZOOM.Location = new System.Drawing.Point(462, 123);
             this.UNZOOM.Name = "UNZOOM";
             this.UNZOOM.Size = new System.Drawing.Size(27, 23);
             this.UNZOOM.TabIndex = 8;
@@ -173,11 +174,23 @@
             this.ResizeBox.Visible = false;
             this.ResizeBox.Click += new System.EventHandler(this.ResizeBox_Click);
             // 
+            // ChangeColor
+            // 
+            this.ChangeColor.Location = new System.Drawing.Point(268, 36);
+            this.ChangeColor.Name = "ChangeColor";
+            this.ChangeColor.Size = new System.Drawing.Size(75, 23);
+            this.ChangeColor.TabIndex = 13;
+            this.ChangeColor.Text = "ChangeColor";
+            this.ChangeColor.UseVisualStyleBackColor = true;
+            this.ChangeColor.Visible = false;
+            this.ChangeColor.Click += new System.EventHandler(this.ChangeColor_Click);
+            // 
             // Tests
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(533, 358);
+            this.Controls.Add(this.ChangeColor);
             this.Controls.Add(this.ResizeBox);
             this.Controls.Add(this.RemoveBox);
             this.Controls.Add(this.ChangeSurface);
@@ -213,5 +226,6 @@
         private System.Windows.Forms.Button ChangeSurface;
         private System.Windows.Forms.Button RemoveBox;
         private System.Windows.Forms.Button ResizeBox;
+        private System.Windows.Forms.Button ChangeColor;
     }
 }
