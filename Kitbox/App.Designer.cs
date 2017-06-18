@@ -130,6 +130,7 @@
             this.errorIdSearch = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox23 = new System.Windows.Forms.TextBox();
             this.textBox24 = new System.Windows.Forms.TextBox();
             this.button28 = new System.Windows.Forms.Button();
@@ -146,6 +147,12 @@
             this.textFooter = new System.Windows.Forms.Label();
             this.textHeader = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.showLComp = new System.Windows.Forms.Button();
+            this.showBill = new System.Windows.Forms.Button();
+            this.label44 = new System.Windows.Forms.Label();
+            this.label42 = new System.Windows.Forms.Label();
+            this.boxLComp = new System.Windows.Forms.ComboBox();
+            this.boxBill = new System.Windows.Forms.ComboBox();
             this.clientIDValue = new System.Windows.Forms.Label();
             this.label36 = new System.Windows.Forms.Label();
             this.label37 = new System.Windows.Forms.Label();
@@ -162,13 +169,6 @@
             this.textBox9 = new System.Windows.Forms.TextBox();
             this.label26 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.boxBill = new System.Windows.Forms.ComboBox();
-            this.boxLComp = new System.Windows.Forms.ComboBox();
-            this.label42 = new System.Windows.Forms.Label();
-            this.label44 = new System.Windows.Forms.Label();
-            this.showBill = new System.Windows.Forms.Button();
-            this.showLComp = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.Identification.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -1260,7 +1260,7 @@
             this.tableLayoutPanel3.ColumnCount = 3;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 34.15493F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 65.84507F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 106F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 109F));
             this.tableLayoutPanel3.Controls.Add(this.textBox1, 2, 0);
             this.tableLayoutPanel3.Controls.Add(this.textBox23, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.textBox24, 0, 0);
@@ -1277,11 +1277,22 @@
             this.tableLayoutPanel3.Size = new System.Drawing.Size(396, 288);
             this.tableLayoutPanel3.TabIndex = 33;
             // 
+            // textBox1
+            // 
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox1.Location = new System.Drawing.Point(287, 5);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(80, 13);
+            this.textBox1.TabIndex = 38;
+            this.textBox1.Text = "Quantity";
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
             // textBox23
             // 
             this.textBox23.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox23.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox23.Location = new System.Drawing.Point(97, 5);
+            this.textBox23.Location = new System.Drawing.Point(102, 5);
             this.textBox23.Name = "textBox23";
             this.textBox23.Size = new System.Drawing.Size(80, 13);
             this.textBox23.TabIndex = 8;
@@ -1377,7 +1388,7 @@
             // 
             this.textBox20.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox20.Location = new System.Drawing.Point(117, 5);
+            this.textBox20.Location = new System.Drawing.Point(121, 5);
             this.textBox20.Name = "textBox20";
             this.textBox20.Size = new System.Drawing.Size(42, 13);
             this.textBox20.TabIndex = 1;
@@ -1464,6 +1475,63 @@
             this.panel4.Visible = false;
             this.panel4.Paint += new System.Windows.Forms.PaintEventHandler(this.panel4_Paint);
             // 
+            // showLComp
+            // 
+            this.showLComp.Location = new System.Drawing.Point(292, 71);
+            this.showLComp.Name = "showLComp";
+            this.showLComp.Size = new System.Drawing.Size(36, 23);
+            this.showLComp.TabIndex = 43;
+            this.showLComp.Text = "ok";
+            this.showLComp.UseVisualStyleBackColor = true;
+            this.showLComp.Click += new System.EventHandler(this.showLComp_Click);
+            // 
+            // showBill
+            // 
+            this.showBill.Location = new System.Drawing.Point(292, 42);
+            this.showBill.Name = "showBill";
+            this.showBill.Size = new System.Drawing.Size(36, 23);
+            this.showBill.TabIndex = 42;
+            this.showBill.Text = "ok";
+            this.showBill.UseVisualStyleBackColor = true;
+            this.showBill.Click += new System.EventHandler(this.showBill_Click);
+            // 
+            // label44
+            // 
+            this.label44.AutoSize = true;
+            this.label44.Location = new System.Drawing.Point(17, 74);
+            this.label44.Name = "label44";
+            this.label44.Size = new System.Drawing.Size(141, 13);
+            this.label44.TabIndex = 41;
+            this.label44.Text = "Affiche Liste de Composants";
+            // 
+            // label42
+            // 
+            this.label42.AutoSize = true;
+            this.label42.Location = new System.Drawing.Point(17, 47);
+            this.label42.Name = "label42";
+            this.label42.Size = new System.Drawing.Size(79, 13);
+            this.label42.TabIndex = 40;
+            this.label42.Text = "Affiche Facture";
+            // 
+            // boxLComp
+            // 
+            this.boxLComp.FormattingEnabled = true;
+            this.boxLComp.Location = new System.Drawing.Point(164, 71);
+            this.boxLComp.Name = "boxLComp";
+            this.boxLComp.Size = new System.Drawing.Size(121, 21);
+            this.boxLComp.TabIndex = 39;
+            // 
+            // boxBill
+            // 
+            this.boxBill.FormattingEnabled = true;
+            this.boxBill.Items.AddRange(new object[] {
+            ""});
+            this.boxBill.Location = new System.Drawing.Point(164, 44);
+            this.boxBill.Name = "boxBill";
+            this.boxBill.Size = new System.Drawing.Size(121, 21);
+            this.boxBill.TabIndex = 38;
+            this.boxBill.SelectedIndexChanged += new System.EventHandler(this.boxBill_SelectedIndexChanged);
+            // 
             // clientIDValue
             // 
             this.clientIDValue.AutoSize = true;
@@ -1527,7 +1595,7 @@
             // 
             this.textBox14.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox14.Location = new System.Drawing.Point(157, 5);
+            this.textBox14.Location = new System.Drawing.Point(160, 5);
             this.textBox14.Name = "textBox14";
             this.textBox14.Size = new System.Drawing.Size(80, 13);
             this.textBox14.TabIndex = 1;
@@ -1623,74 +1691,6 @@
             this.label27.Size = new System.Drawing.Size(162, 13);
             this.label27.TabIndex = 13;
             this.label27.Text = "Bonjour, que voulez-vous faire ? ";
-            // 
-            // textBox1
-            // 
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(273, 5);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(80, 13);
-            this.textBox1.TabIndex = 38;
-            this.textBox1.Text = "Quantity";
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
-            // 
-            // boxBill
-            // 
-            this.boxBill.FormattingEnabled = true;
-            this.boxBill.Items.AddRange(new object[] {
-            ""});
-            this.boxBill.Location = new System.Drawing.Point(164, 44);
-            this.boxBill.Name = "boxBill";
-            this.boxBill.Size = new System.Drawing.Size(121, 21);
-            this.boxBill.TabIndex = 38;
-            this.boxBill.SelectedIndexChanged += new System.EventHandler(this.boxBill_SelectedIndexChanged);
-            // 
-            // boxLComp
-            // 
-            this.boxLComp.FormattingEnabled = true;
-            this.boxLComp.Location = new System.Drawing.Point(164, 71);
-            this.boxLComp.Name = "boxLComp";
-            this.boxLComp.Size = new System.Drawing.Size(121, 21);
-            this.boxLComp.TabIndex = 39;
-            // 
-            // label42
-            // 
-            this.label42.AutoSize = true;
-            this.label42.Location = new System.Drawing.Point(17, 47);
-            this.label42.Name = "label42";
-            this.label42.Size = new System.Drawing.Size(79, 13);
-            this.label42.TabIndex = 40;
-            this.label42.Text = "Affiche Facture";
-            // 
-            // label44
-            // 
-            this.label44.AutoSize = true;
-            this.label44.Location = new System.Drawing.Point(17, 74);
-            this.label44.Name = "label44";
-            this.label44.Size = new System.Drawing.Size(141, 13);
-            this.label44.TabIndex = 41;
-            this.label44.Text = "Affiche Liste de Composants";
-            // 
-            // showBill
-            // 
-            this.showBill.Location = new System.Drawing.Point(292, 42);
-            this.showBill.Name = "showBill";
-            this.showBill.Size = new System.Drawing.Size(36, 23);
-            this.showBill.TabIndex = 42;
-            this.showBill.Text = "ok";
-            this.showBill.UseVisualStyleBackColor = true;
-            this.showBill.Click += new System.EventHandler(this.showBill_Click);
-            // 
-            // showLComp
-            // 
-            this.showLComp.Location = new System.Drawing.Point(292, 71);
-            this.showLComp.Name = "showLComp";
-            this.showLComp.Size = new System.Drawing.Size(36, 23);
-            this.showLComp.TabIndex = 43;
-            this.showLComp.Text = "ok";
-            this.showLComp.UseVisualStyleBackColor = true;
-            this.showLComp.Click += new System.EventHandler(this.showLComp_Click);
             // 
             // App
             // 

@@ -102,7 +102,27 @@ namespace Kitbox
             }         
             
         }
+		public static int searchId(int phonenumber)
+		{
+			BDD database = new BDD("kitbox");
+			string tableName = "client";
+			string columnNames = "Client_Id";
+			string condtion = string.Format("WHERE (Phonenumber = '{0}')", phonenumber);
+			List<List<object>> list = new List<List<object>>();
+			list = database.readElement(columnNames, tableName, condtion);
 
+			Person person = new Person();
+			if (list.Count == 0)
+			{
+				return 0;
+			}
+			else
+			{
+				person.Id = Convert.ToInt32(list[0][0]);
+				return person.Id;
+			}
+
+		}
 
 		public static bool DblsEmployee(int id, string password)
 		{

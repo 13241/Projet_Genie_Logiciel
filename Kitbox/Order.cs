@@ -43,6 +43,20 @@ namespace Kitbox
 		{
 
 		}
+		public List<List<object>> GetOrder(int client_id)
+		{
+			BDD database = new BDD("kitbox");
+			List<object> listNumDate = new List<object>();
+			List<List<object>> list = new List<List<object>>();
+
+			string columnNames = "Order_Id,Date";
+			string tableName = "orders";
+			string condition = string.Format("WHERE (Client_Id = '{0}')", client_id);
+
+			list = database.readElement(columnNames, tableName, condition);
+
+			return list;
+		}
 		public Dictionary<string, object> GetBill(int order_id)
 		{
             bill = new Dictionary<string, object>();

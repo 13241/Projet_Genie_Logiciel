@@ -43,8 +43,8 @@ namespace Kitbox
                     errorID.Visible = false;
                     errorPsw.Visible = false;
 
-                    clientFName.Text = DbConnect.DbConnectClient(Convert.ToInt32(idUser.Text), pswUser.Text).Firstname;
-                    clientLName.Text = DbConnect.DbConnectClient(Convert.ToInt32(idUser.Text), pswUser.Text).Lastname;
+                    clientFName.Text = DbConnect.DbConnectClient(Convert.ToInt32(idUser.Text), pswUser.Text).FirstName;
+                    clientLName.Text = DbConnect.DbConnectClient(Convert.ToInt32(idUser.Text), pswUser.Text).LastName;
                     newClientId.Text = DbConnect.DbConnectClient(Convert.ToInt32(idUser.Text), pswUser.Text).Id.ToString();
 
                 }
@@ -124,8 +124,8 @@ namespace Kitbox
                     string testbox = textBox9.Text;
                     Person client = DbConnect.searchClient(Convert.ToInt32(textBox9.Text));
 
-                    string clientFname = client.Firstname;
-                    string clientLName = client.Lastname;
+                    string clientFname = client.FirstName;
+                    string clientLName = client.LastName;
 
                     // For test - To delete??.
                     Order test = new Order();
@@ -543,9 +543,9 @@ namespace Kitbox
                     Person person = new Person();
 
                     // DTB s'en occupe automatiquement normallement person.Id = ;
-                    person.Lastname = newUsLastName.Text;
-                    person.Firstname = newUsFirstName.Text;
-                    person.Phone_number = Convert.ToInt32(newUsPhone.Text);
+                    person.LastName = newUsLastName.Text;
+                    person.FirstName = newUsFirstName.Text;
+                    person.PhoneNumber = Convert.ToInt32(newUsPhone.Text);
                     person.Email = newUsMail.Text;
                     person.Password = newUsPsw.Text;
                     person.Address["Street"] = newUsStreet.Text;
@@ -556,7 +556,7 @@ namespace Kitbox
                     DbConnect.DbAddClient(person);
                     clientFName.Text = newUsFirstName.Text;
                     clientLName.Text = newUsLastName.Text;
-                    newClientId.Text = DbConnect.searchId(person.Phone_number).ToString();
+                    newClientId.Text = DbConnect.searchId(person.PhoneNumber).ToString();
                 }
                 catch (Exception errorSignIn)
                 {
