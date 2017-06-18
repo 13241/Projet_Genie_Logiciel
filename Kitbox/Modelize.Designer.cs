@@ -28,17 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.M_groupBox2 = new System.Windows.Forms.GroupBox();
             this.M_knop = new System.Windows.Forms.CheckBox();
             this.M_label4 = new System.Windows.Forms.Label();
-            this.label33 = new System.Windows.Forms.Label();
+            this.M_label33 = new System.Windows.Forms.Label();
             this.M_color = new System.Windows.Forms.ComboBox();
             this.M_screen = new System.Windows.Forms.Panel();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label28 = new System.Windows.Forms.Label();
-            this.comboBox9 = new System.Windows.Forms.ComboBox();
+            this.M_groupBox3 = new System.Windows.Forms.GroupBox();
+            this.M_delai = new System.Windows.Forms.TextBox();
+            this.M_label20 = new System.Windows.Forms.Label();
+            this.M_label28 = new System.Windows.Forms.Label();
+            this.M_unavailable = new System.Windows.Forms.ComboBox();
             this.M_etage = new System.Windows.Forms.Label();
             this.M_groupBox1 = new System.Windows.Forms.GroupBox();
             this.M_dim = new System.Windows.Forms.TextBox();
@@ -48,16 +48,16 @@
             this.M_newwardrobe = new System.Windows.Forms.Button();
             this.M_previeworder = new System.Windows.Forms.Button();
             this.M_options = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.M_tabPage1 = new System.Windows.Forms.TabPage();
             this.M_depth = new System.Windows.Forms.ComboBox();
             this.M_width = new System.Windows.Forms.ComboBox();
             this.M_selectwardrobe = new System.Windows.Forms.ComboBox();
             this.M_label3 = new System.Windows.Forms.Label();
             this.M_label2 = new System.Windows.Forms.Label();
             this.M_label1 = new System.Windows.Forms.Label();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.M_tabPage2 = new System.Windows.Forms.TabPage();
             this.M_height = new System.Windows.Forms.ComboBox();
-            this.label21 = new System.Windows.Forms.Label();
+            this.M_label21 = new System.Windows.Forms.Label();
             this.M_unzoom = new System.Windows.Forms.Button();
             this.M_zoom = new System.Windows.Forms.Button();
             this.M_right = new System.Windows.Forms.Button();
@@ -67,29 +67,29 @@
             this.M_addbox = new System.Windows.Forms.Button();
             this.M_removebox = new System.Windows.Forms.Button();
             this.M_pointer = new System.Windows.Forms.Label();
-            this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
+            this.M_groupBox2.SuspendLayout();
+            this.M_groupBox3.SuspendLayout();
             this.M_groupBox1.SuspendLayout();
             this.M_options.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
+            this.M_tabPage1.SuspendLayout();
+            this.M_tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
-            // groupBox2
+            // M_groupBox2
             // 
-            this.groupBox2.BackColor = System.Drawing.Color.Orange;
-            this.groupBox2.Controls.Add(this.M_knop);
-            this.groupBox2.Controls.Add(this.M_label4);
-            this.groupBox2.Controls.Add(this.label33);
-            this.groupBox2.Controls.Add(this.M_color);
-            this.groupBox2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.ForeColor = System.Drawing.Color.Black;
-            this.groupBox2.Location = new System.Drawing.Point(30, 255);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(116, 192);
-            this.groupBox2.TabIndex = 27;
-            this.groupBox2.TabStop = false;
+            this.M_groupBox2.BackColor = System.Drawing.Color.Orange;
+            this.M_groupBox2.Controls.Add(this.M_knop);
+            this.M_groupBox2.Controls.Add(this.M_label4);
+            this.M_groupBox2.Controls.Add(this.M_label33);
+            this.M_groupBox2.Controls.Add(this.M_color);
+            this.M_groupBox2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.M_groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.M_groupBox2.ForeColor = System.Drawing.Color.Black;
+            this.M_groupBox2.Location = new System.Drawing.Point(30, 255);
+            this.M_groupBox2.Name = "M_groupBox2";
+            this.M_groupBox2.Size = new System.Drawing.Size(116, 192);
+            this.M_groupBox2.TabIndex = 27;
+            this.M_groupBox2.TabStop = false;
             // 
             // M_knop
             // 
@@ -111,15 +111,15 @@
             this.M_label4.TabIndex = 5;
             this.M_label4.Text = "Options";
             // 
-            // label33
+            // M_label33
             // 
-            this.label33.AutoSize = true;
-            this.label33.ForeColor = System.Drawing.Color.White;
-            this.label33.Location = new System.Drawing.Point(6, 36);
-            this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(42, 13);
-            this.label33.TabIndex = 3;
-            this.label33.Text = "couleur";
+            this.M_label33.AutoSize = true;
+            this.M_label33.ForeColor = System.Drawing.Color.White;
+            this.M_label33.Location = new System.Drawing.Point(6, 36);
+            this.M_label33.Name = "M_label33";
+            this.M_label33.Size = new System.Drawing.Size(42, 13);
+            this.M_label33.TabIndex = 3;
+            this.M_label33.Text = "couleur";
             // 
             // M_color
             // 
@@ -141,57 +141,57 @@
             this.M_screen.Click += new System.EventHandler(this.M_screen_Click);
             this.M_screen.GotFocus += new System.EventHandler(this.OnFocus);
             // 
-            // groupBox3
+            // M_groupBox3
             // 
-            this.groupBox3.BackColor = System.Drawing.Color.Red;
-            this.groupBox3.Controls.Add(this.textBox1);
-            this.groupBox3.Controls.Add(this.label1);
-            this.groupBox3.Controls.Add(this.label28);
-            this.groupBox3.Controls.Add(this.comboBox9);
-            this.groupBox3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox3.ForeColor = System.Drawing.Color.Black;
-            this.groupBox3.Location = new System.Drawing.Point(152, 255);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(143, 96);
-            this.groupBox3.TabIndex = 27;
-            this.groupBox3.TabStop = false;
+            this.M_groupBox3.BackColor = System.Drawing.Color.Red;
+            this.M_groupBox3.Controls.Add(this.M_delai);
+            this.M_groupBox3.Controls.Add(this.M_label20);
+            this.M_groupBox3.Controls.Add(this.M_label28);
+            this.M_groupBox3.Controls.Add(this.M_unavailable);
+            this.M_groupBox3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.M_groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.M_groupBox3.ForeColor = System.Drawing.Color.Black;
+            this.M_groupBox3.Location = new System.Drawing.Point(152, 255);
+            this.M_groupBox3.Name = "M_groupBox3";
+            this.M_groupBox3.Size = new System.Drawing.Size(143, 96);
+            this.M_groupBox3.TabIndex = 27;
+            this.M_groupBox3.TabStop = false;
             // 
-            // textBox1
+            // M_delai
             // 
-            this.textBox1.Location = new System.Drawing.Point(9, 71);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(128, 20);
-            this.textBox1.TabIndex = 5;
+            this.M_delai.Location = new System.Drawing.Point(9, 71);
+            this.M_delai.Name = "M_delai";
+            this.M_delai.ReadOnly = true;
+            this.M_delai.Size = new System.Drawing.Size(128, 20);
+            this.M_delai.TabIndex = 5;
             // 
-            // label1
+            // M_label20
             // 
-            this.label1.AutoSize = true;
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(6, 55);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(31, 13);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Delai";
+            this.M_label20.AutoSize = true;
+            this.M_label20.ForeColor = System.Drawing.Color.White;
+            this.M_label20.Location = new System.Drawing.Point(6, 55);
+            this.M_label20.Name = "M_label20";
+            this.M_label20.Size = new System.Drawing.Size(31, 13);
+            this.M_label20.TabIndex = 4;
+            this.M_label20.Text = "Delai";
             // 
-            // label28
+            // M_label28
             // 
-            this.label28.AutoSize = true;
-            this.label28.ForeColor = System.Drawing.Color.White;
-            this.label28.Location = new System.Drawing.Point(6, 13);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(63, 13);
-            this.label28.TabIndex = 3;
-            this.label28.Text = "Indisponible";
+            this.M_label28.AutoSize = true;
+            this.M_label28.ForeColor = System.Drawing.Color.White;
+            this.M_label28.Location = new System.Drawing.Point(6, 13);
+            this.M_label28.Name = "M_label28";
+            this.M_label28.Size = new System.Drawing.Size(63, 13);
+            this.M_label28.TabIndex = 3;
+            this.M_label28.Text = "Indisponible";
             // 
-            // comboBox9
+            // M_unavailable
             // 
-            this.comboBox9.FormattingEnabled = true;
-            this.comboBox9.Location = new System.Drawing.Point(9, 29);
-            this.comboBox9.Name = "comboBox9";
-            this.comboBox9.Size = new System.Drawing.Size(128, 21);
-            this.comboBox9.TabIndex = 2;
+            this.M_unavailable.FormattingEnabled = true;
+            this.M_unavailable.Location = new System.Drawing.Point(9, 29);
+            this.M_unavailable.Name = "M_unavailable";
+            this.M_unavailable.Size = new System.Drawing.Size(128, 21);
+            this.M_unavailable.TabIndex = 2;
             // 
             // M_etage
             // 
@@ -275,8 +275,8 @@
             // 
             // M_options
             // 
-            this.M_options.Controls.Add(this.tabPage1);
-            this.M_options.Controls.Add(this.tabPage2);
+            this.M_options.Controls.Add(this.M_tabPage1);
+            this.M_options.Controls.Add(this.M_tabPage2);
             this.M_options.ItemSize = new System.Drawing.Size(47, 20);
             this.M_options.Location = new System.Drawing.Point(30, 27);
             this.M_options.Name = "M_options";
@@ -284,21 +284,21 @@
             this.M_options.Size = new System.Drawing.Size(235, 222);
             this.M_options.TabIndex = 36;
             // 
-            // tabPage1
+            // M_tabPage1
             // 
-            this.tabPage1.BackColor = System.Drawing.Color.DodgerBlue;
-            this.tabPage1.Controls.Add(this.M_depth);
-            this.tabPage1.Controls.Add(this.M_width);
-            this.tabPage1.Controls.Add(this.M_selectwardrobe);
-            this.tabPage1.Controls.Add(this.M_label3);
-            this.tabPage1.Controls.Add(this.M_label2);
-            this.tabPage1.Controls.Add(this.M_label1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 24);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(227, 194);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Armoire";
+            this.M_tabPage1.BackColor = System.Drawing.Color.DodgerBlue;
+            this.M_tabPage1.Controls.Add(this.M_depth);
+            this.M_tabPage1.Controls.Add(this.M_width);
+            this.M_tabPage1.Controls.Add(this.M_selectwardrobe);
+            this.M_tabPage1.Controls.Add(this.M_label3);
+            this.M_tabPage1.Controls.Add(this.M_label2);
+            this.M_tabPage1.Controls.Add(this.M_label1);
+            this.M_tabPage1.Location = new System.Drawing.Point(4, 24);
+            this.M_tabPage1.Name = "M_tabPage1";
+            this.M_tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.M_tabPage1.Size = new System.Drawing.Size(227, 194);
+            this.M_tabPage1.TabIndex = 0;
+            this.M_tabPage1.Text = "Armoire";
             // 
             // M_depth
             // 
@@ -361,17 +361,17 @@
             this.M_label1.TabIndex = 0;
             this.M_label1.Text = "Meuble n° :";
             // 
-            // tabPage2
+            // M_tabPage2
             // 
-            this.tabPage2.BackColor = System.Drawing.Color.ForestGreen;
-            this.tabPage2.Controls.Add(this.M_height);
-            this.tabPage2.Controls.Add(this.label21);
-            this.tabPage2.Location = new System.Drawing.Point(4, 24);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(227, 194);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Casier";
+            this.M_tabPage2.BackColor = System.Drawing.Color.ForestGreen;
+            this.M_tabPage2.Controls.Add(this.M_height);
+            this.M_tabPage2.Controls.Add(this.M_label21);
+            this.M_tabPage2.Location = new System.Drawing.Point(4, 24);
+            this.M_tabPage2.Name = "M_tabPage2";
+            this.M_tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.M_tabPage2.Size = new System.Drawing.Size(227, 194);
+            this.M_tabPage2.TabIndex = 1;
+            this.M_tabPage2.Text = "Casier";
             // 
             // M_height
             // 
@@ -383,15 +383,15 @@
             this.M_height.SelectedValueChanged += new System.EventHandler(this.M_height_SelectedValueChanged);
             this.M_height.Enter += new System.EventHandler(this.M_height_Enter);
             // 
-            // label21
+            // M_label21
             // 
-            this.label21.AutoSize = true;
-            this.label21.ForeColor = System.Drawing.SystemColors.Control;
-            this.label21.Location = new System.Drawing.Point(18, 24);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(51, 13);
-            this.label21.TabIndex = 11;
-            this.label21.Text = "Hauteur :";
+            this.M_label21.AutoSize = true;
+            this.M_label21.ForeColor = System.Drawing.SystemColors.Control;
+            this.M_label21.Location = new System.Drawing.Point(18, 24);
+            this.M_label21.Name = "M_label21";
+            this.M_label21.Size = new System.Drawing.Size(51, 13);
+            this.M_label21.TabIndex = 11;
+            this.M_label21.Text = "Hauteur :";
             // 
             // M_unzoom
             // 
@@ -490,8 +490,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(773, 496);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.M_groupBox3);
+            this.Controls.Add(this.M_groupBox2);
             this.Controls.Add(this.M_pointer);
             this.Controls.Add(this.M_removebox);
             this.Controls.Add(this.M_addbox);
@@ -510,31 +510,31 @@
             this.Name = "Modelize";
             this.Text = "Modelize";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UnBook);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
+            this.M_groupBox2.ResumeLayout(false);
+            this.M_groupBox2.PerformLayout();
+            this.M_groupBox3.ResumeLayout(false);
+            this.M_groupBox3.PerformLayout();
             this.M_groupBox1.ResumeLayout(false);
             this.M_groupBox1.PerformLayout();
             this.M_options.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
+            this.M_tabPage1.ResumeLayout(false);
+            this.M_tabPage1.PerformLayout();
+            this.M_tabPage2.ResumeLayout(false);
+            this.M_tabPage2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox M_groupBox2;
         private System.Windows.Forms.Label M_label4;
-        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.Label M_label33;
         private System.Windows.Forms.ComboBox M_color;
         private System.Windows.Forms.Panel M_screen;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.Label label28;
-        private System.Windows.Forms.ComboBox comboBox9;
+        private System.Windows.Forms.GroupBox M_groupBox3;
+        private System.Windows.Forms.Label M_label28;
+        private System.Windows.Forms.ComboBox M_unavailable;
         private System.Windows.Forms.Label M_etage;
         private System.Windows.Forms.GroupBox M_groupBox1;
         private System.Windows.Forms.Label M_heightinfo;
@@ -542,16 +542,16 @@
         private System.Windows.Forms.Button M_newwardrobe;
         private System.Windows.Forms.Button M_previeworder;
         private System.Windows.Forms.TabControl M_options;
-        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage M_tabPage1;
         private System.Windows.Forms.ComboBox M_depth;
         private System.Windows.Forms.ComboBox M_width;
         private System.Windows.Forms.ComboBox M_selectwardrobe;
         private System.Windows.Forms.Label M_label3;
         private System.Windows.Forms.Label M_label2;
         private System.Windows.Forms.Label M_label1;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage M_tabPage2;
         private System.Windows.Forms.ComboBox M_height;
-        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label M_label21;
         private System.Windows.Forms.Button M_unzoom;
         private System.Windows.Forms.Button M_zoom;
         private System.Windows.Forms.Button M_right;
@@ -562,8 +562,8 @@
         private System.Windows.Forms.Button M_removebox;
         private System.Windows.Forms.Label M_pointer;
         private System.Windows.Forms.CheckBox M_knop;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label M_label20;
+        private System.Windows.Forms.TextBox M_delai;
         private System.Windows.Forms.TextBox M_dim;
         private System.Windows.Forms.TextBox M_price;
     }
