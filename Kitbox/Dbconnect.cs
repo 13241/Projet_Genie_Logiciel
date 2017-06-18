@@ -30,22 +30,19 @@ namespace Kitbox
 
             return person;
 		}
-		public static bool DbConnectEmployee(int seller_Id, string password)
+		public static bool DbConnectEmployee(int seller_id, string password)
 		{
-            return false;
-		}
-		// args is a string collection, example : "1", "PrixClient=4"
-		// The first element of the collection is always the Id number of the item. 
-		// In case of the example above, we're changing the values of the first item.
-		public static void DbModifyStock(params string[] args)
-		{
-			BDD database = new BDD("kitbox");
-			int size = args.Count();
-			string number_Id = args[0];
-			// Skip the first element of the string
-			var array = args.Skip(1).ToArray();
-			string data = string.Join(",", array);
-			database.modifyElement("catalog", data, number_Id);
+            BDD database = new BDD("kitbox");
+            List<List<object>> list = new List<List<object>>();
+            string selection = "Seller_id, Password";
+            string table_name = "seller";
+            string condition = string.Format("WHERE (Seller_Id = '{0}' AND Password = '{1}')", seller_id.ToString(), password);
+            list = database.readElement(selection,table_name,condition);
+            if (list.Count == 0)
+            {
+                return false;
+            }
+            return true;
 		}
 		public static void DbAddClient(Person person)
 		{
