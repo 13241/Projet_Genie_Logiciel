@@ -271,6 +271,8 @@ namespace Kitbox
             get { return scaling; }
         }
 
+        public Dictionary<string, VPPanel> Views1 { get => views; set => views = value; }
+
         /*
          * 
          */

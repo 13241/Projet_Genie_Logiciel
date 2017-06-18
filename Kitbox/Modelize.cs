@@ -18,6 +18,7 @@ namespace Kitbox
         private VisualPart part;
         Stack<VisualPart> parts;
         string view;
+        bool player_modif_height;
 
         public Modelize()
         {
@@ -25,6 +26,7 @@ namespace Kitbox
             order = new Order();
             wardrobe = new Wardrobe(new Size3D(120, 36, 42));
             order.Wardrobes.Add(wardrobe);
+            player_modif_height = false;
             Preset();
         }
 
@@ -46,10 +48,13 @@ namespace Kitbox
 
         public void DisplayVisualPart(string view)
         {
-            M_screen.Controls.Clear();
-            part.CleanFocus();
-            part.ChangeScaling(M_screen.Size);
-            M_screen.Controls.Add(part.Display()[view]);
+            if(part.Views1.ContainsKey(view))
+            {
+                M_screen.Controls.Clear();
+                part.CleanFocus();
+                part.ChangeScaling(M_screen.Size);
+                M_screen.Controls.Add(part.Display()[view]);
+            }
         }
 
         private void UnBook(object sender, FormClosingEventArgs e)
@@ -64,6 +69,16 @@ namespace Kitbox
         private void OnFocus(object sender, EventArgs e)
         {
             M_pointer.Text = part.Pointer;
+            string piece = wardrobe.Visual_part.Pointer.Split('_').Last();
+            player_modif_height = false;
+            if (typeof(Part).IsInstanceOfType(wardrobe.Components[piece.Split('*').First()][piece.Split('*').Last()]))
+            {
+                M_height.Text = Convert.ToString(((Part)wardrobe.Components[piece.Split('*').First()][piece.Split('*').Last()]).Dimensions.Y);
+            }
+            else
+            {
+                M_height.Text = Convert.ToString(((Box)wardrobe.Components[piece.Split('*').First()][piece.Split('*').Last()]).Dimensions.Y);
+            }
         }
 
         private void ZoneWardrobe(bool isZoneWardrobe)
@@ -155,15 +170,6 @@ namespace Kitbox
                 if(parts.Count == 1)
                 {
                     M_etage.Text = piece;
-                    if(typeof(Part).IsInstanceOfType(wardrobe.Components[piece.Split('*').First()][piece.Split('*').Last()]))
-                    {
-                        M_height.Text = Convert.ToString(((Part)wardrobe.Components[piece.Split('*').First()][piece.Split('*').Last()]).Dimensions.Y);
-                    }
-                    else
-                    {
-                        M_height.Text = Convert.ToString(((Box)wardrobe.Components[piece.Split('*').First()][piece.Split('*').Last()]).Dimensions.Y);
-                    }
-
                 }
             }
         }
@@ -264,6 +270,7 @@ namespace Kitbox
 
         private void M_height_Enter(object sender, EventArgs e)
         {
+            player_modif_height = true;
             M_height.Items.Clear();
             List<string> options = DbCatalog.DbGetHeightOpt(Convert.ToDouble(M_height.Text), wardrobe.Dimensions.Y);
             foreach(string option in options)
@@ -274,10 +281,13 @@ namespace Kitbox
 
         private void M_height_SelectedValueChanged(object sender, EventArgs e)
         {
-            string position = wardrobe.Visual_part.Pointer.Split('*').Last();
-            wardrobe.ResizeBox(position, Convert.ToDouble(M_height.Items[M_height.SelectedIndex]));
-            M_height.Text = Convert.ToString(M_height.Items[M_height.SelectedIndex]);
-            Preset();
+            if(player_modif_height)
+            {
+                string position = wardrobe.Visual_part.Pointer.Split('*').Last();
+                wardrobe.ResizeBox(position, Convert.ToDouble(M_height.Items[M_height.SelectedIndex]));
+                M_height.Text = Convert.ToString(M_height.Items[M_height.SelectedIndex]);
+                Preset();
+            }
         }
     }
 }
