@@ -252,33 +252,32 @@ namespace Kitbox
         {
             wardrobe.ChangeSurface(Convert.ToDouble(M_width.Items[M_width.SelectedIndex]), wardrobe.Dimensions.Z);
             M_width.Text = Convert.ToString(M_width.Items[M_width.SelectedIndex]);
-            part = wardrobe.Visual_part;
-            view = "front";
-            DisplayVisualPart(view);
+            Preset();
         }
 
         private void M_depth_SelectedValueChanged(object sender, EventArgs e)
         {
             wardrobe.ChangeSurface(wardrobe.Dimensions.X, Convert.ToDouble(M_depth.Items[M_depth.SelectedIndex]));
             M_depth.Text = Convert.ToString(M_depth.Items[M_depth.SelectedIndex]);
-            part = wardrobe.Visual_part;
-            view = "front";
-            DisplayVisualPart(view);
+            Preset();
         }
 
         private void M_height_Enter(object sender, EventArgs e)
         {
-
+            M_height.Items.Clear();
+            List<string> options = DbCatalog.DbGetHeightOpt(Convert.ToDouble(M_height.Text), wardrobe.Dimensions.Y);
+            foreach(string option in options)
+            {
+                M_height.Items.Add(option);
+            }
         }
 
         private void M_height_SelectedValueChanged(object sender, EventArgs e)
         {
             string position = wardrobe.Visual_part.Pointer.Split('*').Last();
-            wardrobe.ResizeBox(position, Convert.ToDouble(M_width.Items[M_width.SelectedIndex]));
-            M_height.Text = Convert.ToString(M_width.Items[M_width.SelectedIndex]);
-            part = wardrobe.Visual_part;
-            view = "front";
-            DisplayVisualPart(view);
+            wardrobe.ResizeBox(position, Convert.ToDouble(M_height.Items[M_height.SelectedIndex]));
+            M_height.Text = Convert.ToString(M_height.Items[M_height.SelectedIndex]);
+            Preset();
         }
     }
 }

@@ -277,9 +277,10 @@ namespace Kitbox
             {
                 if(h_wardrobe - h_box + 4 + Convert.ToDouble(h[0]) <= h_max)
                 {
-                    hs.Add(Convert.ToString(h[0]));
+                    hs.Add(Convert.ToString(4 + Convert.ToDouble(h[0])));
                 }
             }
+
             return hs;
         }
 
