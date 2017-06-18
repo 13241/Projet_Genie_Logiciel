@@ -60,9 +60,14 @@ namespace Kitbox
 
         public void SetKnop(Knop knop, int x_location, string knop_position = "left/right")
         {
+            if(this.knop != null)
+            {
+                Selling_price -= this.knop.Selling_price;
+            }
             this.knop_position = knop_position.Split('/')[0];
             this.knop = knop;
             this.knop.Location = new Point3D(x_location, 0, 0);
+            Selling_price += this.knop.Selling_price;
         }
     }
 }

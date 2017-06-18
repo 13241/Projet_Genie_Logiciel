@@ -27,6 +27,7 @@ namespace Kitbox
             wardrobe = new Wardrobe(new Size3D(120, 36, 42));
             order.Wardrobes.Add(wardrobe);
             player_modif = false;
+            M_selectwardrobe.Text = Convert.ToString(0);
             Preset();
         }
 
@@ -39,11 +40,13 @@ namespace Kitbox
             DisplayVisualPart(view);
             ZoneWardrobe(true);
 
-            M_selectwardrobe.Text = Convert.ToString(0);
-
             M_depth.Text = Convert.ToString(wardrobe.Dimensions.Z);
 
             M_width.Text = Convert.ToString(wardrobe.Dimensions.X);
+
+            M_price.Text = Convert.ToString(wardrobe.SellingPrice());
+
+            M_dim.Text = Convert.ToString(wardrobe.Dimensions.X) + "*" + Convert.ToString(wardrobe.Dimensions.Y) + "*" + Convert.ToString(wardrobe.Dimensions.Z);
         }
 
         public void DisplayVisualPart(string view)
@@ -206,19 +209,14 @@ namespace Kitbox
                 return;
             }
             wardrobe.AddBox(36);
-            part = wardrobe.Visual_part;
-            parts = new Stack<VisualPart>();
-            view = "front";
-            DisplayVisualPart(view);
+            Preset();
         }
 
         private void M_removebox_Click(object sender, EventArgs e)
         {
             string position = wardrobe.Visual_part.Pointer.Split('*').Last();
             wardrobe.RemoveBox(position);
-            part = wardrobe.Visual_part;
-            view = "front";
-            DisplayVisualPart(view);
+            Preset();
         }
 
         private void M_screen_Click(object sender, EventArgs e)
@@ -277,13 +275,17 @@ namespace Kitbox
 
         private void M_height_Enter(object sender, EventArgs e)
         {
-            player_modif = true;
-            M_height.Items.Clear();
-            List<string> options = DbCatalog.DbGetHeightOpt(Convert.ToDouble(M_height.Text), wardrobe.Dimensions.Y);
-            foreach(string option in options)
+            try
             {
-                M_height.Items.Add(option);
+                player_modif = true;
+                M_height.Items.Clear();
+                List<string> options = DbCatalog.DbGetHeightOpt(Convert.ToDouble(M_height.Text), wardrobe.Dimensions.Y);
+                foreach (string option in options)
+                {
+                    M_height.Items.Add(option);
+                }
             }
+            catch { }
         }
 
         private void M_height_SelectedValueChanged(object sender, EventArgs e)
@@ -299,31 +301,35 @@ namespace Kitbox
 
         private void M_color_Enter(object sender, EventArgs e)
         {
-            player_modif = true;
-            M_color.Items.Clear();
-            string piece = wardrobe.Visual_part.Pointer.Split('_').Last();
-            Part mypart;
-            if(piece.Contains("Etage"))
+            try
             {
-                string part = ((Box)wardrobe.Components[piece.Split('*').First()][piece.Split('*').Last()]).Visual_part.Pointer.Split('_').Last();
-                mypart = ((Box)wardrobe.Components[piece.Split('*').First()][piece.Split('*').Last()]).Pieces[part.Split('*').First()][part.Split('*').Last()];
-            }
-            else
-            {
-                mypart = ((Part)wardrobe.Components[piece.Split('*').First()][piece.Split('*').Last()]);
-            }
-            Dictionary<string, string> selected_characteristics = new Dictionary<string, string>()
+                player_modif = true;
+                M_color.Items.Clear();
+                string piece = wardrobe.Visual_part.Pointer.Split('_').Last();
+                Part mypart;
+                if (piece.Contains("Etage"))
+                {
+                    string part = ((Box)wardrobe.Components[piece.Split('*').First()][piece.Split('*').Last()]).Visual_part.Pointer.Split('_').Last();
+                    mypart = ((Box)wardrobe.Components[piece.Split('*').First()][piece.Split('*').Last()]).Pieces[part.Split('*').First()][part.Split('*').Last()];
+                }
+                else
+                {
+                    mypart = ((Part)wardrobe.Components[piece.Split('*').First()][piece.Split('*').Last()]);
+                }
+                Dictionary<string, string> selected_characteristics = new Dictionary<string, string>()
                 {
                     { "Ref", mypart.Reference },
                     { "largeur", Convert.ToString(mypart.Dimensions.X) },
                     { "hauteur", Convert.ToString(mypart.Dimensions.Y) },
                     { "profondeur", Convert.ToString(mypart.Dimensions.Z) }
                 };
-            List<string> options = DbCatalog.DbGetColors(selected_characteristics);
-            foreach (string option in options)
-            {
-                M_color.Items.Add(option);
+                List<string> options = DbCatalog.DbGetColors(selected_characteristics);
+                foreach (string option in options)
+                {
+                    M_color.Items.Add(option);
+                }
             }
+            catch { }
         }
 
         private void M_color_SelectedValueChanged(object sender, EventArgs e)
@@ -335,6 +341,20 @@ namespace Kitbox
                 M_color.Text = Convert.ToString(M_color.Items[M_color.SelectedIndex]);
                 Preset();
             }
+        }
+
+        private void M_newwardrobe_Click(object sender, EventArgs e)
+        {
+            wardrobe = new Wardrobe(new Size3D(120, 36, 42));
+            order.Wardrobes.Add(wardrobe);
+            player_modif = false;
+            M_selectwardrobe.Text = Convert.ToString(order.Wardrobes.Count - 1);
+            Preset();
+        }
+
+        private void M_previeworder_Click(object sender, EventArgs e)
+        {
+            //MODIF!!
         }
     }
 }

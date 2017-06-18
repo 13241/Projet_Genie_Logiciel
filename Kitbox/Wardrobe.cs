@@ -57,6 +57,26 @@ namespace Kitbox
             Book();
         }
 
+        public double SellingPrice()
+        {
+            double selling_price = 0;
+            foreach (string piece in Components.Keys)
+            {
+                foreach (string position in Components[piece].Keys)
+                {
+                    if(typeof(Box).IsInstanceOfType(Components[piece][position]))
+                    {
+                        selling_price += ((Box)Components[piece][position]).SellingPrice();
+                    }
+                    else
+                    {
+                        selling_price += ((Part)Components[piece][position]).Selling_price;
+                    }
+                }
+            }
+            return selling_price;
+        }
+
         public virtual void ChangeSurface(double w, double d)
         {
             UnBook();

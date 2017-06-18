@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.M_knop = new System.Windows.Forms.CheckBox();
             this.M_label4 = new System.Windows.Forms.Label();
             this.label33 = new System.Windows.Forms.Label();
             this.M_color = new System.Windows.Forms.ComboBox();
@@ -41,14 +41,12 @@
             this.comboBox9 = new System.Windows.Forms.ComboBox();
             this.M_etage = new System.Windows.Forms.Label();
             this.M_groupBox1 = new System.Windows.Forms.GroupBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.M_dim = new System.Windows.Forms.TextBox();
+            this.M_price = new System.Windows.Forms.TextBox();
             this.M_heightinfo = new System.Windows.Forms.Label();
             this.M_costinfo = new System.Windows.Forms.Label();
-            this.button9 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.M_newwardrobe = new System.Windows.Forms.Button();
+            this.M_previeworder = new System.Windows.Forms.Button();
             this.M_options = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.M_depth = new System.Windows.Forms.ComboBox();
@@ -80,7 +78,7 @@
             // groupBox2
             // 
             this.groupBox2.BackColor = System.Drawing.Color.Orange;
-            this.groupBox2.Controls.Add(this.checkBox1);
+            this.groupBox2.Controls.Add(this.M_knop);
             this.groupBox2.Controls.Add(this.M_label4);
             this.groupBox2.Controls.Add(this.label33);
             this.groupBox2.Controls.Add(this.M_color);
@@ -93,15 +91,15 @@
             this.groupBox2.TabIndex = 27;
             this.groupBox2.TabStop = false;
             // 
-            // checkBox1
+            // M_knop
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(6, 79);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(80, 17);
-            this.checkBox1.TabIndex = 6;
-            this.checkBox1.Text = "checkBox1";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.M_knop.AutoSize = true;
+            this.M_knop.Location = new System.Drawing.Point(6, 79);
+            this.M_knop.Name = "M_knop";
+            this.M_knop.Size = new System.Drawing.Size(80, 17);
+            this.M_knop.TabIndex = 6;
+            this.M_knop.Text = "checkBox1";
+            this.M_knop.UseVisualStyleBackColor = true;
             // 
             // M_label4
             // 
@@ -208,8 +206,8 @@
             // M_groupBox1
             // 
             this.M_groupBox1.BackColor = System.Drawing.Color.Transparent;
-            this.M_groupBox1.Controls.Add(this.textBox3);
-            this.M_groupBox1.Controls.Add(this.textBox2);
+            this.M_groupBox1.Controls.Add(this.M_dim);
+            this.M_groupBox1.Controls.Add(this.M_price);
             this.M_groupBox1.Controls.Add(this.M_heightinfo);
             this.M_groupBox1.Controls.Add(this.M_costinfo);
             this.M_groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
@@ -221,21 +219,21 @@
             this.M_groupBox1.TabIndex = 40;
             this.M_groupBox1.TabStop = false;
             // 
-            // textBox3
+            // M_dim
             // 
-            this.textBox3.Location = new System.Drawing.Point(108, 35);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.ReadOnly = true;
-            this.textBox3.Size = new System.Drawing.Size(128, 20);
-            this.textBox3.TabIndex = 7;
+            this.M_dim.Location = new System.Drawing.Point(108, 35);
+            this.M_dim.Name = "M_dim";
+            this.M_dim.ReadOnly = true;
+            this.M_dim.Size = new System.Drawing.Size(128, 20);
+            this.M_dim.TabIndex = 7;
             // 
-            // textBox2
+            // M_price
             // 
-            this.textBox2.Location = new System.Drawing.Point(108, 13);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(128, 20);
-            this.textBox2.TabIndex = 6;
+            this.M_price.Location = new System.Drawing.Point(108, 13);
+            this.M_price.Name = "M_price";
+            this.M_price.ReadOnly = true;
+            this.M_price.Size = new System.Drawing.Size(128, 20);
+            this.M_price.TabIndex = 6;
             // 
             // M_heightinfo
             // 
@@ -255,41 +253,25 @@
             this.M_costinfo.TabIndex = 0;
             this.M_costinfo.Text = "Prix Armoire(€) :";
             // 
-            // button9
+            // M_newwardrobe
             // 
-            this.button9.Location = new System.Drawing.Point(638, 453);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(75, 21);
-            this.button9.TabIndex = 39;
-            this.button9.Text = "Annuler";
-            this.button9.UseVisualStyleBackColor = true;
+            this.M_newwardrobe.Location = new System.Drawing.Point(448, 453);
+            this.M_newwardrobe.Name = "M_newwardrobe";
+            this.M_newwardrobe.Size = new System.Drawing.Size(158, 21);
+            this.M_newwardrobe.TabIndex = 38;
+            this.M_newwardrobe.Text = "Ajouter un nouveau meuble";
+            this.M_newwardrobe.UseVisualStyleBackColor = true;
+            this.M_newwardrobe.Click += new System.EventHandler(this.M_newwardrobe_Click);
             // 
-            // button8
+            // M_previeworder
             // 
-            this.button8.Location = new System.Drawing.Point(448, 453);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(158, 21);
-            this.button8.TabIndex = 38;
-            this.button8.Text = "Ajouter un nouveau meuble";
-            this.button8.UseVisualStyleBackColor = true;
-            // 
-            // button6
-            // 
-            this.button6.Location = new System.Drawing.Point(232, 453);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(174, 21);
-            this.button6.TabIndex = 37;
-            this.button6.Text = "Terminer la commande";
-            this.button6.UseVisualStyleBackColor = true;
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(120, 453);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 21);
-            this.button4.TabIndex = 35;
-            this.button4.Text = "Retour";
-            this.button4.UseVisualStyleBackColor = true;
+            this.M_previeworder.Location = new System.Drawing.Point(232, 453);
+            this.M_previeworder.Name = "M_previeworder";
+            this.M_previeworder.Size = new System.Drawing.Size(174, 21);
+            this.M_previeworder.TabIndex = 37;
+            this.M_previeworder.Text = "Terminer la commande";
+            this.M_previeworder.UseVisualStyleBackColor = true;
+            this.M_previeworder.Click += new System.EventHandler(this.M_previeworder_Click);
             // 
             // M_options
             // 
@@ -522,10 +504,8 @@
             this.Controls.Add(this.M_screen);
             this.Controls.Add(this.M_etage);
             this.Controls.Add(this.M_groupBox1);
-            this.Controls.Add(this.button9);
-            this.Controls.Add(this.button8);
-            this.Controls.Add(this.button6);
-            this.Controls.Add(this.button4);
+            this.Controls.Add(this.M_newwardrobe);
+            this.Controls.Add(this.M_previeworder);
             this.Controls.Add(this.M_options);
             this.Name = "Modelize";
             this.Text = "Modelize";
@@ -559,10 +539,8 @@
         private System.Windows.Forms.GroupBox M_groupBox1;
         private System.Windows.Forms.Label M_heightinfo;
         private System.Windows.Forms.Label M_costinfo;
-        private System.Windows.Forms.Button button9;
-        private System.Windows.Forms.Button button8;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button M_newwardrobe;
+        private System.Windows.Forms.Button M_previeworder;
         private System.Windows.Forms.TabControl M_options;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.ComboBox M_depth;
@@ -583,10 +561,10 @@
         private System.Windows.Forms.Button M_addbox;
         private System.Windows.Forms.Button M_removebox;
         private System.Windows.Forms.Label M_pointer;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox M_knop;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox M_dim;
+        private System.Windows.Forms.TextBox M_price;
     }
 }

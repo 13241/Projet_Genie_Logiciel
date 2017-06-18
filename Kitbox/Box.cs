@@ -53,6 +53,19 @@ namespace Kitbox
             DefaultBox();
         }
 
+        public double SellingPrice()
+        {
+            double selling_price = 0;
+            foreach(string piece in Pieces.Keys)
+            {
+                foreach(string position in Pieces[piece].Keys)
+                {
+                    selling_price += Pieces[piece][position].Selling_price;
+                }
+            }
+            return selling_price;
+        }
+
         public virtual void Book(bool buy = false)
         {
             foreach (string name in Pieces.Keys)
