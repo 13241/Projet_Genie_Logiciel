@@ -32,7 +32,7 @@
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.M_label4 = new System.Windows.Forms.Label();
             this.label33 = new System.Windows.Forms.Label();
-            this.comboBox4 = new System.Windows.Forms.ComboBox();
+            this.M_color = new System.Windows.Forms.ComboBox();
             this.M_screen = new System.Windows.Forms.Panel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -83,7 +83,7 @@
             this.groupBox2.Controls.Add(this.checkBox1);
             this.groupBox2.Controls.Add(this.M_label4);
             this.groupBox2.Controls.Add(this.label33);
-            this.groupBox2.Controls.Add(this.comboBox4);
+            this.groupBox2.Controls.Add(this.M_color);
             this.groupBox2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.ForeColor = System.Drawing.Color.Black;
@@ -123,13 +123,15 @@
             this.label33.TabIndex = 3;
             this.label33.Text = "couleur";
             // 
-            // comboBox4
+            // M_color
             // 
-            this.comboBox4.FormattingEnabled = true;
-            this.comboBox4.Location = new System.Drawing.Point(6, 52);
-            this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(102, 21);
-            this.comboBox4.TabIndex = 2;
+            this.M_color.FormattingEnabled = true;
+            this.M_color.Location = new System.Drawing.Point(6, 52);
+            this.M_color.Name = "M_color";
+            this.M_color.Size = new System.Drawing.Size(102, 21);
+            this.M_color.TabIndex = 2;
+            this.M_color.SelectedValueChanged += new System.EventHandler(this.M_color_SelectedValueChanged);
+            this.M_color.Enter += new System.EventHandler(this.M_color_Enter);
             // 
             // M_screen
             // 
@@ -548,7 +550,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label M_label4;
         private System.Windows.Forms.Label label33;
-        private System.Windows.Forms.ComboBox comboBox4;
+        private System.Windows.Forms.ComboBox M_color;
         private System.Windows.Forms.Panel M_screen;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label28;

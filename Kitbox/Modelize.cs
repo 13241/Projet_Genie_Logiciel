@@ -18,7 +18,7 @@ namespace Kitbox
         private VisualPart part;
         Stack<VisualPart> parts;
         string view;
-        bool player_modif_height;
+        bool player_modif;
 
         public Modelize()
         {
@@ -26,7 +26,7 @@ namespace Kitbox
             order = new Order();
             wardrobe = new Wardrobe(new Size3D(120, 36, 42));
             order.Wardrobes.Add(wardrobe);
-            player_modif_height = false;
+            player_modif = false;
             Preset();
         }
 
@@ -70,15 +70,22 @@ namespace Kitbox
         {
             M_pointer.Text = part.Pointer;
             string piece = wardrobe.Visual_part.Pointer.Split('_').Last();
-            player_modif_height = false;
-            if (typeof(Part).IsInstanceOfType(wardrobe.Components[piece.Split('*').First()][piece.Split('*').Last()]))
-            {
-                M_height.Text = Convert.ToString(((Part)wardrobe.Components[piece.Split('*').First()][piece.Split('*').Last()]).Dimensions.Y);
-            }
-            else
-            {
-                M_height.Text = Convert.ToString(((Box)wardrobe.Components[piece.Split('*').First()][piece.Split('*').Last()]).Dimensions.Y);
-            }
+            player_modif = false;
+                if (typeof(Part).IsInstanceOfType(wardrobe.Components[piece.Split('*').First()][piece.Split('*').Last()]))
+                {
+                    M_height.Text = Convert.ToString(((Part)wardrobe.Components[piece.Split('*').First()][piece.Split('*').Last()]).Dimensions.Y);
+                    M_color.Text = DbCatalog.TraduireCouleur(((Part)wardrobe.Components[piece.Split('*').First()][piece.Split('*').Last()]).Color.Name);
+                }
+                else
+                {
+                    M_height.Text = Convert.ToString(((Box)wardrobe.Components[piece.Split('*').First()][piece.Split('*').Last()]).Dimensions.Y);
+                    string part = ((Box)wardrobe.Components[piece.Split('*').First()][piece.Split('*').Last()]).Visual_part.Pointer.Split('_').Last();
+                    try//si la selection est une box mais qu'aucune piece n'est selectionnee, il ne faut pas changer le texte
+                    {
+                        M_color.Text = DbCatalog.TraduireCouleur(((Box)wardrobe.Components[piece.Split('*').First()][piece.Split('*').Last()]).Pieces[part.Split('*').First()][part.Split('*').Last()].Color.Name);
+                    }
+                    catch { }
+                }
         }
 
         private void ZoneWardrobe(bool isZoneWardrobe)
@@ -270,7 +277,7 @@ namespace Kitbox
 
         private void M_height_Enter(object sender, EventArgs e)
         {
-            player_modif_height = true;
+            player_modif = true;
             M_height.Items.Clear();
             List<string> options = DbCatalog.DbGetHeightOpt(Convert.ToDouble(M_height.Text), wardrobe.Dimensions.Y);
             foreach(string option in options)
@@ -281,11 +288,51 @@ namespace Kitbox
 
         private void M_height_SelectedValueChanged(object sender, EventArgs e)
         {
-            if(player_modif_height)
+            if(player_modif)
             {
                 string position = wardrobe.Visual_part.Pointer.Split('*').Last();
                 wardrobe.ResizeBox(position, Convert.ToDouble(M_height.Items[M_height.SelectedIndex]));
                 M_height.Text = Convert.ToString(M_height.Items[M_height.SelectedIndex]);
+                Preset();
+            }
+        }
+
+        private void M_color_Enter(object sender, EventArgs e)
+        {
+            player_modif = true;
+            M_color.Items.Clear();
+            string piece = wardrobe.Visual_part.Pointer.Split('_').Last();
+            Part mypart;
+            if(piece.Contains("Etage"))
+            {
+                string part = ((Box)wardrobe.Components[piece.Split('*').First()][piece.Split('*').Last()]).Visual_part.Pointer.Split('_').Last();
+                mypart = ((Box)wardrobe.Components[piece.Split('*').First()][piece.Split('*').Last()]).Pieces[part.Split('*').First()][part.Split('*').Last()];
+            }
+            else
+            {
+                mypart = ((Part)wardrobe.Components[piece.Split('*').First()][piece.Split('*').Last()]);
+            }
+            Dictionary<string, string> selected_characteristics = new Dictionary<string, string>()
+                {
+                    { "Ref", mypart.Reference },
+                    { "largeur", Convert.ToString(mypart.Dimensions.X) },
+                    { "hauteur", Convert.ToString(mypart.Dimensions.Y) },
+                    { "profondeur", Convert.ToString(mypart.Dimensions.Z) }
+                };
+            List<string> options = DbCatalog.DbGetColors(selected_characteristics);
+            foreach (string option in options)
+            {
+                M_color.Items.Add(option);
+            }
+        }
+
+        private void M_color_SelectedValueChanged(object sender, EventArgs e)
+        {
+            if(player_modif)
+            {
+                string etage = wardrobe.Visual_part.Pointer.Split('_').Last();
+                wardrobe.ChangeColor(Convert.ToString(M_color.Items[M_color.SelectedIndex]));
+                M_color.Text = Convert.ToString(M_color.Items[M_color.SelectedIndex]);
                 Preset();
             }
         }
