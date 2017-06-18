@@ -9,8 +9,60 @@ namespace Kitbox
 		public static void DbConnectCatalog(string[] parameters)
 		{
 		}
-		public static void DbRemoveFromStock (List<string> codes)
+		public static string DbRemoveFromStock (string code, int ratio_command = 2)
 		{
+            BDD database = new BDD("kitbox");
+            string selection = "Enstock, Reserve, Stock_minimum, PrixFourn1, DelaiFourn1, CommandeFourn1, PrixFourn2, DelaiFourn2, CommandeFourn2, Id";
+            string table_name = "catalog";
+            string condition = "WHERE (Code = '" + code + "');";
+            List<List<object>> result = database.readElement(selection, table_name, condition);
+            string delayed = "0";
+            if (result.Count > 0)
+            {
+                if (Convert.ToInt32(result[0][0]) > 0 && Convert.ToInt32(result[0][1]) > 0)
+                {
+                    string modification = "Enstock = '" + Convert.ToString(Convert.ToInt32(result[0][0]) - 1) + "'";
+                    modification += ", Reserve = '" + Convert.ToString(Convert.ToInt32(result[0][1]) - 1) + "'";
+                    if(Convert.ToInt32(result[0][0]) - 1 < Convert.ToInt32(result[0][2]) && Convert.ToInt32(result[0][5]) == 0 && Convert.ToInt32(result[0][8]) == 0)
+                    {
+                        if(Convert.ToDouble(result[0][3]) < Convert.ToDouble(result[0][6]))
+                        {
+                            modification += ", CommandeFourn1 = '" + Convert.ToString(Convert.ToInt32(result[0][2]) * ratio_command) + "'";
+                        }
+                        else if(Convert.ToDouble(result[0][3]) > Convert.ToDouble(result[0][6]))
+                        {
+                            modification += ", CommandeFourn2 = '" + Convert.ToString(Convert.ToInt32(result[0][2]) * ratio_command) + "'";
+                        }
+                        else
+                        {
+                            if(Convert.ToDouble(result[0][4]) <= Convert.ToDouble(result[0][7]))
+                            {
+                                modification += ", CommandeFourn1 = '" + Convert.ToString(Convert.ToInt32(result[0][2]) * ratio_command) + "'";
+                            }
+                            else
+                            {
+                                modification += ", CommandeFourn2 = '" + Convert.ToString(Convert.ToInt32(result[0][2]) * ratio_command) + "'";
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if (Convert.ToInt32(result[0][5]) > 0)
+                    {
+                        delayed = Convert.ToString(result[0][4]);
+                    }
+                    else if (Convert.ToInt32(result[0][8]) > 0)
+                    {
+                        delayed = Convert.ToString(result[0][7]);
+                    }
+                    else
+                    {
+                        delayed = "-1";
+                    }
+                }
+            }
+            return delayed;
 		}
 		public static void DbAddTostock(Dictionary<string, int> codes)
 		{
