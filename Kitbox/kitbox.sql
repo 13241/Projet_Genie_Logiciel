@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Client :  127.0.0.1
--- Généré le :  Dim 18 Juin 2017 à 08:11
+-- Généré le :  Dim 18 Juin 2017 à 09:19
 -- Version du serveur :  5.7.14
 -- Version de PHP :  5.6.25
 
@@ -399,7 +399,7 @@ INSERT INTO `client` (`Client_Id`, `Firstname`, `Lastname`, `Phonenumber`, `Emai
 CREATE TABLE `orders` (
   `Order_Id` int(11) NOT NULL,
   `Client_Id` int(11) NOT NULL,
-  `Date` varchar(15) NOT NULL,
+  `Date` varchar(40) NOT NULL,
   `Header_Bill` text NOT NULL,
   `Footer_Bill` text NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -416,18 +416,6 @@ CREATE TABLE `rel_catord` (
   `Box_Id` int(11) NOT NULL,
   `Component_Id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Contenu de la table `rel_catord`
---
-
-INSERT INTO `rel_catord` (`Order_Id`, `Wardrobe_Id`, `Box_Id`, `Component_Id`) VALUES
-(0, 1, 1, 1),
-(0, 1, 2, 1),
-(1, 0, 1, 1),
-(1, 0, 1, 1),
-(1, 1, 2, 2),
-(1, 1, 2, 3);
 
 -- --------------------------------------------------------
 
@@ -481,6 +469,12 @@ CREATE TABLE `supplier` (
 --
 -- Index pour les tables exportées
 --
+
+--
+-- Index pour la table `catalog`
+--
+ALTER TABLE `catalog`
+  ADD PRIMARY KEY (`Id`);
 
 --
 -- Index pour la table `client`

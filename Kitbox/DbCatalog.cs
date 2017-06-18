@@ -66,6 +66,7 @@ namespace Kitbox
 		}
 		public static void DbAddTostock(Dictionary<string, int> codes)
 		{
+
 		}
 		public static string DbBook(string code)
 		{
@@ -179,10 +180,29 @@ namespace Kitbox
             }
             return request;
 		}
-		public static Dictionary<string, object> DbGetOptions(string reference)
+
+		public static List<string> DbGetColors(Dictionary<string, string> selected_characteristics)
 		{
-            return null;
-		}
+            BDD database = new BDD("kitbox");
+            string selection = "Couleur";
+            string table_name = "catalog";
+            string condition = "WHERE (";
+            int counter = 0;
+            foreach (string key in selected_characteristics.Keys)
+            {
+                counter++;
+                condition += key + "='" + selected_characteristics[key] + "'";
+                if (counter != selected_characteristics.Count)
+                {
+                    condition += " AND ";
+                }
+            }
+            condition += ")";
+            List<List<object>> result = database.readElement(selection, table_name, condition);
+            List<string> colors = new List<string>();
+            foreach(List<object>)
+        }
+
         public static string TranslateColor(string fr)
         {
             switch(fr)
