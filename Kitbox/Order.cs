@@ -40,6 +40,7 @@ namespace Kitbox
 		}
 		public Dictionary<string, object> GetBill(int order_id)
 		{
+            bill = new Dictionary<string, object>();
             //Dictionary<string, Dictionary<string, List<Dictionary<string, List<object>>>>> bill = new Dictionary<string, Dictionary<string, List<Dictionary<string, List<object>>>>>();
             Dictionary<string, Dictionary<string, List<object>>> components = new Dictionary<string, Dictionary<string, List<object>>>();
             //!!!!!!!!!!!!!! We can just make a components.Count to  know how many wardrobes there are

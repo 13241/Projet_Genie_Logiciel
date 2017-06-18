@@ -43,6 +43,7 @@
             this.ResizeBox = new System.Windows.Forms.Button();
             this.ChangeColor = new System.Windows.Forms.Button();
             this.Color_input = new System.Windows.Forms.TextBox();
+            this.Pointer = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // screen
@@ -53,6 +54,7 @@
             this.screen.Size = new System.Drawing.Size(250, 250);
             this.screen.TabIndex = 0;
             this.screen.Visible = false;
+            this.screen.GotFocus += new System.EventHandler(this.OnFocus);
             // 
             // test_input
             // 
@@ -194,11 +196,21 @@
             this.Color_input.TabIndex = 14;
             this.Color_input.Visible = false;
             // 
+            // Pointer
+            // 
+            this.Pointer.AutoSize = true;
+            this.Pointer.Location = new System.Drawing.Point(174, 292);
+            this.Pointer.Name = "Pointer";
+            this.Pointer.Size = new System.Drawing.Size(40, 13);
+            this.Pointer.TabIndex = 15;
+            this.Pointer.Text = "Pointer";
+            // 
             // Tests
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(533, 358);
+            this.Controls.Add(this.Pointer);
             this.Controls.Add(this.Color_input);
             this.Controls.Add(this.ChangeColor);
             this.Controls.Add(this.ResizeBox);
@@ -239,5 +251,6 @@
         private System.Windows.Forms.Button ResizeBox;
         private System.Windows.Forms.Button ChangeColor;
         private System.Windows.Forms.TextBox Color_input;
+        private System.Windows.Forms.Label Pointer;
     }
 }

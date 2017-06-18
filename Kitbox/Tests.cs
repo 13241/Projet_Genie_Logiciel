@@ -244,18 +244,18 @@ namespace Kitbox
             TestVisualPart(view);
         }
 
-        private void ChangeSurface_Click(object sender, EventArgs e)
+        private void RemoveBox_Click(object sender, EventArgs e)
         {
-            wardrobe.ChangeSurface(80, 52);
+            string position = wardrobe.Visual_part.Pointer.Split('*').Last();
+            wardrobe.RemoveBox(position);
             part = wardrobe.Visual_part;
             view = "front";
             TestVisualPart(view);
         }
 
-        private void RemoveBox_Click(object sender, EventArgs e)
+        private void ChangeSurface_Click(object sender, EventArgs e)
         {
-            string position = wardrobe.Visual_part.Pointer.Split('*').Last();
-            wardrobe.RemoveBox(position);
+            wardrobe.ChangeSurface(80, 52);
             part = wardrobe.Visual_part;
             view = "front";
             TestVisualPart(view);
@@ -282,6 +282,11 @@ namespace Kitbox
         private void UnBook(object sender, FormClosingEventArgs e)
         {
             wardrobe.UnBook();
+        }
+
+        private void OnFocus(object sender, EventArgs e)
+        {
+            Pointer.Text = part.Pointer;
         }
     }
 }

@@ -64,6 +64,14 @@
             this.label29 = new System.Windows.Forms.Label();
             this.button25 = new System.Windows.Forms.Button();
             this.Modelize = new System.Windows.Forms.TabPage();
+            this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label34 = new System.Windows.Forms.Label();
+            this.button30 = new System.Windows.Forms.Button();
+            this.label33 = new System.Windows.Forms.Label();
+            this.comboBox4 = new System.Windows.Forms.ComboBox();
+            this.button20 = new System.Windows.Forms.Button();
+            this.button19 = new System.Windows.Forms.Button();
             this.viewer = new System.Windows.Forms.Panel();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.button10 = new System.Windows.Forms.Button();
@@ -116,14 +124,6 @@
             this.textBox9 = new System.Windows.Forms.TextBox();
             this.label26 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
-            this.button19 = new System.Windows.Forms.Button();
-            this.button20 = new System.Windows.Forms.Button();
-            this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.button30 = new System.Windows.Forms.Button();
-            this.label33 = new System.Windows.Forms.Label();
-            this.comboBox4 = new System.Windows.Forms.ComboBox();
-            this.label34 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.Identification.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -131,6 +131,8 @@
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.Modelize.SuspendLayout();
+            this.flowLayoutPanel4.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -139,8 +141,6 @@
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.Rechercher.SuspendLayout();
-            this.flowLayoutPanel4.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -505,6 +505,86 @@
             this.Modelize.Text = "Modéliser";
             this.Modelize.UseVisualStyleBackColor = true;
             this.Modelize.Click += new System.EventHandler(this.Viewer_Click);
+            // 
+            // flowLayoutPanel4
+            // 
+            this.flowLayoutPanel4.Controls.Add(this.groupBox2);
+            this.flowLayoutPanel4.Location = new System.Drawing.Point(7, 231);
+            this.flowLayoutPanel4.Name = "flowLayoutPanel4";
+            this.flowLayoutPanel4.Size = new System.Drawing.Size(250, 192);
+            this.flowLayoutPanel4.TabIndex = 34;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.BackColor = System.Drawing.Color.Silver;
+            this.groupBox2.Controls.Add(this.label34);
+            this.groupBox2.Controls.Add(this.button30);
+            this.groupBox2.Controls.Add(this.label33);
+            this.groupBox2.Controls.Add(this.comboBox4);
+            this.groupBox2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox2.ForeColor = System.Drawing.Color.Black;
+            this.groupBox2.Location = new System.Drawing.Point(3, 3);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(231, 96);
+            this.groupBox2.TabIndex = 27;
+            this.groupBox2.TabStop = false;
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.ForeColor = System.Drawing.Color.White;
+            this.label34.Location = new System.Drawing.Point(8, 13);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(114, 13);
+            this.label34.TabIndex = 5;
+            this.label34.Text = "Sélection : front_Ldoor";
+            // 
+            // button30
+            // 
+            this.button30.Location = new System.Drawing.Point(72, 67);
+            this.button30.Name = "button30";
+            this.button30.Size = new System.Drawing.Size(75, 23);
+            this.button30.TabIndex = 4;
+            this.button30.Text = "Confirmer";
+            this.button30.UseVisualStyleBackColor = true;
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.ForeColor = System.Drawing.Color.White;
+            this.label33.Location = new System.Drawing.Point(6, 36);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(42, 13);
+            this.label33.TabIndex = 3;
+            this.label33.Text = "couleur";
+            // 
+            // comboBox4
+            // 
+            this.comboBox4.FormattingEnabled = true;
+            this.comboBox4.Location = new System.Drawing.Point(104, 33);
+            this.comboBox4.Name = "comboBox4";
+            this.comboBox4.Size = new System.Drawing.Size(121, 21);
+            this.comboBox4.TabIndex = 2;
+            this.comboBox4.Text = "blanc";
+            // 
+            // button20
+            // 
+            this.button20.Location = new System.Drawing.Point(720, 326);
+            this.button20.Name = "button20";
+            this.button20.Size = new System.Drawing.Size(103, 38);
+            this.button20.TabIndex = 33;
+            this.button20.Text = "Zoom sur sélection";
+            this.button20.UseVisualStyleBackColor = true;
+            // 
+            // button19
+            // 
+            this.button19.Location = new System.Drawing.Point(720, 370);
+            this.button19.Name = "button19";
+            this.button19.Size = new System.Drawing.Size(103, 38);
+            this.button19.TabIndex = 32;
+            this.button19.Text = "Dézoom";
+            this.button19.UseVisualStyleBackColor = true;
             // 
             // viewer
             // 
@@ -1030,86 +1110,6 @@
             this.label27.TabIndex = 13;
             this.label27.Text = "Bonjour, que voulez-vous faire ? ";
             // 
-            // button19
-            // 
-            this.button19.Location = new System.Drawing.Point(720, 370);
-            this.button19.Name = "button19";
-            this.button19.Size = new System.Drawing.Size(103, 38);
-            this.button19.TabIndex = 32;
-            this.button19.Text = "Dézoom";
-            this.button19.UseVisualStyleBackColor = true;
-            // 
-            // button20
-            // 
-            this.button20.Location = new System.Drawing.Point(720, 326);
-            this.button20.Name = "button20";
-            this.button20.Size = new System.Drawing.Size(103, 38);
-            this.button20.TabIndex = 33;
-            this.button20.Text = "Zoom sur sélection";
-            this.button20.UseVisualStyleBackColor = true;
-            // 
-            // flowLayoutPanel4
-            // 
-            this.flowLayoutPanel4.Controls.Add(this.groupBox2);
-            this.flowLayoutPanel4.Location = new System.Drawing.Point(7, 231);
-            this.flowLayoutPanel4.Name = "flowLayoutPanel4";
-            this.flowLayoutPanel4.Size = new System.Drawing.Size(250, 192);
-            this.flowLayoutPanel4.TabIndex = 34;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.BackColor = System.Drawing.Color.Silver;
-            this.groupBox2.Controls.Add(this.label34);
-            this.groupBox2.Controls.Add(this.button30);
-            this.groupBox2.Controls.Add(this.label33);
-            this.groupBox2.Controls.Add(this.comboBox4);
-            this.groupBox2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.ForeColor = System.Drawing.Color.Black;
-            this.groupBox2.Location = new System.Drawing.Point(3, 3);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(231, 96);
-            this.groupBox2.TabIndex = 27;
-            this.groupBox2.TabStop = false;
-            // 
-            // button30
-            // 
-            this.button30.Location = new System.Drawing.Point(72, 67);
-            this.button30.Name = "button30";
-            this.button30.Size = new System.Drawing.Size(75, 23);
-            this.button30.TabIndex = 4;
-            this.button30.Text = "Confirmer";
-            this.button30.UseVisualStyleBackColor = true;
-            // 
-            // label33
-            // 
-            this.label33.AutoSize = true;
-            this.label33.ForeColor = System.Drawing.Color.White;
-            this.label33.Location = new System.Drawing.Point(6, 36);
-            this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(42, 13);
-            this.label33.TabIndex = 3;
-            this.label33.Text = "couleur";
-            // 
-            // comboBox4
-            // 
-            this.comboBox4.FormattingEnabled = true;
-            this.comboBox4.Location = new System.Drawing.Point(104, 33);
-            this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(121, 21);
-            this.comboBox4.TabIndex = 2;
-            this.comboBox4.Text = "blanc";
-            // 
-            // label34
-            // 
-            this.label34.AutoSize = true;
-            this.label34.ForeColor = System.Drawing.Color.White;
-            this.label34.Location = new System.Drawing.Point(8, 13);
-            this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(114, 13);
-            this.label34.TabIndex = 5;
-            this.label34.Text = "Sélection : front_Ldoor";
-            // 
             // App
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1129,6 +1129,9 @@
             this.panel3.PerformLayout();
             this.Modelize.ResumeLayout(false);
             this.Modelize.PerformLayout();
+            this.flowLayoutPanel4.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.flowLayoutPanel3.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
@@ -1143,9 +1146,6 @@
             this.tabPage3.PerformLayout();
             this.Rechercher.ResumeLayout(false);
             this.Rechercher.PerformLayout();
-            this.flowLayoutPanel4.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }

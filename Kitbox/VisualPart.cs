@@ -820,11 +820,28 @@ namespace Kitbox
                 UndoFocus();
                 pointer = current_sender.Name;
                 Focus(current_sender);
-                Console.WriteLine(current_sender.Name);//MODIF delete
+                SearchScreen(sender);
             }
             else
             {
                 SelectPiece(current_sender.Parent);
+            }
+        }
+
+        /*
+         * 
+         */
+        //SearchScreen
+        public void SearchScreen(object sender)
+        {
+            if(!typeof(VPPanel).IsInstanceOfType(sender))
+            {
+                ((Control)sender).Focus();
+                ((Control)sender).Parent.Focus();
+            }
+            else
+            {
+                SearchScreen(((Control)sender).Parent);
             }
         }
 
