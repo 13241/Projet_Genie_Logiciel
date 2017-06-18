@@ -181,6 +181,7 @@ namespace Kitbox
             return request;
 		}
 
+        // need ref + 3 dims
 		public static List<string> DbGetColors(Dictionary<string, string> selected_characteristics)
 		{
             BDD database = new BDD("kitbox");
@@ -200,7 +201,86 @@ namespace Kitbox
             condition += ")";
             List<List<object>> result = database.readElement(selection, table_name, condition);
             List<string> colors = new List<string>();
-            foreach(List<object>)
+            foreach(List<object> color in result)
+            {
+                colors.Add(Convert.ToString(color[0]));
+            }
+            return colors;
+        }
+        
+        //GD ou Ar
+        public static List<string> DbGetLateralDimOpt(string lateral_dim)
+        {
+            BDD database = new BDD("kitbox");
+            string selection = "largeur";
+            string table_name = "catalog";
+            string condition = "WHERE (";
+            Dictionary<string, string> selected_characteristics = new Dictionary<string, string>()
+            {
+                { "Ref", "Panneau " + lateral_dim },
+                { "hauteur", Convert.ToString(32) },
+                { "profondeur", Convert.ToString(0) },
+                { "couleur", "Blanc" }
+            };
+            int counter = 0;
+            foreach (string key in selected_characteristics.Keys)
+            {
+                counter++;
+                condition += key + "='" + selected_characteristics[key] + "'";
+                if (counter != selected_characteristics.Count)
+                {
+                    condition += " AND ";
+                }
+            }
+            condition += ")";
+            List<List<object>> result = database.readElement(selection, table_name, condition);
+            List<string> laterals = new List<string>();
+            foreach (List<object> lateral in result)
+            {
+                laterals.Add(Convert.ToString(lateral[0]));
+            }
+            return laterals;
+        }
+
+        public static List<string> DbGetHeightOpt(double h_box, double h_wardrobe)
+        {
+            BDD database = new BDD("kitbox");
+            string selection = "hauteur";
+            string table_name = "catalog";
+            string condition = "WHERE (";
+            Dictionary<string, string> selected_characteristics = new Dictionary<string, string>()
+            {
+                { "Ref", "Panneau Ar" },
+                { "largeur", Convert.ToString(32) },
+                { "profondeur", Convert.ToString(0) },
+                { "couleur", "Blanc" }
+            };
+            int counter = 0;
+            foreach (string key in selected_characteristics.Keys)
+            {
+                counter++;
+                condition += key + "='" + selected_characteristics[key] + "'";
+                if (counter != selected_characteristics.Count)
+                {
+                    condition += " AND ";
+                }
+            }
+            condition += ")";
+            List<List<object>> result = database.readElement(selection, table_name, condition);
+
+            condition = "WHERE (Ref = 'Cornieres') ORDER BY hauteur DESC;";
+            List<List<object>> cornieres = database.readElement(selection, table_name, condition);
+            double h_max = Convert.ToDouble(cornieres[0][0]);
+
+            List<string> hs = new List<string>();
+            foreach (List<object> h in result)
+            {
+                if(h_wardrobe - h_box + 4 + Convert.ToDouble(h[0]) <= h_max)
+                {
+                    hs.Add(Convert.ToString(h[0]));
+                }
+            }
+            return hs;
         }
 
         public static string TranslateColor(string fr)
