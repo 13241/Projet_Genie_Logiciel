@@ -1268,7 +1268,7 @@
             // 
             this.textBox20.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox20.Location = new System.Drawing.Point(121, 5);
+            this.textBox20.Location = new System.Drawing.Point(119, 5);
             this.textBox20.Name = "textBox20";
             this.textBox20.Size = new System.Drawing.Size(42, 13);
             this.textBox20.TabIndex = 1;
@@ -1470,7 +1470,7 @@
             // 
             this.textBox14.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox14.Location = new System.Drawing.Point(160, 5);
+            this.textBox14.Location = new System.Drawing.Point(159, 5);
             this.textBox14.Name = "textBox14";
             this.textBox14.Size = new System.Drawing.Size(80, 13);
             this.textBox14.TabIndex = 1;

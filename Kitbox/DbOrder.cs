@@ -25,7 +25,7 @@ namespace Kitbox
             string dateString = date.ToString();
             string data = string.Format("{0},'{1}','{2}','{3}'",client_id,dateString,header_bill,footer_bill);
             database.addElement(tableName, columnNames, data);
-            List<List<object>> list = database.readElement("Order_Id", tableName, string.Format("WHERE client_id = {0}", client_id.ToString()));
+            List<List<object>> list = database.readElement("Order_Id", tableName, string.Format("WHERE Client_Id = '{0}'", client_id.ToString()));
             int order_id = Convert.ToInt32(list[list.Count - 1][0]);
             List<object> wardrobes = order.Wardrobes;
             //int number_box = wardrobes.Components["Etage"].Count;

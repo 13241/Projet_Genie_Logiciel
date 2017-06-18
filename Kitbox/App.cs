@@ -395,6 +395,9 @@ namespace Kitbox
             if(order.CurrentClient != null)
             {
                 wardrobe.Book(true);
+                DbOrder.DbAddOrder(order);
+                button22_Click(sender, e);
+                tabControl1.SelectTab(0);
             }
             else
             {
@@ -422,16 +425,16 @@ namespace Kitbox
                 if (clientExist)
                 {
 
-                    DbConnect.DbConnectClient(Convert.ToInt32(idUser.Text), pswUser.Text);
+                    order.CurrentClient = DbConnect.DbConnectClient(Convert.ToInt32(idUser.Text), pswUser.Text);
 
                     panel3.Visible = true;
                     panel1.Visible = false;
                     errorID.Visible = false;
                     errorPsw.Visible = false;
 
-                    clientFName.Text = DbConnect.DbConnectClient(Convert.ToInt32(idUser.Text), pswUser.Text).FirstName;
-                    clientLName.Text = DbConnect.DbConnectClient(Convert.ToInt32(idUser.Text), pswUser.Text).LastName;
-                    newClientId.Text = DbConnect.DbConnectClient(Convert.ToInt32(idUser.Text), pswUser.Text).Id.ToString();
+                    clientFName.Text = order.CurrentClient.FirstName;
+                    clientLName.Text = order.CurrentClient.LastName;
+                    newClientId.Text = order.CurrentClient.Id.ToString();
 
                 }
                 else if (clientExist == false)
@@ -475,7 +478,12 @@ namespace Kitbox
             panel1.Visible = true;
 
 
-
+            order = new Order();
+            wardrobe = new Wardrobe(new Size3D(120, 36, 42));
+            order.Wardrobes.Add(wardrobe);
+            player_modif = false;
+            M_selectwardrobe.Text = Convert.ToString(0);
+            Preset();
         }
 
         // Show bill 
@@ -502,7 +510,8 @@ namespace Kitbox
             }
             else
             {
-                if (DbConnect.searchClient(Convert.ToInt32(textBox9.Text)) != null)
+
+                if (int.TryParse(textBox9.Text, out int id) && DbConnect.searchClient(id) != null)
                 {
                     // Test the content of GetBill  To Delete???? [Plus besoin de ça?]
 
@@ -909,13 +918,19 @@ namespace Kitbox
 
         private void button18_Click(object sender, EventArgs e)
         {
-
-            Person person = DbConnect.searchClient(Convert.ToInt32(textBox8.Text));
-            Order order = new Order();
-            order.CurrentClient = person;
-            if (person == null)
-            { errorIdSearch.Visible = true; }
-
+            //MODIF
+            if(int.TryParse(textBox8.Text, out int id))
+            {
+                Person person = DbConnect.searchClient(id);
+                button22_Click(sender, e);
+                order.CurrentClient = person;
+                tabControl1.SelectTab(1);
+                if (person == null)
+                {
+                    tabControl1.SelectTab(2);
+                    errorIdSearch.Visible = true;
+                }
+            }
         }
 
         private void textBox8_TextChanged(object sender, EventArgs e)
