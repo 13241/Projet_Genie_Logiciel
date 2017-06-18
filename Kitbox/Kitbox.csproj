@@ -74,6 +74,12 @@
     <Compile Include="App.Designer.cs">
       <DependentUpon>App.cs</DependentUpon>
     </Compile>
+    <Compile Include="AppBrided.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AppBrided.Designer.cs">
+      <DependentUpon>AppBrided.cs</DependentUpon>
+    </Compile>
     <Compile Include="BDD.cs" />
     <Compile Include="Box.cs" />
     <Compile Include="Cleat.cs" />
@@ -121,6 +127,9 @@
     <Compile Include="Wardrobe.cs" />
     <EmbeddedResource Include="App.resx">
       <DependentUpon>App.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AppBrided.resx">
+      <DependentUpon>AppBrided.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modelize.resx">
       <DependentUpon>Modelize.cs</DependentUpon>
