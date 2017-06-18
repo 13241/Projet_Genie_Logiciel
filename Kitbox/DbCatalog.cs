@@ -67,13 +67,14 @@ namespace Kitbox
 		public static void DbAddTostock(Dictionary<string, int> codes)
 		{
 		}
-		public static void DbBook(string code)
+		public static string DbBook(string code)
 		{
             BDD database = new BDD("kitbox");
-            string selection = "Enstock, Reserve, Id";
+            string selection = "Enstock, Reserve, Id, DelaiFourn1, CommandeFourn1, DelaiFourn2, CommandeFourn2";
             string table_name = "catalog";
             string condition = "WHERE (Code = '" + code + "');";
             List<List<object>> result = database.readElement(selection, table_name, condition);
+            string delayed = "0";
             if(result.Count>0)
             {
                 if (Convert.ToInt32(result[0][0]) > Convert.ToInt32(result[0][1]))
@@ -81,7 +82,23 @@ namespace Kitbox
                     string modification = "Reserve = '" + Convert.ToString(Convert.ToInt32(result[0][1]) + 1) +"'";
                     database.modifyElement(table_name, modification, Convert.ToString(result[0][2]));
                 }
+                else
+                {
+                    if (Convert.ToInt32(result[0][4]) > 0)
+                    {
+                        delayed = Convert.ToString(result[0][3]);
+                    }
+                    else if (Convert.ToInt32(result[0][6]) > 0)
+                    {
+                        delayed = Convert.ToString(result[0][5]);
+                    }
+                    else
+                    {
+                        delayed = "-1";
+                    }
+                }
             }
+            return delayed;
         }
 		public static void DbUnBook(string code)
 		{

@@ -134,18 +134,17 @@ namespace Kitbox
                     {
                         if(!buy)
                         {
-                            DbCatalog.DbBook(((Part)Components[name][position]).Code);
+                            ((Part)Components[name][position]).Delayed = DbCatalog.DbBook(((Part)Components[name][position]).Code);
                         }
                         else
                         {
-                            //MODIF (buy)
+                            ((Part)Components[name][position]).Delayed = DbCatalog.DbRemoveFromStock(((Part)Components[name][position]).Code);
                         }
                     }
                     else
                     {
                         ((Box)Components[name][position]).Book(buy);
                     }
-                    
                 }
             }
         }
@@ -164,7 +163,6 @@ namespace Kitbox
                     {
                         ((Box)Components[name][position]).UnBook();
                     }
-
                 }
             }
         }

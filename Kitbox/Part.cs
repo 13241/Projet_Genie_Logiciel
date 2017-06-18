@@ -17,6 +17,7 @@ namespace Kitbox
         private Point3D location;
         private Color color;
         private double selling_price;
+        private string delayed;
 
 
         public Part()
@@ -37,6 +38,7 @@ namespace Kitbox
         public double Selling_price { get => selling_price; set => selling_price = value; }
         public VisualPart Visual_part { get => visual_part; set => visual_part = value; }
         public string Position { get => position; set => position = value; }
+        public string Delayed { get => delayed; set => delayed = value; }
 
         public abstract void ConstructVisualPart();
 

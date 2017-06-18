@@ -61,17 +61,20 @@ namespace Kitbox
                 {
                     if (!buy)
                     {
-                        DbCatalog.DbBook(Pieces[name][position].Code);
+                        Pieces[name][position].Delayed = DbCatalog.DbBook(Pieces[name][position].Code);
                         if(typeof(Door).IsInstanceOfType(Pieces[name][position]) && ((Door)Pieces[name][position]).Knop != null)
                         {
-                            DbCatalog.DbBook(((Door)Pieces[name][position]).Knop.Code);
+                            ((Door)Pieces[name][position]).Knop.Delayed = DbCatalog.DbBook(((Door)Pieces[name][position]).Knop.Code);
                         }
                     }
                     else
                     {
-                        //MODIF (buy)
+                        Pieces[name][position].Delayed = DbCatalog.DbRemoveFromStock(Pieces[name][position].Code);
+                        if (typeof(Door).IsInstanceOfType(Pieces[name][position]) && ((Door)Pieces[name][position]).Knop != null)
+                        {
+                            ((Door)Pieces[name][position]).Knop.Delayed = DbCatalog.DbRemoveFromStock(((Door)Pieces[name][position]).Knop.Code);
+                        }
                     }
-
                 }
             }
         }
