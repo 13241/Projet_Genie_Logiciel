@@ -19,7 +19,7 @@ namespace Kitbox
             string delayed = "0";
             if (result.Count > 0)
             {
-                if (Convert.ToInt32(result[0][0]) > 0 && Convert.ToInt32(result[0][1]) > 0)
+                if (Convert.ToInt32(result[0][1]) > 0)
                 {
                     string modification = "Enstock = '" + Convert.ToString(Convert.ToInt32(result[0][0]) - 1) + "'";
                     modification += ", Reserve = '" + Convert.ToString(Convert.ToInt32(result[0][1]) - 1) + "'";
@@ -46,7 +46,7 @@ namespace Kitbox
                         }
                     }
                 }
-                else
+                if(Convert.ToInt32(result[0][0]) < 1)
                 {
                     if (Convert.ToInt32(result[0][5]) > 0)
                     {
@@ -78,12 +78,9 @@ namespace Kitbox
             string delayed = "0";
             if(result.Count>0)
             {
-                if (Convert.ToInt32(result[0][0]) > Convert.ToInt32(result[0][1]))
-                {
-                    string modification = "Reserve = '" + Convert.ToString(Convert.ToInt32(result[0][1]) + 1) +"'";
-                    database.modifyElement(table_name, modification, Convert.ToString(result[0][2]));
-                }
-                else
+                string modification = "Reserve = '" + Convert.ToString(Convert.ToInt32(result[0][1]) + 1) +"'";
+                database.modifyElement(table_name, modification, Convert.ToString(result[0][2]));
+                if (Convert.ToInt32(result[0][0]) < Convert.ToInt32(result[0][1]))
                 {
                     if (Convert.ToInt32(result[0][4]) > 0)
                     {

@@ -21,6 +21,7 @@ namespace Kitbox
             string tableName = "orders";
             string client_id = order.CurrentClient.Id.ToString();
             DateTime date = DateTime.Now;
+            date.AddDays(order.Delayed);
             string dateString = date.ToString();
             string data = string.Format("{0},'{1}','{2}','{3}'",client_id,dateString,header_bill,footer_bill);
             database.addElement(tableName, columnNames, data);

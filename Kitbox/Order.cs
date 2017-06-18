@@ -10,6 +10,7 @@ namespace Kitbox
         private Dictionary<string, object> bill;
 		private List<string> parts_list;
 		private Dictionary<string, string> codes;
+        private Double delayed;
 
         public Order()
         {
@@ -17,6 +18,7 @@ namespace Kitbox
             bill = new Dictionary<string, object>();
             parts_list = new List<string>();
             codes = new Dictionary<string, string>();
+            delayed = 0;
         }
 		
 		private string AddToBill()
@@ -154,6 +156,37 @@ namespace Kitbox
 		public Person CurrentClient { get => current_client; set => current_client = value; }
 
 		public List<object> Wardrobes { get => wardrobes; set => wardrobes = value; }
-
-	}
+        public double Delayed
+        {
+            get
+            {
+                foreach(object ersatz in wardrobes)
+                {
+                    Wardrobe wardrobe = (Wardrobe)ersatz;
+                    foreach(string part in wardrobe.Components.Keys)
+                    {
+                        foreach(string pos in wardrobe.Components[part].Keys)
+                        {
+                            if(typeof(Box).IsInstanceOfType(wardrobe.Components[part][pos]))
+                            {
+                                Box thisbox = (Box)wardrobe.Components[part][pos];
+                                foreach(string piece in thisbox.Pieces.Keys)
+                                {
+                                    foreach(string position in thisbox.Pieces[piece].Keys)
+                                    {
+                                        delayed = Math.Max(delayed, Convert.ToDouble(thisbox.Pieces[piece][position].Delayed));
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                delayed = Math.Max(delayed, Convert.ToDouble(((Part)wardrobe.Components[part][pos]).Delayed));
+                            }
+                        }
+                    }
+                }
+                return delayed;
+            }
+        }
+    }
 }

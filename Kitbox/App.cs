@@ -392,7 +392,14 @@ namespace Kitbox
 
         private void M_previeworder_Click(object sender, EventArgs e)
         {
-            
+            if(order.CurrentClient != null)
+            {
+                wardrobe.Book(true);
+            }
+            else
+            {
+                tabControl1.SelectTab(0);
+            }
         }
 
 
