@@ -134,7 +134,7 @@ namespace Kitbox
 			}
 			else
 			{
-				if (Convert.ToString(result[0][0]) == password)
+				if (Convert.ToString(result[0][1]) == password)
 				{
 					return true;
 				}

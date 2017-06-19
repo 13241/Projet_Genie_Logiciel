@@ -22,6 +22,9 @@ namespace Kitbox
             player_modif = false;
             M_selectwardrobe.Text = Convert.ToString(0);
             Preset();
+            label4.Visible = false;
+            button2.Visible = false;
+            newClientId.Text = "";
         }
         /******** MODELIZATION *********/
 
@@ -396,12 +399,19 @@ namespace Kitbox
             {
                 wardrobe.Book(true);
                 DbOrder.DbAddOrder(order);
-                button22_Click(sender, e);
-                tabControl1.SelectTab(0);
+
+                order = new Order();
+                wardrobe = new Wardrobe(new Size3D(120, 36, 42));
+                order.Wardrobes.Add(wardrobe);
+                player_modif = false;
+                M_selectwardrobe.Text = Convert.ToString(0);
+                Preset();
+
+                tabControl1.SelectTab(2);
             }
             else
             {
-                tabControl1.SelectTab(0);
+                tabControl1.SelectTab(1);
             }
         }
 
@@ -420,21 +430,24 @@ namespace Kitbox
 
             if (!string.IsNullOrWhiteSpace(idUser.Text) && !string.IsNullOrWhiteSpace(pswUser.Text) && !idUser.Text.All(char.IsLetter))
             {
-                bool clientExist = DbConnect.DblsCLient(Convert.ToInt32(idUser.Text), pswUser.Text);
+                bool clientExist = DbConnect.DblsEmployee(Convert.ToInt32(idUser.Text), pswUser.Text);
 
                 if (clientExist)
                 {
 
-                    order.CurrentClient = DbConnect.DbConnectClient(Convert.ToInt32(idUser.Text), pswUser.Text);
+                    DbConnect.DbConnectEmployee(Convert.ToInt32(idUser.Text), pswUser.Text);
 
                     panel3.Visible = true;
                     panel1.Visible = false;
                     errorID.Visible = false;
                     errorPsw.Visible = false;
 
-                    clientFName.Text = order.CurrentClient.FirstName;
-                    clientLName.Text = order.CurrentClient.LastName;
-                    newClientId.Text = order.CurrentClient.Id.ToString();
+                    clientFName.Visible = false;
+                    clientLName.Visible = false;
+                    label30.Visible = false;
+                    label31.Visible = false;
+                    label32.Text = "Id Employe";
+                    newClientId.Text = idUser.Text;
 
                 }
                 else if (clientExist == false)
@@ -472,6 +485,7 @@ namespace Kitbox
             newUsPsw.Text = "";
             newUsStNum.Text = "";
             newUsStreet.Text = "";
+            newClientId.Text = "";
 
             panel2.Visible = false;
             panel3.Visible = false;
@@ -922,7 +936,14 @@ namespace Kitbox
             if(int.TryParse(textBox8.Text, out int id))
             {
                 Person person = DbConnect.searchClient(id);
-                button22_Click(sender, e);
+
+                order = new Order();
+                wardrobe = new Wardrobe(new Size3D(120, 36, 42));
+                order.Wardrobes.Add(wardrobe);
+                player_modif = false;
+                M_selectwardrobe.Text = Convert.ToString(0);
+                Preset();
+
                 order.CurrentClient = person;
                 tabControl1.SelectTab(1);
                 if (person == null)
@@ -1189,6 +1210,12 @@ namespace Kitbox
             }
         }
 
-        
+        private void tabControl1_Selecting(object sender, TabControlCancelEventArgs e)
+        {
+            if(newClientId.Text == "")
+            {
+                tabControl1.SelectTab(0);
+            }
+        }
     }
 }
