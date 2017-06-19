@@ -8,6 +8,12 @@ namespace Kitbox
 {
 	static class DbConnect
 	{
+        /// <summary>
+        /// This function returns an object Person containing the data of a client.
+        /// </summary>
+        /// <param name="id">int</param>
+        /// <param name="password">string</param>
+        /// <returns>Person</returns>
         public static Person DbConnectClient(int id, string password)
 		{
 			BDD database = new BDD("kitbox");
@@ -30,20 +36,13 @@ namespace Kitbox
 
             return person;
 		}
-		public static bool DbConnectEmployee(int seller_id, string password)
-		{
-            BDD database = new BDD("kitbox");
-            List<List<object>> list = new List<List<object>>();
-            string selection = "Seller_id, Password";
-            string table_name = "seller";
-            string condition = string.Format("WHERE (Seller_Id = '{0}' AND Password = '{1}')", seller_id.ToString(), password);
-            list = database.readElement(selection,table_name,condition);
-            if (list.Count == 0)
-            {
-                return false;
-            }
-            return true;
-		}
+        
+		
+
+        /// <summary>
+        /// This functions adds a the data of a new client to the database.
+        /// </summary>
+        /// <param name="person">Person</param>
 		public static void DbAddClient(Person person)
 		{
 			BDD database = new BDD("kitbox");
@@ -57,7 +56,14 @@ namespace Kitbox
 			string data = "'"+firstname +"','" + lastname + "'," + phonenumber + ",'" + email + "','" + password + "','" + address["Street"] + ";" + Convert.ToString(address["Street number"]) + ";" + address["Postal code"].ToString()+"',''";
 			database.addElement("client", "Firstname,Lastname,Phonenumber,Email,Password,Address,Favoris", data);
 		}
-		public static bool DblsCLient(int id, string password)
+
+        /// <summary>
+        /// This function checks if the client already exists in the database.
+        /// </summary>
+        /// <param name="id">int</param>
+        /// <param name="password">string</param>
+        /// <returns>boolean</returns>
+        public static bool DblsCLient(int id, string password)
 		{
             BDD database = new BDD("kitbox");
 			string tableName = "client";
@@ -79,7 +85,12 @@ namespace Kitbox
             return false;
 		}
 
-
+        
+        /// <summary>
+        /// This function searchs for a client according to the id.
+        /// </summary>
+        /// <param name="id">int</param>
+        /// <returns>Person</returns>
         public static Person searchClient(int id)
 		{
             BDD database = new BDD("kitbox");
@@ -102,6 +113,11 @@ namespace Kitbox
             }         
             
         }
+        /// <summary>
+        /// This function searches for the Id of the client corresponding to the phone number.
+        /// </summary>
+        /// <param name="phonenumber"></param>
+        /// <returns>int</returns>
 		public static int searchId(int phonenumber)
 		{
 			BDD database = new BDD("kitbox");
@@ -123,7 +139,12 @@ namespace Kitbox
 			}
 
 		}
-
+        /// <summary>
+        /// This function checks if the salesman exists.
+        /// </summary>
+        /// <param name="id">int</param>
+        /// <param name="password">string</param>
+        /// <returns>boolean</returns>
 		public static bool DblsEmployee(int id, string password)
 		{
 			BDD database = new BDD("kitbox");
