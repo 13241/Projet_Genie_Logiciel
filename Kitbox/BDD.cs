@@ -18,10 +18,16 @@ namespace Kitbox
             this.myConnectionString = "server = localhost; user id = root; database = " + database + "; persistsecurityinfo = True;";
             this.database = database;
         }
-        //par exemple 
+        //Example of use
         //tableName = "mytable" 
         //columnsName = "Id, Ref, Code, Dimensionscm, hauteur, profondeur, largeur, Couleur, Enstock, Stock_minimum, PrixClient, NbPiecescasier, PrixFourn_1, DelaiFourn_1, PrixFourn2, DelaiFourn2" 
-        //data = s
+        /// <summary>
+        /// This function will add data to a specified tableName.
+        /// </summary>
+        /// <param name="tableName">string</param>
+        /// <param name="columnNames">string</param>
+        /// <param name="data">string</param>
+
         public void addElement(string tableName, string columnNames, string data)
         {
             using (MySqlConnection connection = new MySqlConnection(this.myConnectionString))
@@ -38,6 +44,11 @@ namespace Kitbox
                 }
             }
         }
+        /// <summary>
+        /// This function removes a line from the specified table
+        /// </summary>
+        /// <param name="tableName">string</param>
+        /// <param name="id">string</param>
         public void removeElement(string tableName, string id)
         {
             using (MySqlConnection connection = new MySqlConnection(this.myConnectionString))
@@ -48,7 +59,13 @@ namespace Kitbox
                 command.ExecuteNonQuery();
             }
         }
-        // The new value of the column is put beside the column 
+
+        /// <summary>
+        /// This function will change the value(s) line of a specified table.
+        /// The new value of the column is put beside the column.
+        /// <param name="tableName"></param>
+        /// <param name="columnNames"></param>
+        /// <param name="id"></param>
         public void modifyElement(string tableName, string columnNames, string id)
         {
             using (MySqlConnection connection = new MySqlConnection(this.myConnectionString))
@@ -59,9 +76,17 @@ namespace Kitbox
                 command.ExecuteNonQuery();
             }
         }
-        //For selecting all the columns, the argument Selection is the caracter "*".
-        //A condition example :  WHERE (Id=1 OR Ref="Corniere"). 
-        //A condition is optional, the user may ask to copy all of the content from the database in a table.
+
+        /// <summary>
+        /// This function return informations from the specified table according to the conditions
+        /// For selecting all the columns, the argument Selection is the caracter "*".
+        /// A condition example :  WHERE (Id=1 OR Ref="Corniere"). 
+        /// A condition is optional, the user may ask to copy all of the content from the database in a table.
+        /// </summary>
+        /// <param name="selection">string</param>
+        /// <param name="tableName">string</param>
+        /// <param name="condition">string</param>
+        /// <returns>List<List<object>></returns>
         public List<List<object>> readElement(string selection, string tableName, string condition = null)
         {
             //The following table will contain the selected data from the database.
@@ -99,6 +124,11 @@ namespace Kitbox
                 }
             }
         }
+        /// <summary>
+        /// This function returns the total number of rows.
+        /// </summary>
+        /// <param name="tableName">string</param>
+        /// <returns>int</returns>
         public int totalRows(string tableName)
         {
             using (MySqlConnection connection = new MySqlConnection(this.myConnectionString))
@@ -108,6 +138,11 @@ namespace Kitbox
                 return Convert.ToInt32(rows.ExecuteScalar());
             }
         }
+        /// <summary>
+        /// This function returns the total number of columns.
+        /// </summary>
+        /// <param name="tableName">string</param>
+        /// <returns>int</returns>
         public int totalColumns(string tableName)
         {
             using (MySqlConnection connection = new MySqlConnection(this.myConnectionString))
