@@ -11,29 +11,59 @@ using System.Windows.Forms;
 
 namespace Kitbox
 {
+    /// <summary>
+    /// Represents an interactive graphic figure, contains one or more views, each component can be selected by clicking on it,
+    /// the components are either a VPPanel or another VisualPart
+    /// </summary>
     public class VisualPart
     {
         //attributes
+        /// <summary>
+        /// tree (mathematics). The keys are the positions of the differents VPPanel, the values are other Dictionary with the
+        /// same characteristics
+        /// </summary>
         private Dictionary<string, object> positions;
-        private Dictionary<string, VPPanel> views; //views as in a technical drawing, key : name, value : VPPanel
-        private Size mm_size; //most constrainig size for the visualPart
-        private Size px_size; //size for the viewer (in pixels)
-        private double scaling; //pixels per milimeter
-        private HashSet<string> references; //references each panel of the VisualPart
+        /// <summary>
+        /// views as in a technical drawing, key : name of the view
+        /// </summary>
+        private Dictionary<string, VPPanel> views;
+        /// <summary>
+        /// most constrainig Size for the visualPart in the desired unit of measurement
+        /// </summary>
+        private Size mm_size;
+        /// <summary>
+        /// The size of the screen which will display the VisualPart (pixels)
+        /// </summary>
+        private Size px_size;
+        /// <summary>
+        /// pixels per unit of measurement
+        /// </summary>
+        private double scaling;
+        /// <summary>
+        /// references every VPPanel of the VisualPart
+        /// </summary>
+        private HashSet<string> references;
+        /// <summary>
+        /// Keys : pieces names, Values : Tuple : VisualPart of the piece, Keys : the name of the VPPanel which contains a view of the related VisualPart, Values : the name of the view in the related VisualPart
+        /// </summary>
         private Dictionary<string, Tuple<VisualPart, Dictionary<string, string>>> pieces;
-        //piece name, visualPart, every path to access the different views, and the name of the view
 
         //EventAttributes
+        /// <summary>
+        /// the name of the selected component
+        /// </summary>
         private string pointer = "";
+        /// <summary>
+        /// the method used to select a component
+        /// </summary>
         private Rule selection;
-        //methods
-
-        /*
-         * constructor
-         * mm_size : most constraining size in milimeters
-         * px_size : size available to display a view in pixels
-         */
+        
         //VisualPart
+        /// <summary>
+        /// Initialize a new instance of the class VisualPart.
+        /// </summary>
+        /// <param name="px_size">The size of the screen which will display the VisualPart (pixels)</param>
+        /// <param name="mm_sizes">The sizes of the views (keys are the views names) (unit of measurement)</param>
         public VisualPart(Size px_size, Dictionary<string, Size> mm_sizes)
         {
             references = new HashSet<string>();
@@ -54,10 +84,11 @@ namespace Kitbox
             ChangeConstrainingSize();
         }
 
-        /*
-         * 
-         */
         //CreateViews
+        /// <summary>
+        /// Construct as many VPPanel as the number of elements in mm_sizes, with the related dimensions
+        /// </summary>
+        /// <param name="mm_sizes">The sizes of the views (keys are the views names) (unit of measurement)</param>
         private void CreateViews(Dictionary<string, Size> mm_sizes)
         {
             this.views = new Dictionary<string, VPPanel>();
@@ -76,11 +107,11 @@ namespace Kitbox
                 references.Add(list_views[i]);
             }
         }
-
-        /*
-         * 
-         */
+        
         //ChangeConstrainingSize
+        /// <summary>
+        /// Determine the most constraining Size for the VisualPart and adapt the scaling
+        /// </summary>
         public void ChangeConstrainingSize()
         {
             int maxWidth = 0;
@@ -100,10 +131,11 @@ namespace Kitbox
             ChangeScaling();
         }
 
-        /*
-         * 
-         */
         //ChangeScaling : scaling
+        /// <summary>
+        /// Adapt the scaling of the VisualPart and each one of its components
+        /// </summary>
+        /// <param name="scaling">pixels per unit of measurement</param>
         public void ChangeScaling(double scaling)
         {
             this.scaling = scaling;
@@ -120,10 +152,11 @@ namespace Kitbox
             }
         }
 
-        /*
-         * 
-         */
         //ChangeScaling : px_size
+        /// <summary>
+        /// Adapt the scaling of the VisualPart and each one of its components
+        /// </summary>
+        /// <param name="px_size">the new size (in pixels) of the screen used to display the VisualPart</param>
         public void ChangeScaling(Size? px_size = null)
         {
             if (px_size == null)
@@ -137,47 +170,54 @@ namespace Kitbox
             double scaling = Math.Min((double)this.px_size.Width / mm_size.Width, (double)this.px_size.Height / mm_size.Height);
             ChangeScaling(scaling);
         }
-
-        /*
-         * 
-         */
+        
         //ScalePoint
+        /// <summary>
+        /// Rescale a Point (localisation)
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="scaling"></param>
+        /// <returns> a new Point with the scaled dimensions (in pixels)</returns>
         private Point ScalePoint(Point point, double scaling)
         {
             return new Point(Convert.ToInt32(Math.Round(point.X * scaling)), Convert.ToInt32(Math.Round(point.Y * scaling)));
         }
-
-        /*
-         * 
-         */
+        
         //ScaleSize
+        /// <summary>
+        /// Rescale a Size (dimension)
+        /// </summary>
+        /// <param name="size"></param>
+        /// <param name="scaling"></param>
+        /// <returns>a new Size with the scaled dimensions (in pixels)</returns>
         private Size ScaleSize(Size size, double scaling)
         {
             return new Size(Convert.ToInt32(Math.Round(size.Width * scaling)), Convert.ToInt32(Math.Round(size.Height * scaling)));
         }
 
-        /*
-         * 
-         */
         //Views
+        /// <summary>
+        /// views as in a technical drawing, key : name of the view
+        /// </summary>
         private Dictionary<string, VPPanel> Views
         {
             get { return views; }
         }
 
-        /*
-         * 
-         */
         //Pointer
+        /// <summary>
+        /// the name of the selected component (in the VisualPart)
+        /// </summary>
         public string Pointer
         {
             get { return pointer; }
         }
 
-        /*
-         * 
-         */
         //Display
+        /// <summary>
+        /// Adapt the method called when clicking on a component of the VisualPart for every components
+        /// </summary>
+        /// <returns> views as in a technical drawing, key : name of the view </returns>
         public Dictionary<string, VPPanel> Display()
         {
             Action<object> RuleSelected = SelectPiece;
@@ -195,10 +235,11 @@ namespace Kitbox
             return Views;
         }
 
-        /*
-         * 
-         */
         //ChangeEventHandler
+        /// <summary>
+        /// Adapt the method called when clicking on a component of the VisualPart for every components
+        /// </summary>
+        /// <param name="selection"></param>
         public void ChangeEventHandler(Rule selection)
         {
             this.selection = selection;
@@ -208,46 +249,49 @@ namespace Kitbox
             }
         }
 
-        /*
-         * 
-         */
         //References
+        /// <summary>
+        /// references every VPPanel of the VisualPart
+        /// </summary>
         public HashSet<string> References
         {
             get { return references; }
         }
 
-        /*
-         * 
-         */
         //Mm_size
+        /// <summary>
+        /// most constrainig Size for the visualPart in the desired unit of measurement
+        /// </summary>
         public Size Mm_size
         {
             get { return mm_size; }
         }
 
-        /*
-         * 
-         */
         //Positions
+        /// <summary>
+        /// tree (mathematics). The keys are the positions of the differents VPPanel, the values are other Dictionary with the
+        /// same characteristics
+        /// </summary>
         public Dictionary<string, object> Positions
         {
             get { return positions; }
         }
 
-        /*
-         * 
-         */
         //Pieces
+        /// <summary>
+        /// Keys : pieces names, Values : Tuple : VisualPart of the piece, Keys : the name of the VPPanel which contains a view of the related VisualPart, Values : the name of the view in the related VisualPart
+        /// </summary>
         public Dictionary<string, Tuple<VisualPart, Dictionary<string, string>>> Pieces
         {
             get { return pieces; }
         }
-
-        /*
-         * 
-         */
+        
         //ReinsertPiece
+        /// <summary>
+        /// When a piece is displayed in a screen, the related controls are removed from the VisualPart that contained the piece
+        /// This method adds the said removed controls in the right place anew
+        /// </summary>
+        /// <param name="name">the name of the piece that had been displayed</param>
         public void ReinsertPiece(string name)
         {
             VisualPart piece = Pieces[name].Item1;
@@ -262,50 +306,58 @@ namespace Kitbox
             }
         }
 
-        /*
-         * 
-         */
         //Scaling
+        /// <summary>
+        /// pixels per unit of measurement
+        /// </summary>
         public double Scaling
         {
             get { return scaling; }
         }
-
-        public Dictionary<string, VPPanel> Views1 { get => views; set => views = value; }
-
-        /*
-         * 
-         */
+        
+        
         //ConvertToPosition
+        /// <summary>
+        /// The name(position) of a VPPanel contains the path used to attains it, as so, it contains the names(exclusive) of every Parent it has
+        /// This method returns these names(exclusive) in a List
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public List<string> ConvertToPosition(string name)
         {
             return name.Split('_').ToList();
         }
-
-        /*
-         * 
-         */
+        
         //ConvertToName
+        /// <summary>
+        /// Create the name(position) of a VPPanel with a List of the names(exclusive) of each of its Parent
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns></returns>
         public string ConvertToName(List<string> position)
         {
             return string.Join("_", position);
         }
-
-        /*
-         *
-         */
+        
         //HasSubContainer
+        /// <summary>
+        /// Checks if a VPPanel has a Parent in the VisualPart
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns></returns>
         private bool HasSubcontainer(List<string> position)
         {
             if (!references.Contains(ConvertToName(position.Take(position.Count() - 1).ToList())))
             { return false; }
             return true;
         }
-
-        /*
-         * 
-         */
+        
         //EnlargeView
+        /// <summary>
+        /// Change the size (unit of measurement) of a view
+        /// </summary>
+        /// <param name="view_name"></param>
+        /// <param name="mm_size"></param>
         public void EnlargeView(string view_name, Size mm_size)
         {
             try
@@ -316,11 +368,13 @@ namespace Kitbox
             }
             catch { }
         }
-
-        /*
-         * 
-         */
+        
         //GetPanel
+        /// <summary>
+        /// Returns the VPPanel with the name(position)
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public VPPanel GetPanel(string name)
         {
             List<string> position = ConvertToPosition(name);
@@ -349,10 +403,15 @@ namespace Kitbox
             
         }
 
-        /*
-         * recursive function, does not modify attribute positions
-         */
         //AlterPositions
+        /// <summary>
+        /// Alter (add or remove) a position in the tree Positions
+        /// Rem : recursive function, does not modify attribute positions
+        /// </summary>
+        /// <param name="positions"></param>
+        /// <param name="position"></param>
+        /// <param name="deleting"></param>
+        /// <returns></returns>
         private Dictionary<string, object> AlterPositions(Dictionary<string, object> positions, List<string> position, bool deleting)
         {
             if (position.Count() == 1)
@@ -391,29 +450,41 @@ namespace Kitbox
             }
             return positions;
         }
-
-        /*
-         * 
-         */
+        
         //RemovePosition
+        /// <summary>
+        /// Remove a position in the tree Positions
+        /// </summary>
+        /// <param name="positions"></param>
+        /// <param name="position"></param>
+        /// <returns></returns>
         private Dictionary<string, object> RemovePosition(Dictionary<string, object> positions, List<string> position)
         {
             return AlterPositions(positions, position, true);
         }
-
-        /*
-         * 
-         */
+        
         //AddPosition
+        /// <summary>
+        /// Add a position in the tree Positions
+        /// </summary>
+        /// <param name="positions"></param>
+        /// <param name="position"></param>
+        /// <returns></returns>
         private Dictionary<string, object> AddPosition(Dictionary<string, object> positions, List<string> position)
         {
             return AlterPositions(positions, position, false);
         }
 
-        /*
-         * location and size units are milimeters
-         */
         //AddPanel
+        /// <summary>
+        /// Add a VPPanel in the VisualPart
+        /// </summary>
+        /// <param name="name">the name(exclusive) of the VPPanel to be added</param>
+        /// <param name="location"> the location of the VPPanel in the VisualPart (unit of measurement) </param>
+        /// <param name="size"> The size of the VPPanel to be added (unit of measurement) </param>
+        /// <param name="color"> The color of the VPPanel to be added </param>
+        /// <param name="is_elliptic"> Specify if the VPPanel is elliptic (true) or rectangular (false) </param>
+        /// <returns></returns>
         public VPPanel AddPanel(string name, Point location, Size size, Color? color = null, bool is_elliptic = false)
         {
             List<string> position = ConvertToPosition(name);
@@ -471,14 +542,15 @@ namespace Kitbox
             }
             else { throw new Exception("The specified position does not contain a subcontainer in this VisualPart"); }
         }
-
-        /*
-         * views_names : keys = views from added visualPart, values = positions in the current visualPart
-         * locations : keys = views from added visualPart, values = locations in the current visualPart
-         * 
-         * create a new panel in current visualPart for each concerned view (path = position + name)
-         */
+        
         //AddVisualPart
+        /// <summary>
+        /// Add a VisualPart in the current VisualPart
+        /// </summary>
+        /// <param name="name"> The name of the VisualPart to be added </param>
+        /// <param name="visual_part"> The VisualPart to be added </param>
+        /// <param name="views_names"> a synchronisation of the views : keys : views from added VisualPart, values : name(position) in the current VisualPart </param>
+        /// <param name="locations"> a synchronisation of the locations : keys : views from added VisualPart, values : location in the current VisualPart </param>
         public void AddVisualPart(string name, VisualPart visual_part, Dictionary<string, string> views_names, Dictionary<string, Point> locations)
         {
             visual_part.ChangeScaling(scaling);
@@ -506,11 +578,12 @@ namespace Kitbox
                 //MODIF desactive peut etre l'opportunite de cliquer sur l'etage, a verifier
             }
         }
-
-        /*
-         * 
-         */
+        
         //RemoveVisualPart
+        /// <summary>
+        /// Remove the VisualPart with the name
+        /// </summary>
+        /// <param name="name"></param>
         public void RemoveVisualPart(string name)
         {
             foreach(string reference in pieces[name].Item2.Keys)
@@ -519,11 +592,12 @@ namespace Kitbox
             }
             pieces.Remove(name);
         }
-
-        /*
-         * 
-         */
+        
         //RemovePanel
+        /// <summary>
+        /// Remove the VPPanel with the name
+        /// </summary>
+        /// <param name="name"></param>
         public void RemovePanel(string name)
         {
             List<string> position = ConvertToPosition(name);
@@ -537,11 +611,13 @@ namespace Kitbox
             }
             positions = RemovePosition(positions, position);
         }
-
-        /*
-         * 
-         */
+        
         //ResizePanel
+        /// <summary>
+        /// Resize a VPPanel
+        /// </summary>
+        /// <param name="panel"></param>
+        /// <param name="new_size"></param>
         public void ResizePanel(VPPanel panel, Size new_size)
         {
             Size old_size = panel.Size;
@@ -569,11 +645,13 @@ namespace Kitbox
                 }
             }
         }
-
-        /*
-         * 
-         */
+        
         //RelocatePanel
+        /// <summary>
+        /// Relocate a VPPanel
+        /// </summary>
+        /// <param name="panel"></param>
+        /// <param name="new_location"></param>
         public void RelocatePanel(VPPanel panel, Point new_location)
         {
             Point old_location = panel.Location;
@@ -599,6 +677,15 @@ namespace Kitbox
          * //MODIF on peut certainement modifier tous les ADDRULES pour qu'ils dépendent d'un code à paramètres (pcq la c'est du recopiage)
          */
         //AddRule
+        /// <summary>
+        /// Add a Rule to a VPPanel, in short : when a dimension of a master VPPanel change, all of its slave must apply the related
+        /// Rule. NONFONCTIONNAL
+        /// </summary>
+        /// <param name="ref_master"></param>
+        /// <param name="ref_slave"></param>
+        /// <param name="action"></param>
+        /// <param name="args"></param>
+        /// <param name="Ttrigger"></param>
         public void AddRule(string ref_master, string ref_slave, Delegate action, OrderedDictionary args, Type Ttrigger)
         {
             Type Ttarget = typeof(VPPanel);
@@ -610,10 +697,14 @@ namespace Kitbox
             master.Rules[ref_slave].Add(new Rule(action, args, Ttrigger, Ttarget));
         }
 
-        /*
-         * 
-         */
         //AddSizeDependentPositionRule
+        /// <summary>
+        /// Add a rule which modify the location of a slave if a master Size change
+        /// </summary>
+        /// <param name="ref_master"></param>
+        /// <param name="ref_slave"></param>
+        /// <param name="axis_dependency"></param>
+        /// <param name="axis_inversion"></param>
         public void AddSizeDependentPositionRule(string ref_master, string ref_slave, Tuple<bool, bool> axis_dependency, bool axis_inversion)
         {
             OrderedDictionary size = new OrderedDictionary()
@@ -626,11 +717,15 @@ namespace Kitbox
             Action<VPPanel, Tuple<Size, Size>, Tuple<bool, bool>, bool> RuleSizeDependentPositionRule = SizeDependentPositionRule;
             AddRule(ref_master, ref_slave, RuleSizeDependentPositionRule, size, typeof(Size));
         }
-
-        /*
-         * 
-         */
+        
         //AddCopySizeChangeRule
+        /// <summary>
+        /// Add a rule which copy the change in size of the master (raw)
+        /// </summary>
+        /// <param name="ref_master"></param>
+        /// <param name="ref_slave"></param>
+        /// <param name="axis_dependency"></param>
+        /// <param name="axis_inversion"></param>
         public void AddCopySizeChangeRule(string ref_master, string ref_slave, Tuple<bool, bool> axis_dependency, bool axis_inversion)
         {
             OrderedDictionary size = new OrderedDictionary()
@@ -643,11 +738,15 @@ namespace Kitbox
             Action<VPPanel, Tuple<Size, Size>, Tuple<bool, bool>, bool> RuleCopySizeChangeRule = CopySizeChangeRule;
             AddRule(ref_master, ref_slave, RuleCopySizeChangeRule, size, typeof(Size));
         }
-
-        /*
-         * 
-         */
+        
         //AddCopySizeProportionRule
+        /// <summary>
+        /// Add a rule which copy the change in size of the master (proportionnal)
+        /// </summary>
+        /// <param name="ref_master"></param>
+        /// <param name="ref_slave"></param>
+        /// <param name="axis_dependency"></param>
+        /// <param name="axis_inversion"></param>
         public void AddCopySizeProportionRule(string ref_master, string ref_slave, Tuple<bool, bool> axis_dependency, bool axis_inversion)
         {
             OrderedDictionary size = new OrderedDictionary()
@@ -660,11 +759,15 @@ namespace Kitbox
             Action<VPPanel, Tuple<Size, Size>, Tuple<bool, bool>, bool> RuleCopySizeProportionRule = CopySizeProportionRule;
             AddRule(ref_master, ref_slave, RuleCopySizeProportionRule, size, typeof(Size));
         }
-
-        /*
-         * 
-         */
+        
         //AddNoOverlappingRule
+        /// <summary>
+        /// Add a rule wich relocate the slave if a master is resized or relocated
+        /// </summary>
+        /// <param name="ref_master"></param>
+        /// <param name="ref_slave"></param>
+        /// <param name="axis_dependency"></param>
+        /// <param name="axis_inversion"></param>
         public void AddNoOverlappingRule(string ref_master, string ref_slave, Tuple<bool, bool> axis_dependency, bool axis_inversion)
         {
             OrderedDictionary location = new OrderedDictionary()
@@ -692,6 +795,13 @@ namespace Kitbox
          * axis_dependency : x, y : refering to the master
          */
         //NoOverlappingRule : location changed
+        /// <summary>
+        /// The rule which relocate a slave if the master is relocated
+        /// </summary>
+        /// <param name="slave"></param>
+        /// <param name="master_locations"></param>
+        /// <param name="axis_dependency"></param>
+        /// <param name="axis_inversion"></param>
         public void NoOverlappingRule(VPPanel slave, Tuple<Point, Point> master_locations, 
             Tuple<bool, bool> axis_dependency, bool axis_inversion)
         {
@@ -703,11 +813,15 @@ namespace Kitbox
                     slave.Location.X + (axis_inversion ? dly : dlx), 
                     slave.Location.Y + (axis_inversion ? dlx : dly)));
         }
-
-        /*
-         *
-         */
+        
         //NoOverLappingRule : size changed
+        /// <summary>
+        /// The rule which relocate a slave if the master is resized
+        /// </summary>
+        /// <param name="slave"></param>
+        /// <param name="master_sizes"></param>
+        /// <param name="axis_dependency"></param>
+        /// <param name="axis_inversion"></param>
         public void NoOverlappingRule(VPPanel slave, Tuple<Size, Size> master_sizes, 
             Tuple<bool, bool> axis_dependency, bool axis_inversion)
         {
@@ -719,11 +833,15 @@ namespace Kitbox
                     slave.Location.X + (axis_inversion ? dsy : dsx), 
                     slave.Location.Y + (axis_inversion ? dsx : dsy)));
         }
-
-        /*
-         * 
-         */
+        
         //CopySizeChangeRule
+        /// <summary>
+        /// The rule which change the size of a slave if the size of the master is modified
+        /// </summary>
+        /// <param name="slave"></param>
+        /// <param name="master_sizes"></param>
+        /// <param name="axis_dependency"></param>
+        /// <param name="axis_inversion"></param>
         public void CopySizeChangeRule(VPPanel slave, Tuple<Size, Size> master_sizes,
             Tuple<bool, bool> axis_dependency, bool axis_inversion)
         {
@@ -740,6 +858,13 @@ namespace Kitbox
          * 
          */
         //CopySizeProportionRule 
+        /// <summary>
+        /// The rule which change the size of a slave if the master size is modified (proportions)
+        /// </summary>
+        /// <param name="slave"></param>
+        /// <param name="master_sizes"></param>
+        /// <param name="axis_dependency"></param>
+        /// <param name="axis_inversion"></param>
         public void CopySizeProportionRule(VPPanel slave, Tuple<Size, Size> master_sizes,
             Tuple<bool, bool> axis_dependency, bool axis_inversion)
         {
@@ -751,11 +876,15 @@ namespace Kitbox
                     Convert.ToInt32(slave.Size.Width * (axis_inversion ? cy : cx)),
                     Convert.ToInt32(slave.Size.Height * (axis_inversion ? cx : cy))));
         }
-
-        /*
-         * 
-         */
+        
         //SizeDependentPositionRule
+        /// <summary>
+        /// The rule which change the position if the size is changed
+        /// </summary>
+        /// <param name="slave"></param>
+        /// <param name="master_sizes"></param>
+        /// <param name="axis_dependency"></param>
+        /// <param name="axis_inversion"></param>
         public void SizeDependentPositionRule(VPPanel slave, Tuple<Size, Size> master_sizes, 
             Tuple<bool, bool> axis_dependency, bool axis_inversion)
         {
@@ -791,11 +920,13 @@ namespace Kitbox
             ly = ly - sy / 2;
             RelocatePanel(slave, new Point(Convert.ToInt32(lx), Convert.ToInt32(ly)));
         }
-
-        /*
-         * 
-         */
+        
         //Click
+        /// <summary>
+        /// The method called when clicking on a component of the VisualPart
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void Click(object sender, EventArgs e)
         {
             selection.Execute(
@@ -804,11 +935,13 @@ namespace Kitbox
                     { "sender", sender }
                 });
         }
-
-        /*
-         * 
-         */
+        
         //SelectPiece
+        /// <summary>
+        /// This method can be used to select a Component of the VisualPart, the colors will be adapted to
+        /// have a better visualization of the selection, the selected Component will have its name stored in Pointer
+        /// </summary>
+        /// <param name="sender"></param>
         public void SelectPiece(object sender)
         {
             if(!typeof(VPPanel).IsInstanceOfType(sender))
@@ -829,11 +962,13 @@ namespace Kitbox
                 SelectPiece(current_sender.Parent);
             }
         }
-
-        /*
-         * 
-         */
+        
         //SearchScreen
+        /// <summary>
+        /// This method calls the focus on the screen used to display the VisualPart (=> can be used to clean a selection)
+        /// The focus is then passed to the Parent of the screen so the screen can be Focuses again later
+        /// </summary>
+        /// <param name="sender"></param>
         public void SearchScreen(object sender)
         {
             if(!typeof(VPPanel).IsInstanceOfType(sender))
@@ -846,11 +981,11 @@ namespace Kitbox
                 SearchScreen(((Control)sender).Parent);
             }
         }
-
-        /*
-         * 
-         */
+        
         //UndoFocus
+        /// <summary>
+        /// This method change the alpha of the colors of the non-selected components of the VisualPart
+        /// </summary>
         public void UndoFocus()
         {
             int alpha = 50;
@@ -859,11 +994,11 @@ namespace Kitbox
                 VaryAlpha(alpha, view);
             }
         }
-
-        /*
-         * 
-         */
+        
         //CleanFocus
+        /// <summary>
+        /// This method recover the original colors of the components of the VisualPart
+        /// </summary>
         public void CleanFocus()
         {
             int alpha = 255;
@@ -872,21 +1007,24 @@ namespace Kitbox
                 VaryAlpha(alpha, view);
             }
         }
-
-        /*
-         * 
-         */
+        
         //Focus
+        /// <summary>
+        /// this method change the alpha of a single Component (must be used with undoFocus to create a visual effect for the selection)
+        /// </summary>
+        /// <param name="sender"></param>
         public void Focus(object sender)
         {
             int alpha = 255;
             VaryAlpha(alpha, sender);
         }
-
-        /*
-         * 
-         */
+        
         //VaryAlpha
+        /// <summary>
+        /// change the alpha value of the colors of a component
+        /// </summary>
+        /// <param name="alpha"></param>
+        /// <param name="sender"></param>
         public void VaryAlpha(int alpha, object sender)
         {
             if(alpha>255)
@@ -907,10 +1045,7 @@ namespace Kitbox
                 }
             }
         }
-
-        /*
-         * 
-         */
+        
         //MouseHover
         public void MouseHover(object sender, EventArgs e)
         {
@@ -926,4 +1061,3 @@ namespace Kitbox
 
 
     //DOUBLE MODIF : LE POINTER QUI DIT QUEL ETAGE ON SELECTIONNE EST CELUI DE LETAGE ET PAS DE LARMOIRE
-    // ENSUITE : LE CLICK DES CONTENUS NE SONT PAS SUPPRIMES : ON A UN DOUBLE CLIC LORS DE LEVENT CLIC.
