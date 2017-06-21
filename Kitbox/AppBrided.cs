@@ -11,6 +11,9 @@ using System.Windows.Media.Media3D;
 
 namespace Kitbox
 {
+    /// <summary>
+    /// see App for comments
+    /// </summary>
     public partial class AppBrided : Form
     {
         public AppBrided()
@@ -52,7 +55,7 @@ namespace Kitbox
 
         public void DisplayVisualPart(string view)
         {
-            if (part.Views1.ContainsKey(view))
+            if (part.Views.ContainsKey(view))
             {
                 M_screen.Controls.Clear();
                 part.CleanFocus();
