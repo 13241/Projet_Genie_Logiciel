@@ -23,6 +23,10 @@ namespace Kitbox
             this.Ttarget = Ttarget;
         }
 
+        /// <summary>
+        /// Execute the Rule Delegate with the args missing inputs
+        /// </summary>
+        /// <param name="args"></param>
         public void Execute(Dictionary<object, object> args)
         {
             OrderedDictionary param = new OrderedDictionary();
