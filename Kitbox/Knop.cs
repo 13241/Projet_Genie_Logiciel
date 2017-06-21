@@ -10,6 +10,9 @@ namespace Kitbox
 {
     public class Knop : Part //coupelle
     {
+        /// <summary>
+        /// construc the visualpart for the knop
+        /// </summary>
         public override void ConstructVisualPart()
         {
             Size scaled = new Size(Convert.ToInt32(Dimensions.X), Convert.ToInt32(Dimensions.Y));
