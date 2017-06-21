@@ -1,15 +1,10 @@
 # Projet_Genie_Logiciel
 
-namespace : Kitbox
-
-ACCEPTED FILES (for now) : 
-.cs
-.sql
-.txt
-.md
-=> files that contain code or comments wrote by you :D
-
-example for .cs files :
-git add Kitbox/*.cs
-
-PULL REQUEST : name every modified/added class in the comment (if you dont i wont merge it)
+To use the application, you need to import the kitbox.sql file in phpmyadmin
+you need the following files in the repository which will contain the executable for the application :
+Kitbox.exe.config
+Kitbox.pdb
+MySql.Data.dll
+Then you need the following executables
+Client application : Kitbox_Client
+Employee application : Kitbox_Employe
