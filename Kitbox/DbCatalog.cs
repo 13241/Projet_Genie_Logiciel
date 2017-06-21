@@ -9,6 +9,14 @@ namespace Kitbox
 		public static void DbConnectCatalog(string[] parameters)
 		{
 		}
+        /// <summary>
+        /// Remove 1 from the stock value of the part with the code, Remove 1 from the reserve value of the same part
+        /// if the stock value becomes less than the min_stock value, add ratio_command*min_stock to the best supplier (commandeFournX)
+        /// the best supplier is the one which has the minimal selling price or the minimal approvisioning delay (if prices are the same)
+        /// </summary>
+        /// <param name="code"></param>
+        /// <param name="ratio_command"></param>
+        /// <returns></returns>
 		public static string DbRemoveFromStock (string code, int ratio_command = 2)
 		{
             BDD database = new BDD("kitbox");
@@ -68,6 +76,11 @@ namespace Kitbox
 		{
 
 		}
+        /// <summary>
+        /// Add 1 to the Reserve value of the part with code
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
 		public static string DbBook(string code)
 		{
             BDD database = new BDD("kitbox");
@@ -98,6 +111,10 @@ namespace Kitbox
             }
             return delayed;
         }
+        /// <summary>
+        /// remove 1 from the Reserve value of the part with code
+        /// </summary>
+        /// <param name="code"></param>
 		public static void DbUnBook(string code)
 		{
             BDD database = new BDD("kitbox");
@@ -114,6 +131,12 @@ namespace Kitbox
                 }
             }
         }
+        /// <summary>
+        /// Returns a Part with the selected_characteristics if found in database. If there are multiple results, returns the first
+        /// </summary>
+        /// <param name="selected_characteristics"></param>
+        /// <param name="order_by"></param>
+        /// <returns></returns>
 		public static Part DbSelectPart(Dictionary<string, string> selected_characteristics, string order_by = "")
 		{
             BDD database = new BDD("kitbox");
@@ -179,6 +202,11 @@ namespace Kitbox
 		}
 
         // need ref + 3 dims
+        /// <summary>
+        /// gets all the color options for a part with specified ref, and x,y,z dimensionss
+        /// </summary>
+        /// <param name="selected_characteristics"></param>
+        /// <returns></returns>
 		public static List<string> DbGetColors(Dictionary<string, string> selected_characteristics)
 		{
             BDD database = new BDD("kitbox");
@@ -206,6 +234,11 @@ namespace Kitbox
         }
         
         //GD ou Ar
+        /// <summary>
+        /// gets all the size options for the x dim of a box if input is Ar, for the z dim of a box if input is GD
+        /// </summary>
+        /// <param name="lateral_dim"></param>
+        /// <returns></returns>
         public static List<string> DbGetLateralDimOpt(string lateral_dim)
         {
             BDD database = new BDD("kitbox");
@@ -239,6 +272,12 @@ namespace Kitbox
             return laterals;
         }
 
+        /// <summary>
+        /// get all the size options for the y dim of a box, checking if there are Angles with sufficient size for the wardrobe as a whole
+        /// </summary>
+        /// <param name="h_box"></param>
+        /// <param name="h_wardrobe"></param>
+        /// <returns></returns>
         public static List<string> DbGetHeightOpt(double h_box, double h_wardrobe)
         {
             BDD database = new BDD("kitbox");
@@ -281,6 +320,11 @@ namespace Kitbox
             return hs;
         }
 
+        /// <summary>
+        /// switch from a color string of the database to a color string in the code
+        /// </summary>
+        /// <param name="fr"></param>
+        /// <returns></returns>
         public static string TranslateColor(string fr)
         {
             switch(fr)
@@ -298,6 +342,12 @@ namespace Kitbox
             }
             return "Transparent";
         }
+
+        /// <summary>
+        /// switch from a color string in the code to a colo string in the database
+        /// </summary>
+        /// <param name="en"></param>
+        /// <returns></returns>
         public static string TraduireCouleur(string en)
         {
             switch (en)
