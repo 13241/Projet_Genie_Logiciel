@@ -169,6 +169,9 @@ namespace Kitbox
 		public Person CurrentClient { get => current_client; set => current_client = value; }
 
 		public List<object> Wardrobes { get => wardrobes; set => wardrobes = value; }
+        /// <summary>
+        /// Determine the maximum delay for the box
+        /// </summary>
         public double Delayed
         {
             get

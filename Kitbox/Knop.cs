@@ -11,7 +11,7 @@ namespace Kitbox
     public class Knop : Part //coupelle
     {
         /// <summary>
-        /// construc the visualpart for the knop
+        /// construct the visualpart for the knop
         /// </summary>
         public override void ConstructVisualPart()
         {
