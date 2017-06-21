@@ -55,7 +55,7 @@ namespace Kitbox
 
         public void DisplayVisualPart(string view)
         {
-            if (part.Views1.ContainsKey(view))
+            if (part.Views.ContainsKey(view))
             {
                 M_screen.Controls.Clear();
                 part.CleanFocus();

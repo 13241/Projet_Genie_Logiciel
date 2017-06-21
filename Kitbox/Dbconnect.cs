@@ -36,8 +36,27 @@ namespace Kitbox
 
             return person;
 		}
-        
-		
+
+        /// <summary>
+        /// Checks if the user id and password of an employee is valid, and return true if he has the right to connect
+        /// </summary>
+        /// <param name="seller_id"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public static bool DbConnectEmployee(int seller_id, string password)
+        {
+            BDD database = new BDD("kitbox");
+            List<List<object>> list = new List<List<object>>();
+            string selection = "Seller_id, Password";
+            string table_name = "seller";
+            string condition = string.Format("WHERE (Seller_Id = '{0}' AND Password = '{1}')", seller_id.ToString(), password);
+            list = database.readElement(selection, table_name, condition);
+            if (list.Count == 0)
+            {
+                return false;
+            }
+            return true;
+        }
 
         /// <summary>
         /// This functions adds a the data of a new client to the database.

@@ -199,7 +199,7 @@ namespace Kitbox
         /// <summary>
         /// views as in a technical drawing, key : name of the view
         /// </summary>
-        private Dictionary<string, VPPanel> Views
+        public Dictionary<string, VPPanel> Views
         {
             get { return views; }
         }
