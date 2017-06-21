@@ -22,6 +22,9 @@ namespace Kitbox
             get { return knop; }
         }
 
+        /// <summary>
+        /// Construct the visualPart for the Door, 
+        /// </summary>
         public override void ConstructVisualPart()
         {
             Size scaled = new Size(Convert.ToInt32(Dimensions.X), Convert.ToInt32(Dimensions.Y));
@@ -58,6 +61,12 @@ namespace Kitbox
                     });
         }
 
+        /// <summary>
+        /// add a knop for the door, at the position left or right
+        /// </summary>
+        /// <param name="knop"></param>
+        /// <param name="x_location"></param>
+        /// <param name="knop_position"></param>
         public void SetKnop(Knop knop, int x_location, string knop_position = "left/right")
         {
             if(this.knop != null)
