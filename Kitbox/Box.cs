@@ -17,6 +17,10 @@ namespace Kitbox
         private string position;
 
 
+        /// <summary>
+        /// Initialize a Box with the specified dimensions, the VisualPart is constructed and the pieces are booked in the database
+        /// </summary>
+        /// <param name="dimensions"></param>
         public Box(Size3D dimensions)
         {
             pieces = new Dictionary<string, Dictionary<string, Part>>();
@@ -32,6 +36,10 @@ namespace Kitbox
         public Dictionary<string, Dictionary<string, Part>> Pieces { get => pieces; }
         public string Position { get => position; set => position = value; }
 
+        /// <summary>
+        /// change the color of the selected part in the box to the color specified in input
+        /// </summary>
+        /// <param name="color"></param>
         public virtual void ChangeColor(string color)
         {
             string[] positions = Visual_part.Pointer.Split('_');
@@ -53,6 +61,10 @@ namespace Kitbox
             DefaultBox();
         }
 
+        /// <summary>
+        /// calculate the price of the box
+        /// </summary>
+        /// <returns></returns>
         public double SellingPrice()
         {
             double selling_price = 0;
@@ -66,6 +78,10 @@ namespace Kitbox
             return selling_price;
         }
 
+        /// <summary>
+        /// Book the box in the database (every piece)
+        /// </summary>
+        /// <param name="buy"></param>
         public virtual void Book(bool buy = false)
         {
             foreach (string name in Pieces.Keys)
@@ -92,6 +108,9 @@ namespace Kitbox
             }
         }
 
+        /// <summary>
+        /// unbook the box in the database (every piece)
+        /// </summary>
         public virtual void UnBook()
         {
             foreach (string name in Pieces.Keys)
@@ -107,6 +126,9 @@ namespace Kitbox
             }
         }
 
+        /// <summary>
+        /// call the database to fill in the box with every needed part, place all the parts at the right place
+        /// </summary>
         public virtual void DefaultBox()
         {
             //MODIF interaction avec la base de données nécessaire : créer la méthode permettant de sélectionner une part
@@ -431,9 +453,9 @@ namespace Kitbox
             ConstructVisualPart();
         }
 
-        /*
-         * VisualPart section
-         */
+        /// <summary>
+        /// construct the visualpart for the box
+        /// </summary>
         public virtual void ConstructVisualPart()
         {
             double larger_X = Math.Max(Dimensions.X, Dimensions.Z);
