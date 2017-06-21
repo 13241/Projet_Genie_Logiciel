@@ -13,6 +13,10 @@ namespace Kitbox
         private Point3D location;
         private Dictionary<string, Dictionary<string, object>> components;
 
+        /// <summary>
+        /// Initialize a Wardrobe
+        /// </summary>
+        /// <param name="dimensions"></param>
         public Wardrobe(Size3D dimensions)
         {
             components = new Dictionary<string, Dictionary<string, object>> ();
@@ -28,6 +32,10 @@ namespace Kitbox
         public Point3D Location { get => location; set => location = value; }
         public Dictionary<string, Dictionary<string, object>> Components { get => components; }
 
+        /// <summary>
+        /// change the color of the selected part in the visualpart of the wardrobe to the color 
+        /// </summary>
+        /// <param name="color"></param>
         public virtual void ChangeColor(string color)
         {
             UnBook();
@@ -57,6 +65,10 @@ namespace Kitbox
             Book();
         }
 
+        /// <summary>
+        /// compute the selling price of the wardrobe 
+        /// </summary>
+        /// <returns></returns>
         public double SellingPrice()
         {
             double selling_price = 0;
@@ -77,6 +89,11 @@ namespace Kitbox
             return selling_price;
         }
 
+        /// <summary>
+        /// modify the X and Z dimensions of the wardrobe
+        /// </summary>
+        /// <param name="w"></param>
+        /// <param name="d"></param>
         public virtual void ChangeSurface(double w, double d)
         {
             UnBook();
@@ -110,6 +127,11 @@ namespace Kitbox
             Book();
         }
 
+        /// <summary>
+        /// modify the Y dimension of a box in the wardrobe
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="h"></param>
         public virtual void ResizeBox(string position, double h)
         {
             UnBook();
@@ -123,6 +145,10 @@ namespace Kitbox
             Book();
         }
 
+        /// <summary>
+        /// modify the Y dimension of the wardrobe from the box at position (0 check all boxes)
+        /// </summary>
+        /// <param name="position"></param>
         public virtual void AdjustHeight(string position = "0")
         {
             double height = 0; 
@@ -144,6 +170,10 @@ namespace Kitbox
             dimensions.Y = height;
         }
 
+        /// <summary>
+        /// Book every part of the wardrobe in the database
+        /// </summary>
+        /// <param name="buy"></param>
         public virtual void Book(bool buy = false)
         {
             foreach(string name in Components.Keys)
@@ -169,6 +199,9 @@ namespace Kitbox
             }
         }
 
+        /// <summary>
+        /// unbook every part of the wardrobe in the database
+        /// </summary>
         public virtual void UnBook()
         {
             foreach (string name in Components.Keys)
@@ -187,6 +220,10 @@ namespace Kitbox
             }
         }
 
+        /// <summary>
+        /// Add a box to the wardrobe (at Y position = height of the wardrobe)
+        /// </summary>
+        /// <param name="h"></param>
         public virtual void AddBox(double h)
         {
             UnBook();
@@ -224,6 +261,10 @@ namespace Kitbox
             Book();
         }
 
+        /// <summary>
+        /// Construct the default wardrobe with the dimensions. Either a single box, or all the box currently in the wardrobe
+        /// </summary>
+        /// <param name="dimensions_box"></param>
         public virtual void DefaultWardrobe(Size3D dimensions_box = new Size3D())
         {
             if(dimensions_box.Equals(new Size3D()))
@@ -314,6 +355,9 @@ namespace Kitbox
             ConstructVisualPart();
         }
 
+        /// <summary>
+        /// Construct the visualPart for the wardrobe
+        /// </summary>
         public virtual void ConstructVisualPart()
         {
             double larger_X = Math.Max(Dimensions.X, Dimensions.Z);
