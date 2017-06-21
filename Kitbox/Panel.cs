@@ -9,6 +9,9 @@ namespace Kitbox
 {
     public class Panel : Part //panel : panneau / nogging : traverse
     {
+        /// <summary>
+        /// Construct the visualPart for a panel (which is also a nogging => same behavior for a visualPart)
+        /// </summary>
         public override void ConstructVisualPart()
         {
             Size scaled = new Size(Convert.ToInt32(Dimensions.X), Convert.ToInt32(Dimensions.Y));
