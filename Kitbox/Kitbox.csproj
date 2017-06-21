@@ -67,71 +67,71 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Angle.cs" />
-    <Compile Include="App.cs">
+    <Compile Include="Utils\Angle.cs" />
+    <Compile Include="Application Forms\App.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="App.Designer.cs">
+    <Compile Include="Application Forms\App.Designer.cs">
       <DependentUpon>App.cs</DependentUpon>
     </Compile>
-    <Compile Include="AppBrided.cs">
+    <Compile Include="Application Forms\AppBrided.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AppBrided.Designer.cs">
+    <Compile Include="Application Forms\AppBrided.Designer.cs">
       <DependentUpon>AppBrided.cs</DependentUpon>
     </Compile>
-    <Compile Include="BDD.cs" />
-    <Compile Include="Box.cs" />
-    <Compile Include="Cleat.cs" />
-    <Compile Include="DbCatalog.cs" />
-    <Compile Include="DbConnect.cs" />
-    <Compile Include="DbOrder.cs" />
-    <Compile Include="Door.cs" />
-    <Compile Include="Modelize.cs">
+    <Compile Include="Database Related Class\BDD.cs" />
+    <Compile Include="Utils\Box.cs" />
+    <Compile Include="Utils\Cleat.cs" />
+    <Compile Include="Database Related Class\DbCatalog.cs" />
+    <Compile Include="Database Related Class\DbConnect.cs" />
+    <Compile Include="Database Related Class\DbOrder.cs" />
+    <Compile Include="Utils\Door.cs" />
+    <Compile Include="Test\Modelize.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Modelize.Designer.cs">
+    <Compile Include="Test\Modelize.Designer.cs">
       <DependentUpon>Modelize.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tests.cs">
+    <Compile Include="Test\Tests.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Tests.Designer.cs">
+    <Compile Include="Test\Tests.Designer.cs">
       <DependentUpon>Tests.cs</DependentUpon>
     </Compile>
-    <Compile Include="textString.cs" />
-    <Compile Include="VPPanel.cs">
+    <Compile Include="Utils\textString.cs" />
+    <Compile Include="Utils\VPPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Knop.cs" />
-    <Compile Include="Order.cs" />
-    <Compile Include="Panel.cs" />
-    <Compile Include="Part.cs" />
-    <Compile Include="Person.cs" />
+    <Compile Include="Utils\Knop.cs" />
+    <Compile Include="Utils\Order.cs" />
+    <Compile Include="Utils\Panel.cs" />
+    <Compile Include="Utils\Part.cs" />
+    <Compile Include="Utils\Person.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rule.cs" />
-    <Compile Include="Viewer.cs">
+    <Compile Include="Utils\Rule.cs" />
+    <Compile Include="Test\Viewer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Viewer.Designer.cs">
+    <Compile Include="Test\Viewer.Designer.cs">
       <DependentUpon>Viewer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Viewer2.cs">
+    <Compile Include="Test\Viewer2.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Viewer2.Designer.cs">
+    <Compile Include="Test\Viewer2.Designer.cs">
       <DependentUpon>Viewer2.cs</DependentUpon>
     </Compile>
-    <Compile Include="VisualPart.cs" />
-    <Compile Include="Wardrobe.cs" />
-    <EmbeddedResource Include="App.resx">
+    <Compile Include="Utils\VisualPart.cs" />
+    <Compile Include="Utils\Wardrobe.cs" />
+    <EmbeddedResource Include="Application Forms\App.resx">
       <DependentUpon>App.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AppBrided.resx">
+    <EmbeddedResource Include="Application Forms\AppBrided.resx">
       <DependentUpon>AppBrided.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Modelize.resx">
+    <EmbeddedResource Include="Test\Modelize.resx">
       <DependentUpon>Modelize.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -143,13 +143,13 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Tests.resx">
+    <EmbeddedResource Include="Test\Tests.resx">
       <DependentUpon>Tests.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Viewer.resx">
+    <EmbeddedResource Include="Test\Viewer.resx">
       <DependentUpon>Viewer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Viewer2.resx">
+    <EmbeddedResource Include="Test\Viewer2.resx">
       <DependentUpon>Viewer2.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
@@ -178,5 +178,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
